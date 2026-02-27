@@ -1,0 +1,96 @@
+\documentclass[12px]{article}
+
+\title{Lezione 1 Metodi Numerici di Approssimazione}
+\date{2026-02-27}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Prima parte della lezione (da recuperare)}
+	\subsection{Seconda parte della lezione}
+	se $\frac km := \omega^2$ otteniamo
+	 \[
+	\ddot y + \omega ^2 y = 0
+	.\] 
+	Otteniamo l'equazione dell'oscillatore armonico.\\
+	Possiamo per esempio vedere una corda di chitarra come una serie di oscillatori armonici.
+\subsection{Da sistema non autonomo a sistema autonomo}
+\[
+\begin{cases}
+	\dot y(t) = f(t,y(t))\\
+	y(0) = y_0
+\end{cases}
+\]
+Questo sistema può essere trasformato nella forma
+\[
+\dot Y = F(Y)
+.\] 
+Proviamo a pensare che $t$ dipenda da un tempo assoluto. Vogliamo scrivere un ODE per il tempo, come varia il tempo rispetto ad un altra variabile ausiliaria.\\
+Chiamiamo $t = t(s)$ tale variabile, e voglio descrivere come varia $t$ in base ad $s$.
+
+Per esempio  $\dot t(s) = 1$, ovvero percepiamo il tempo con una pendenza costante verso il futuro. 
+
+Questa si risolve facilmente con $t(s) = s + const$,  $t(0) = 0 \Rightarrow const = 0 \Rightarrow  t(s) = s$ \\
+
+Combino questa variabile ausiliaria nel sistema precedente
+\[
+\dot y(t(s)) = f(t(s),y(t(s)))
+\]\[\dot t (s) = 1
+.\] 
+$Y(s) = (t(s), y(s))$ \\
+$\dot Y(s) = (\dot t(s), \dot y(s)) = (1,f(t(s),y(t(s)))) = F(Y)$ \\
+
+Così posso eliminare la dipendenza dal tempo dal sistema ed avere solamente la dipendenza dalla variabile $Y$.\\
+
+Possiamo quindi trattare solo sistemi autonomi in quanto possiamo ricondurci.
+\newpage
+\begin{defi}[Lipschitziana]
+	$f$ si dice \textbf{lipschitziana} in $(t_0,y_0)$ rispetto ad $y$ se $\exists L > 0 $ tale che
+	\[
+	|f(t,y_1)-f(t,y_2)|\leq L |y_1-y_2|
+	.\] 
+	$\forall t\in B_\varepsilon(t_0)$\\
+ $\forall y_1,y_2\in B_\delta(y_0)$ intorni
+\end{defi}
+Se $y_1\neq y_2$ 
+\[
+	\left|\frac{f(t,y_1) - f(t,y_2)}{y_1-y_2}\right| \xrightarrow
+{y_1 \rightarrow y_2 \rightarrow \bar y} \left|\frac{\partial f(t,y)}{\partial y}\right|\leq L.\] 
+Esempi di funzioni Lipschitziana sono $x$, $x^2$ ma solamente in un compatto, $arctan(x)$. 
+\begin{defi}[ODE]
+	Definiamo $ODE$ il seguente sistema
+	\[
+	\begin{cases}
+		\dot y(t) = f(t,y(t)) \ \ t > 0\\
+		y(0) = y_0
+	\end{cases}
+	.\] 
+\end{defi}
+\begin{teo}[Teorema di esistenza e unicità di una soluzione locale di un problema di Cauchy]
+	Se $f$ è localmente lipschitziana $ \Rightarrow $ $\exists !$ soluzione locale di  $ODE$
+\end{teo}
+\textbf{Equazione di Volterra}\\
+La soluzione che cerchiamo possiamo scriverla come 
+\[
+y(t) = y_0 + \int^t_0f(\tau,y(\tau))d\tau
+.\] 
+Se $f$ sia continua e $y$ è continua, la composizione è continua, in particolare la funzione è integrale è  $C^1$, quindi posso applicare il teorema fondamentale del calcolo integrale.
+ \[
+\dot y(t) = F'(t) = f(t,y(t))
+.\] 
+Solitamente si riferisce a questa forma come forma debole della soluzione.\\
+
+Le due formulazioni sono le due strade che prenderemo per trovare schemi numerici che risolvono i sistemi.\\
+
+Possiamo quindi migliorare la qualità della soluzione migliorando la qualità dell'approssimazione della derivata o dell'integrale.
+
+\subsection{Soluzioni globali definite per $t\in (0,+\infty)$}
+Con $f$ Lipschitziana globale, avremmo soluzione globale, ma poche funzioni sono di questa classe.\\
+
+Esempio $\dot y = y(1-y)$, non è globalmente lipschitziana poiché il membro sulla destra è quadratico, Esempio dello sciacquone, più acqua è presente, meno entra successivamente fino a fermarsi. \\
+
+
+\end{document}
