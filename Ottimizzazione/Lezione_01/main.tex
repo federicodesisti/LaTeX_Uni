@@ -1,0 +1,194 @@
+\documentclass[12px]{article}
+
+\title{Lezione 1 Ottimizzazione}
+\date{2026-02-27}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Modalità Corso}
+	Esame a fine corso (mi sa) forse esoneri ma pare di no.
+	\subsection{Argomenti corso}
+	Studio delle funzioni convesse e insiemi convessi, si studia perché questo tipo di funzioni/insiemi compare spesso in altre branche.
+	\subsection{Inizio Prima lezione}
+	$I\subseteq \R$ intervallo non banale.\\
+	\begin{defi}[Funzione convessa]
+		$f:I \rightarrow\R$ è convessa $ \Leftrightarrow \forall x,y\in I, \ \ \forall \lambda \in[0,1]$
+		\[
+		f( \lambda x +  (1- \lambda)y)\leq \lambda f(x) + (1- \lambda)f(y)
+		.\] 
+	\end{defi}
+	Graficamente il segmento che congiunge la funzione calcolata in due punti distinti è sempre contenuto al di sopra del grafico della funzione.\\
+
+	\begin{teo}
+		 Condizione necessaria e sufficiente affinché $f:I \rightarrow \R$ sia convessa è che per ogni $x_0\in I$, la funzione
+		 \[
+			 F_{x_0}(x) = \frac{f(x)-f(x_0)}{x-x_0}
+		 .\] 
+		 è monotona crescente in $I\setminus\{x_0\}$.
+	\end{teo}
+	\begin{dimo}
+		$ \Rightarrow $ \\
+		$x_0\in I$, $x_1,x_2\in I\setminus\{x_0\}$ con $x_1 < x_2$.\\
+		Th: $F_{x_0}(x_1)\leq F_{x_0}(x_2)$ \\
+		Abbiamo i seguenti 3 casi: $x_1 < x_2 < x_0, \ \ x_1 < x_0 < x_2, \ \ x_0 < x_1< x_2$ \\
+		(Se $x_0$ è uno degli estremi di $I$, uno dei casi può essere vuoto)\\
+		Dimostriamo il primo caso, gli altri sono analoghi, ovvero $x_1<x_2<x_0$
+		
+		Scriviamo $x_2$ come combinazione lineare tra $x_1$ e $x_0$
+		\[
+		x_2 = \lambda x_1 + (1- \lambda)x_0
+		.\] 
+		con 
+		\[
+			\lambda = \frac{x_0-x_2}{x_0-x_1}\in (0,1)
+		.\] 
+	\[
+		1 - \lambda = 1 - \frac{x_0-x_2}{x_0-x_1} = \frac{x_2-x_1}{x_0-x_1}\in (0,1)
+	.\]
+	$\displaystyle f(x_2)\leq \frac{x_0-x_2}{x_0-x_1}f(x_1) + \frac{x_2-x_1}{x_0-x_1}f(x_0)$
+	\[\begin{aligned}
+		f(x_2) - f(x_0)&\leq \frac{x_0-x_2}{x_0-x_1}f(x_1) + \frac{x_2-x_0}{x_0-x_1}f(x_0)\\
+			       & = \frac{x_0-x_2}{x_0-x_1}(f(x_1)-f(x_0))\\\\
+		-F_{x_0}(x_2)=	\frac{f(x_2)-f(x_0)}{x_0-x_2}&\leq \frac{f(x_1)-f(x_0)}{x_0-x_1} = -F_{x_0}(x_1)
+\end{aligned}\]
+$ \Leftarrow \\
+x,y\in I \ (x<y)\ \lambda\in (0,1)$\\
+Scelgo $x_0 = \lambda x + (1 - \lambda) y$\\
+$ \Rightarrow  F_{x_0}\leq F_{x_0}(y)$ \\
+\[
+	\frac{f(x) - f( \lambda x + (1- \lambda)y)}{x- \lambda x - (1- \lambda)y}\leq \frac{f(y) - f( \lambda x + (1 - \lambda)y)}{y - \lambda x - (1- \lambda) y}
+.\] 
+\[
+	\frac{f(x) - f( \lambda x + (1- \lambda)y)}{(1- \lambda)(x- y)}\leq \frac{ f(y) - f( \lambda x + (1- \lambda) y)}{ \lambda(y-x)}
+.\]
+\[
+- \lambda f(x) + \lambda f( \lambda x + (1 - \lambda)y) \leq (1- \lambda) f(y) - (1- \lambda)f ( \lambda x + (1- \lambda)y)
+.\] 
+\[
+f( \lambda x + (1- \lambda )y) \leq \lambda f(x) + (1- \lambda) f(y)
+.\] 
+	\end{dimo}
+	\textbf{Esempio}\\
+	$f(x) = |x|$ convessa  $I = \R$\\
+	$x_0\in \R_{>0}$\\
+	 \[
+		 F_{x_0}(x) = \frac{|x| - |x_0|}{x-x_0} \ \ x\in \R\setminus\{x_0\}
+	 .\] 
+	 $x_0 >0 $\[
+		 F_{x_0}(x) = \frac{|x| - x_0}{x-x_0} = \begin{cases}
+			 1\ \ \text{se }x\in [0,+\infty)\setminus\{x_0\}\\
+			 -\frac{x + x_0}{x-x_0}\ \ \text{se }x\in (-\infty,0)
+		 \end{cases}
+	 .\] 
+	 QUI FA UN DISEGNO DELLA FUNZIONE FOTO 2 54\\
+	 \textbf{Nota}\\
+	 $\exists \lim_{x \rightarrow x_0} F_{x_0}(x) = 1 = f'(x_0)$\\
+	 se $x_0 = 0\\
+	 F_{x_0}(x) = \frac { |x|}{x} = \begin{cases}
+		 1\ \ \text{se } x > 0\\
+		 -1 \ \ \text{se } x < 0 
+	 \end{cases}$ \\
+	 $\cancel \exists \lim_{x \rightarrow x_0}F_{x_0}(x)$ \\
+	 Il caso $x_0 < 0 $ è simile al primo.
+	 \begin{teo}[Proprietà delle funzioni convesse]
+	 	Sia $f: I \rightarrow \R$ convessa nell'intervallo aperto $I$, allora:
+		 \begin{enumerate}
+			 \item $f$ è localmente Lipschitziane (importante $I$ aperto)
+			 \item $\forall x\in I$, esistono finite  $f'_-(x),f'_+(x)$
+			 \item  $\forall x, z\in I$, con $x < z$, allora \ $f'_+(x)\leq f'_-(z)\leq f'_+(z)$ 
+			 \item le funzioni $x\in I \rightarrow f'_+(x)$ sono monotone crescenti.
+			 \item $\forall x_0\in I, \ \lim_{x \rightarrow x_0^+}f'_+(x) = f'_+(x_0)$ \\ (continuità da destra della derivata destra)
+			 \item $\forall x_0\in I, \ \lim_{x \rightarrow x_0^-}f'_-(x) = f'_-(x_0)$ \\ (continuità da sinistra della derivata sinistra)
+			 \item L'insieme dei punti di non derivabilità è al più numerabile.
+		\end{enumerate}
+	 \end{teo}
+	 \begin{dimo}
+		 Dimostriamo punto per punto
+		 \begin{enumerate}
+			 \item Basta provare che, dato $[a,b]\in I$ allora esiste $L = L(f,a,b,I)\geq 0$ tale che
+				 \[
+					 |f(x) - f(y)| \leq L|x-y|\ \ \ \forall x,y\in [a,b]
+				 .\] 
+				 Poiché $I$ è aperto, $\exists \varepsilon = \varepsilon (a,b,I)$ tale che 
+				 \[
+					 [a-\varepsilon, b + \varepsilon]\subseteq I
+				 .\] 
+				 Siano $x,y\in [a,b], x\neq y$, allora usando la monotonia dei rapporti incrementali, 
+				 \[
+					 \frac{f(a)- f(a-\varepsilon)}{a - (a - \varepsilon)} \substack{\leq \\ a \leq x} \frac{f(x) - f(a - \varepsilon)}{x - (a - \varepsilon)} \substack{\leq\\a-\varepsilon \leq y}\frac{f(x) - f(y)}{x-y}
+				 .\] 
+				 \[
+					 \frac{f(x) - f(y)}{x-y}\substack{\leq \\ x\leq b + \varepsilon} \frac{f(b + \varepsilon) - f(y)}{b + \varepsilon - y}\substack{\leq\\ y \leq b}\frac{f(b + \varepsilon) - f(b)}{b + \varepsilon - b} = \frac{f(b+\varepsilon) + f(b)}{\varepsilon}
+				 .\] 
+				 \[
+					 L:= \left\{\max{\frac{f(b-\varepsilon - f(b)}{\varepsilon} , - \frac{f(a) - f(a-\varepsilon)}{\varepsilon}\right\} \Rightarrow \left| \frac{f(x) - f(y)}{x-y}\right|\leq L \ \
+				 .\] 
+				 $ \forall x,y\in[a,b]\ \text{ con } x\neq y$
+			 \item $x\in I,\ \ Th\ \ \exists f_\pm'(x)$ finite \\
+				 $ \exists \varepsilon > 0 \ t.c.\ [x-\varepsilon, x +\varepsilon]\subset I\ \ \forall y\in (x-\varepsilon, x), z\in (x,x+\varepsilon)$
+				 \[
+					 \frac{f(x) - f(x-\varepsilon)}{\varepsilon}\leq \frac{f(y)-f(x)}{y-x}\leq \frac{f(z) -f(x)}{z-x}\leq \frac{f(x+\varepsilon)-f(x)}{\varepsilon}
+				 .\] 
+				 Passando al limite per $y -<$ x^-$ e per $z \rightarrow z^+$ (l'esistenza dei limiti viene dalla monotonia dei rapporti incrementali)\\
+			 \[ \Rightarrow\frac{f(x)-f(x-\varepsilon)}{\varepsilon}\leq  f'_-(x)}\leq f'_+(x)\leq \frac{f(x+\varepsilon)-f(x)}{\varepsilon}\]
+		 \item $x,z\in I$ con  $x < z$ \\
+			 Th:
+			  \[
+			 f'_+(x)\leq f'_-(z)\leq f_+'(z)
+			 .\] 
+$\forall y\in (x,z)$
+ \[
+	 \frac{f(y)-f(x)}{y-x}\leq \frac{f(z)-f(x)}{z-x}
+.\] 
+Per $\displaystyle y \rightarrow x^+, \ f'_+(x)\leq \frac{f(z)-f(x)}{z-x}\substack{\leq \\ \text{esercizio}} f'_-(z)$
+\item Segue da $3)$
+\item  $x_0\in I, \lim_{x \rightarrow x_0^+} f_+'(x) = f'_+(x_0)$ \\
+	Poiché $f'_+(x)$ è monotona crescente in $I$, allora $\exists \lim_{x \rightarrow x_0^+}f'_+(x)$ e
+	\[
+		f'_+(x_0)\leq\lim_{x \rightarrow x_0^+}f'_+(x) =  \inf_{\substack{x>x_0\\x\in I}} f_+'(x)=: L
+	.\] 
+	Per assurdo 
+	\[
+f'_+(x_0) < L
+	.\] 
+	Per definizione di $f'_+(x_0)$ esiste $\delta > 0 $ tale che 
+	 \[
+		 \frac{f(x_0 + \delta)-f(x_0)}{\delta} < L
+	.\] 
+	Considero
+	\[
+		F_{x_0+\delta}(x) = \frac{f(x) - f(x_0+\delta)}{x-(x_0+\delta)}
+	.\] 
+	nell'intervallo $[x_0,x_0+\delta)$ la funzione $F_{x_0 + \delta}(x)$ è continua (rapporto di funzioni continue)\\
+	e $\displaystyle F_{x_0+\delta}(x_0) = \frac{f(x_0) - f(x_0 + \delta)}{\delta}$\\
+	Per continuità $\displaystyle\exists$  $\varepsilon > 0 \ t.c.$  $\frac{f(x_0 + \varepsilon) - f(x_0+\delta)}{\varepsilon-\delta}=F_{x_0 + \delta}(x_0+\varepsilon)< L$
+	\[
+		f'_+(x_0+ \varepsilon)\leq\frac{f(x_0 + \delta)-f(x_0+ \varepsilon)}{\delta - \varepsilon} < L
+	.\] 
+	Assurdo poiché $L = \inf_{\substack{x > x_0\\x\in I}}f'_+(x)$
+\item uguale al precedente
+\item poiché  $x\in I \rightarrow f'_+(x)$ è monotona crescente, allora l'insieme $D(f'_+)$ costituito dai suoi punti di discontinuità è al più numerabile.\\
+	Mostriamo che  $f$ è derivabile nell'insieme $I\setminus D$\\
+	$x_0\in I\setminus D(f'_+)$\\
+	\[
+		\Rightarrow  f'_+(x_0) = \lim_{x \rightarrow x_0^-}f'_+(x)
+	.\] 
+	$\forall x < x_0$ 
+	\[
+	f_+'(x)\leq f'_-(x_0)
+	.\]
+	\[
+		\lim_{x \rightarrow x_0^-}f'_+(x)\leq f'_-(x_0)
+	.\] 
+	\[
+	\Rightarrow f'_+(x_0)\leq f'_-(x_0)
+	.\] 
+	\[
+	\Rightarrow f'_+(x_0) = f'_-(x_0)
+	.\] 
+		 \end{enumerate}
+	 \end{dimo}\end{document}
