@@ -9,8 +9,100 @@
 \begin{document}
 	\maketitle
 	\newpage
-	\subsection{Prima parte della lezione (da recuperare)}
-	\subsection{Seconda parte della lezione}
+	\section{Introduzione}
+	$y:(0,T)  \rightarrow\R^n$  è una curva detta variabile di stato\\
+	$f:(0,T)\times \R^n \rightarrow \R^n$ è detta dinamica\\
+
+	\textbf{Esempio:}\\
+	$f = f(y) = y$ è il campo identità,  $y = (y_1,y_2)\in\R^2 \ \ f(y)\in \R^2$\\
+	$\dot y = f(y) = y$\\
+	 $\dot y_1 = y_1, \ \ \dot y_2 = y_2$\\
+	 In questo caso molto semplice il sistema è disaccoppiato sulle componenti.\\
+	 La soluzione è $e^t + c$\\
+	 \[
+	 y(0) = y_0 = (y_1^0, y_2^0)
+	 .\] 
+	 $ \Rightarrow  y_1(t) = y_1^0e^t$\\
+	 $  y_2(t) = y_2^0e^t$\\
+	 Il punto $(1,0)$ inizia a postarti verso destra con velocità che cresce esponenzialmente.\\
+\textbf{Esempio:}\\
+$f(y) = g(y_1,y_2)= (y_2,-y_1), \ \ \ f(1,0) = (0,-1), \ \ f(0,1) = (1,0)$\\
+$|y| = \sqrt{y_1^2 + y_2^2}, \ \ |f(y)| = |(y_2-y_1)| = \sqrt{y_1^2 + y_2^2} = |y|$\\
+In ogni punto la traiettoria di una particella introdotta nel campo deve essere tangente al campo.\\
+Il moto sarà ciroclare uniforme, posso cercare soluzioni della forma
+\[
+\begin{cases}
+	y_1(t) = A\cos t + B\sin t, \ \ \ \ y_1(0) = y_1^0\\ 
+	y_2(t) = C\cos t + D\sin t, \ \ \ \ y_2(0) = y_2^0 
+\end{cases}\ \ \ \ \ \ \text{ è una guess sulla soluzione}
+.\] 
+\[
+\begin{cases}
+	\dot y_1 = y_2\ \ \ \ \dot y_1 = -A\sin t + B\cos t = C\cos t + D\sin t\\
+	\dot y_2 =- y_1 \ \ \ \ \dot y_2 = -C\sin t + D\cos t = -A\cos t - B\sin t
+\end{cases}\circledast
+.\]
+Sto imponendo che la soluzione verifiche l'equazione.
+\[
+y_1(0) = y_1^0 = A, \ \ \ y_2(0) = y_2^0 = C
+.\] 
+\[
+\begin{cases}
+	B = C = y_2^0\\
+	D = -A = -y_1^0
+\end{cases} \text{che ricavo siccome }\circledast\text{ deve valere sempre}
+.\] 
+Quindi
+\[
+y_1(t) = y_1^0\cos t + y_2^0 \sin t
+.\] 
+\[
+y_2(t) = y_2^0 - y_1^0\sin t
+.\] 
+Ad esempio per $y_0 = (1,0) \Rightarrow  Y(t) = (\cos t, - \sin t)$ è l'oscillatore armonico.\\
+Un sistema dinamico è una relazione che coinvolge una curva e un campo di velocità.\\
+In un sistema meccanico ci sono delle forze, cioè serve introdurre anche le accelerazioni.\\
+\[
+	F = ma \ \ \text{ Legge di Newton}
+.\] 
+$y$ è la posizione $y\in \R$\\
+ $\dot y$ è la velocità  $\dot y\in \R$\\
+  $\ddot y$ è l'accelerazione $\ddot y\in \R$\\
+  si può quindi scrivere  $m\ddot y = F$ con  $F$ forza che dipende dal sistema. La più semplice è la forza elastica, possiamo scrivere
+  \[
+  m\ddot y = F = -ky
+  .\] 
+  che è lineare perché deriva da Taylor al primo ordine\\
+  $\ddot y = -\frac k m y$\\
+  Ogni sistema meccanico si può riscrivere come un sistema dinamico aumentando il numero di variabili. Pongo $\dot y = v$ E allora
+   \[
+	   \ddot y = \dot v = -\frac k my
+  .\] 
+  Quindi nella coppia di variabili $(y,v)$ ho
+  \[
+  \begin{cases}
+  	\dot y = v\\
+	\dot v = -\frac k m v
+  \end{cases}
+  .\] 
+  Chiamo $Y = (y,v)$ $\dot Y = (\dot Y, \dot v)$
+   \[
+	   F(Y) = (v,-\frac k mv)^T\in \R^2\ \text{ quindi } \ \dot Y(t) = F(Y(t))
+  .\] 
+  occorrono $2$ condizioni iniziali
+  \[
+	  \begin{cases}
+  y(0) = y_0\\
+  \dot y (0) = v_0
+\end{cases} \Rightarrow  Y_0 = \matrice{y_0\\v_0}\in \R^2
+  .\] 
+  Quindi ho il sistema dinamico
+  \[
+  \begin{cases}
+  	\dot Y(t) = F(Y(T))\\
+	Y(0) = Y_0
+  \end{cases}
+  .\] 
 	se $\frac km := \omega^2$ otteniamo
 	 \[
 	\ddot y + \omega ^2 y = 0
