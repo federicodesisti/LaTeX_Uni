@@ -1,0 +1,192 @@
+\documentclass[12px]{article}
+
+\title{Lezione 2 Ottimizzazione}
+\date{2026-03-03}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Cazzo guardi}
+	\textbf{Osservazione}
+	\begin{enumerate}
+		\item Se $f:I \rightarrow \R$ è convessa e derivabile nell'intervallo aperto $I \Rightarrow f\in C^1(I)$ (discende dalle proprietà e)-f))
+		\item L'ipotesi "$I$ aperto" è cruciale per la validità del teorema.
+			\begin{itemize}
+				\item Le funzioni convesse possono presentare discontinuità sui punti di frontiera di $I$.
+					 \[
+					f = \begin{cases}
+						0 \ \ \text{se} \ x\in (0,1)\\
+						1 \ \ \text{se} \ x\in \{0,1\}
+					\end{cases}
+					.\]  è convessa e discontinua in $x =0$ e $x=1$
+				\item Anche se  $f$ è continua sul bordo di $ I$, puo succedere che le derivate $f'_\pm$ sono ivi infinite.\\
+					$f:[-1,1] \rightarrow\R$, $f(x) = -\sqrt{1-x^2}$\\
+					$f'_+(-1) = -\infty, \  \f'_-(1) = +\infty$.\\
+					Evidentemente in tale punto viene meno la condizione di Lipschitzianità
+					 \[
+						 \left|\frac{f(x)-f(-1)}{x+1}\right| = \frac{\sqrt{1-x^2}}{x+1} = \frac{\sqrt{1-x}}{\sqrt{1-x}} \xrightarrow{x \rightarrow -1^+} = +\infty
+					.\] 
+					Tuttavia
+					\[
+						|f(x)-f(y)| = |\sqrt{1-x^2} - \sqrt{1 - y^2}|\leq\sqrt{|x^2-y^2|}
+					\] 
+					\[
+						= \sqrt{|x+y|}\sqrt{|x-y|}\leq \sqrt 2\sqrt{|x-y|} \Rightarrow  f\in C^{0,\frac 12}([-1,1])
+					.\] 
+					?? $f:[a,b] \rightarrow \R$ convessa e continua, $\exists ? \alpha = \alpha(f)\in(0,1]$ tale che  $f\inC^{0,\alpha}_{lip}([a,b])$ NO \\
+					\[
+					f(x) = \begin{cases}
+						0\ \ \ se \ x =0\\
+						\frac 1{\log x} \ \ se \ x\in (0,e^{-1}]
+					\end{cases}
+					.\] 
+					tale $f$ è convessa, $\forall \alpha\in(0,1]$ 
+					\[
+						\frac{|f(x)-f(0)|}{x^\alpha} = \frac{1}{x^\alpha|\log x|} \xrightarrow{x \rightarrow 0^+} +\infty
+				.\] 
+				$ \Rightarrow  f\not\in C^{0,\alpha}([0,\varepsilon])\ \ \forall \varepsilon \in(0,e^{-2}]\ \ \forall \alpha\in (0,1]$
+			\end{itemize}
+	\end{enumerate}
+	\begin{teo}[Caratterizzazione Funzioni convesse]
+		Sia  $f:I \rightarrow \R$ con $I$ intervallo aperto.\\
+		Allora:\\
+		$f$ è convessa $ \Leftrightarrow \forall x_0\in I\ \exists p = p(x_0)\in \R$ tale che $f(x)\geq f(x_0) + p(x-x_0)\forall x\in I$
+	\end{teo}
+	\begin{dimo}
+		$ \Rightarrow )$ $x_0\in I$, $p\in[f'_-(x_0),f'_+(x_0)]$\\
+		Proviamo che $f(x) \geq f(x_0) + p(x-x_0)\ \forall x\in I$
+		\begin{itemize}
+			\item $x = x_0$ è banale.
+			\item $x > x_0$
+				\[
+					p\leq f'_+(x_0) \leq\frac{f(x)-f(x_0)}{x-x_0}
+				.\] 
+				$ \Rightarrow  f(x) - f(x_0) \geq p(x-x_0)$ \ \ $\forall x> x_0,\ \ x\in I$
+			\item $x < x_0$
+				\[
+					\frac{f(x)-f(x_0)}{x-x_0}\leq f'(x_0) \leq p
+				.\] 
+				 $\Rightarrow  f(x)-f(x_0)\geq p(x-x_0)\ \ \forall x< x_0\ \ x\in I$
+		\end{itemize}
+		$ \Leftarrow ) $ $x,y\in I, x < y, \lambda\in[0,1]$\\
+		$x_0 = \lambda x + (1- \lambda)y \Rightarrow \exists p\in \R$ tale che 
+		\[
+		f(t)\geq f(x) + p(t-x_0) \ \ \ \forall t\in I
+		.\] 
+		$t = x, \ f(x)\geq f( \lambda x + (1- \lambda)y) + p (1- \lambda)(x-y)$ \\
+		$t = y, \ f(y)\geq f( \lambda x + (1- \lambda)y) + p \lambda(y-x)$ \\
+		Moltiplicando ad entrambi i lati per $ \lambda$ e $(1- \lambda)$
+		$ \lambda f(x)\geq \lambda f( \lambda x + (1- \lambda)y) + p (1- \lambda)(x-y)$ \\
+		$ (1-\lambda) f(y)\geq (1- \lambda)f( \lambda x + (1- \lambda)y) + p (1- \lambda)\lambda(y-x)$ \\
+		$ \lambda f(x) + (1- \lambda)f(y) \geq f( \lambda + (1- \lambda) y)$
+	\end{dimo}
+	\begin{defi}
+	In generale, data $f: I \rightarrow \R$, ogni retta di equazione, $y = f(x_0) + p(x-x_0)$  tale che
+	\[
+	f(x)\geq f(x_0) + p(x-x_0)
+	.\] 
+	si chiama retta di supporto (o di appoggio) al grafico della funzione $f$ nel punto $(x_0, f(x_0))$
+	\end{defi}
+	\textbf{Osservazione}\\
+	Non tutte le funzioni ammettono rette di supporto.
+	\begin{defi}
+	L'insieme (Eventualmente vuoto) dei coefficienti angolari delle rette di supporto al grafico di $f$ in $(x_0, f(x_0))$, si chiama sottodifferenziale di $f$ in $x_0$
+	\[
+		\partial f(x_0) = \{p\in \R : \ f(x)\geq f(x_0) + p(x-x_0)\ \forall x\in I\}
+	.\] 
+\end{defi}
+\begin{teo}
+	Sia $f :I \rightarrow \R$ con $I\subseteq \R$ intervallo aperto.\\
+	Allora\\
+	$f$ è convessa $ \Leftrightarrow \partial f(x_0)\neq \emptyset\ \forall x_0\in I$
+\end{teo}
+\begin{dimo}
+	Segue dal teorema precedente.
+\end{dimo}
+\textbf{Esempio}\\
+$f(x) = |x|$
+ \[
+\partial f(x_0) = \begin{cases}
+	[-1,1] \ \ \ \ se  \ x_0 = 0\\
+	\left\{\frac{x_0}{|x_0|}\right\} \ \ \ se \ x_0\neq 0
+\end{cases}
+.\] 
+Dimostriamo che il sottodifferenziale è corretto.\\
+$x_0 = 0$\\
+$[-1,1] \subseteq \delta f(0)$\\
+$p\in [-1,1]$\\
+ $\forall x\in \R \ \ \ p(x-0) + f(0) = px\leq |p||x|\leq |x| = f(x) \Rightarrow p\in \partial f(0)$ \\
+ $\partial f(0)\subseteq [-1,1]$\\
+  $p\in \partial(f(0))$\\
+  $ \Rightarrow  f(x) = |x| \geq f(0) + p(x-0) = px\\$
+  $ \Rightarrow  |x|\geq px \ \ \ \forall x\in \R$ \\
+  $x = 1 \ \ 1\geq p, x= -1\ \ 1\geq -p \ \ \Rightarrow  p\in[-1,1]$ \\
+  $x_0\neq 0$ $f$ è convessa $ \Rightarrow f(x)\geq f(x_0) + f'(x_0)(x-x_0)\ \ \forall x\in \R$\\
+  $f(x) - f(x_0) \geq f'(x_0)(x-x_0)$\\
+  \[
+	  \frac{f(x)-f(x_0)}{x-x_0}\geq f'(x_0)
+  .\] 
+  $ \Rightarrow  f'(x)\in \partial f(x_0)$ \\
+  se  $p\in \partial f(x_0) \Rightarrow f(x)-f(x_0)\geq p_(x-x_0)\ \ \forall x\in \R$ \\
+  $x > x_0\ \ \frac{f(x)-f(x_0)}{x-x_0}\geq p \Rightarrow f'(x_0)\geq p$ \\
+  $x < x_0\ \ \frac{f(x) - f(x_0)}{x-x_0}\leq p \Rightarrow  f'(x_0)\leq p$ \\
+  $ \Rightarrow p = f'(x_0)$ \\
+  \begin{teo}[Principio del massimo debole]
+  Se $f:[a,b] \rightarrow \R$ è convessa allora
+  \[
+	  \max_{x\in[a,b]}f(x) = \max\{f(a),f(b)\}
+  .\] 
+  \end{teo}
+  \begin{dimo}
+	  $M = \max\{f(a),f(b)\}$\\
+	  Basta verificare che $f(x)\leq M\ \ \forall x\in [a,b]$\\
+	  $\displaystyle x = \lambda a + (1- \lambda) b$ con $ \lambda = \frac{b-x}{b-a}\in[0,1]$\\
+	  $f(x) = f( \lambda a + (1 - \lambda)b)\leq \lambda f(a) + (1- \lambda)f(b)\leq \lambda M + (1- \lambda)M= M$
+  \end{dimo}
+  \begin{teo}[Principio del massimo forte]
+	  Sia $f:I \rightarrow \R$ convessa nell'intervallo $I\subseteq \R$. Se esiste $x_0\in \mathring I$ tale che $f(x_0) = \max_{x\in I} f(x)$ allora $f$ è costante.
+  \end{teo}
+  \begin{dimo}
+  	$I^- = I\cap (-\infty,x_0)\neq \emptyset$\\
+	$I^+= I\cap (x_0, +\infty)\neq \emtpyset$ \\
+	$\forall s\in I^-, \ \forall t\in I^+$
+	 \[
+		 \frac{f(s)-f(x_0)}{s-x_0}\leq \frac{f(t)-f(x_0)}{t-x_0}\leq 0 \Rightarrow  f(x) = f(x_0)\ \ \forall x\in I
+	.\] 
+  \end{dimo}
+  \begin{teo}[Disuguaglianza di Jensen]
+  	Sia $(X,M,\mu)$ uno spazio di misura, tale che  $0<\mu(X)< +\infty$ Sia  $g: X \rightarrow \R$ misurabile tale che.
+	\[
+		a < g(x) < b \ \ \text{ quasi ovunque in }X\ \ (-\infty<a<b<+\infty) 
+	.\] 
+	Se $f:(a,b) \rightarrow \R$ convessa, allora:\\
+	\[
+		f\left(\frac{1}{\mu(X)}\int_Xg\ d\mu\right)\leq \frac 1{\mu(X)}\int_Xf\circ g\ d\mu
+	.\] 
+  \end{teo}
+  \textbf{Osservazione}\\
+  Poiché $a< g< b$ quasi ovunque in  $X \Rightarrow  a\mu(X)<\int_Xg\ d\mu < b\mu(X)$, ovvero $\frac{1}{\mu(X)}\int_{X}g\ d\mu\in(a,b)$\\
+   \textbf{Osservazione}\\
+   $\forall A\subseteq \R$ aperto,  $(f\circ g)^{-1}(A) =g^{-1}(f^{-1}(A))$,  $f^{-1}(A)$ è un aperto e quindi  $g^{-1}(f^{-1}(A))$ è misurabile $ \Rightarrow  f\circ g$ è misurabile.
+   \begin{dimo}
+	   $x_0 = \frac 1 {\mu(X)}\int_Xgd\mu\in(a,b)$\\
+	   poiché $f$ è convessa $ \Rightarrow \partial f(x_0) \neq\emptyset$\\
+	   $ \Rightarrow \exists p\in \R$ tale che 
+	   \[
+	   f(t) \geq f(x_0) + p (t-x_0)\ \ \forall t\in (a,b)\\
+	   .\] 
+	   poiché $a < g(x) < b$ q.o in $X$, allora\\
+	    \[
+	   f(g(x))\geq f(x_0) + p(g(x)-x_0)\ \ q.o.\ in \ X
+	   .\] 
+	   \[
+	   \int_Xf\circ g \ d\mu \geq f(x_0)\mu(X) + p \int_X(g(x) - x_0)\ d \mu = \int_Xg d\mu - \mu(X)x_0= 0
+	   .\] 
+	   \[
+		   f\left(\frac 1 {\mu(X)}\int_Xg d\mu\right)\leq \frac 1 {\mu(X)}\int_X (f\circ g)d\mu
+	   .\] 
+   \end{dimo}
+\end{document}
