@@ -1,0 +1,197 @@
+\documentclass[12px]{article}
+
+\title{Lezione 3 Ottimizzazione}
+\date{2026-03-06}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Jensen}
+  \begin{teo}[Disuguaglianza di Jensen]
+  	Sia $(X,M,\mu)$ uno spazio di misura, tale che  $0<\mu(X)< +\infty$ Sia  $g: X \rightarrow \R$ misurabile tale che.
+	\[
+		a < g(x) < b \ \ \text{ quasi ovunque in }X\ \ (-\infty<a<b<+\infty) 
+	.\] 
+	Se $f:(a,b) \rightarrow \R$ convessa, allora:\\
+	\[
+		f\left(\frac{1}{\mu(X)}\int_Xg\ d\mu\right)\leq \frac 1{\mu(X)}\int_Xf\circ g\ d\mu
+	.\] 
+  \end{teo}
+  \begin{teo}[Disuguaglianza discreta di Jensen]
+  Sia $f:(a,b) \rightarrow \R$ convessa, per ogni $x_1,\ldots,x_n\in(a,b)$ e per ogni $ \lambda_1,\ldots, \lambda_n\in[0,1]$ tale che $ \sum^{n}_{i=1} \lambda_i = 1$, allora
+  \[
+  f\left( \sum^{n}_{i=1} \lambda_i x_i\right)\leq \sum^{n}_{i=1} \lambda_if(x_i)
+  .\] 
+  \end{teo}
+  \begin{dimo}
+	  $X = \left\{ x_1,x_2,\ldots,x_n\right\}$, $M = P(X)$ (scelgo come insieme dei misurabili l'insieme delle parti)\\
+	  $\mu(\{x_i\}) = \lambda_i$ 
+	  \[
+	  g: X \rightarrow \R, \ \ \ g(x_i) = x_i
+	  .\] 
+	  Applico la Disuguaglianza di Jensen con\\
+	  $\mu(X) = \sum^{n}_{i=1}\lambda_i = 1$, $\int_Xg d\mu = \sum^{n}_{i=1} \lambda_ix_i$\\
+	  $\int_X(f\circ g)d \mu = \int_X fd\mu = \sum^{n}_{i=1} \lambda_if(x_i)$ \\
+	  Utilizzando il datto che essendo $X$ discreto $g,f$ sono funzioni semplici.\\
+	  Dalla disuguaglianza di Jensen ottengo infine
+	  \[
+	  f \left( \sum^{n}_{i=1} \lambda_ix_i \right) \leq \sum^{n}_{i=1} \lambda_if(x_i)
+	  .\] 
+  \end{dimo}
+  \textbf{Caso particolare:}
+  \[
+  \lambda_1 = \lambda_2 = \ldots = \lambda_m = \frac 1n
+  .\]
+  \[
+	  f \left( \frac{ x_1 + \ldots + x_n}n \right) \leq \frac{f(x_1) + \ldots + f(x_n)}n
+  .\] 
+  \subsection{disuguaglianze tra medie}
+  $x_1,\ldots,x_n\in(0,+\infty)$\\
+  $H(x_1,\ldots,x_n) = \frac {n}{\frac 1 {x_1} + \ldots + \frac{1}{x_n}}$\\
+  $G(x_1,\ldots,x_n) = \sqrt[n]{x_1\cdot\ldots\cdot x_n}$\\
+  $A(x_1,\ldots,x_n) = \frac{x_1+\ldots+x_n}n$\\
+  $M_p(x_1,\ldots,x_n) = \left(\frac{x_1^p + \ldots + x_n^p}n \right)^{1/p}$
+Vogliamo dimostrare
+\[
+H\leq G\leq A\leq M_p \ \ \forall p \geq 1
+.\] 
+$G\leq A$\\
+ $f(t) = e^t$\\
+  \[
+	  f \left(\frac{t_1+\ldots+ t_n}n \right)\leq \frac{ f(t_1) + \ldots f(t_n)}n
+ .\] 
+ $t_i = \log{x_i}\ \ \ i =1,\ldots,n$\\
+  \[
+	  (x_1\cdot\ldots\cdot x_n)^{1/n}=e^{\frac{\log x_1 + \ldots + \log x_n}{n}}\leq \frac{x_1+\ldots+x_n} n = A(x_1,\ldots,x_n)
+ .\] 
+ $H\leq G$
+ \[
+	 H(x_1,\ldots,x_n) = \frac 1{\frac{\frac1 {x_1} + \ldots + \frac 1 {x_n}}n} = \frac {1}{A(\frac 1 {x_1},\ldots , \frac 1{x_n})} \leq \frac {1}{G(\frac 1 {x_1} ,\ldots,\frac 1 {x_n})} 
+ .\] 
+ \[
+	 = \frac 1{\sqrt[n]{\frac 1 {x_1}\cdot\ldots\cdot \frac{1}{x_n}}} = \sqrt[n]{x_1\cdot\ldots\cdot x_n} = G
+ .\] 
+$A\leq M_p$\\
+ $f(t) = t^p$
+  \[
+	  \left( \frac {x_1+\ldots+x_n} n \right)^p =f \left(\frac{x_1 + \ldots + x_n}{n} \right)\leq \frac{f(x_1) + \ldots f(x_n)} n = \frac{x_1^p + \ldots x_n^p} n
+ .\] 
+ $0 < p \leq q \Rightarrow  M_p \leq M_q$\\
+ $f(t) = t^{q/p}$ convessa in $(0,+\infty)$ poiché l'esponente è $>1$
+  \[
+  \left(\frac{x_1^p + \ldots + x_n^p}n \right)^{1/p}=f \right( \frac{x_1^p + \ldots + x_n^p }n \right) = \frac{ f(x_1^p) + \ldots + f(x_n^p)}{n} = \frac{x_1^q + \ldots  + x_n^q}n
+ .\] 
+ $ \Rightarrow M_p\leq M_q$\\
+ \subsection{Ottimizzazione di forma}
+ Supponiamo di avere una circonferenza di raggio $r>0$,  $n\geq 3$ (naturale).\\
+ Consideriamo $n$-semirette uscenti dall'origine, suddividono l'angolo giro in $n$ angoli $\theta_1,\ldots,\theta_n\in(0,2\pi)$ con $ \sum^{n}_{i=1}\theta_i = 2\pi$\\
+ Queste intersecano la circonferenza in $n$-punti che sono i vertici di un poligono inscritto nella circonferenza che chiamiamo $n$-gono\\
+ \begin{center}
+\begin{tikzpicture}
+    \def\r{3} % Raggio della circonferenza
+    \def\npart{5} % Numero di partizioni (lati del poligono)
+    \def\angstep{360/\npart} % Passo angolare
+    \foreach \i in {1,...,\npart} {
+        \coordinate (V\i) at ({\i * \angstep}:\r);
+    }
+    \draw[thick, green!60!black, fill=green!15, fill opacity=0.7] (V1)
+        \foreach \j in {2,...,\npart} { -- (V\j) } -- cycle;
+    \draw[thick] (0,0) circle (\r);
+    % Centro O (sopra tutto)
+    \filldraw (0,0) circle (1.5pt) node[below left, bg=white, inner sep=1pt] {$O$};
+
+    \foreach \i in {1,...,\npart} {
+        \def\ang{\i * \angstep} % Angolo del vertice corrente
+        \def\midang{\ang - \angstep/2} % Angolo medio per etichetta theta
+
+        % Disegno della semiretta (passa sopra il riempimento del poligono)
+        \draw[thin, blue!70!black] (0,0) -- (\ang:\r+0.5) node[pos=1.05, font=\footnotesize] {$s_{\i}$};
+
+        % Etichetta theta_n (sopra il riempimento)
+        \node[red!80!black, font=\small] at (\midang:0.6*\r) {$\theta_{\i}$};
+    }
+
+    % FASE 4: VERTICI (Sopra tutto, per massima visibilità)
+    \foreach \i in {1,...,\npart} {
+        \filldraw[green!40!black] (V\i) circle (2pt);
+    }
+
+\end{tikzpicture}
+\end{center}
+\\
+Esiste un $n$-gono che massimizza il perimetro $P(\theta_1,\ldots,\theta_n)$
+\[
+	\max_{\substack{\theta_1,\ldots,\theta_n\in(0,2\pi)\\ \sum^{n}_{i=1}\theta_i = 2\pi}} P (\theta_1,\ldots,\theta_n)
+.\] 
+\[
+	P(\theta_1,\ldots,\theta_n) = \sum^{n}_{i=1}2 r \sin \left(\frac{\theta_i}2 \right)  = 2r \sum^{n}_{i=1}\sin \left(\frac{\theta_i} 2 \right)
+.\] 
+Usiamo la disuguaglianza di Jensen (versione concava
+\[
+	f \left(\frac{t_1 + \ldots + t_n} n \right) \geq \frac{f(t_1) + \ldots + f(t_n)} n .\] 
+	nel caso $f$ concava\\
+	$f(t) = \sin t$ concava in  $(0,\pi)$,  $t_i = \frac{\theta_i}2\in(0,\pi)$\\
+	$ \Rightarrow  \sin \left(\frac 1 n \sum^{n}_{i=1}\frac{\theta_i}{2} \right)\geq \frac 1n \sum^{n}_{i=1}\sin \left(\frac{\theta_i}2 \right)$ 
+	\[
+		\sin \left(\frac \pi n \right)\geq \frac 1n \sum^{n}_{i=1}\sin \left(\frac {\theta_i}2 \right)
+	.\] 
+	\[
+		2rn\sin \left(\frac \pi n \right)\geq 2r \sum^{ n}_{i=1} \sin \left(\frac{\theta_i} 2 \right) = P(\theta_1,\ldots,\theta_n)
+	.\] 
+	Calcolo il perimetro del $n$-gono regoalre
+	\[
+		P \left(\frac {2\pi}n,\ldots,\frac{2\pi}n \right) = 2r \sum^{n}_{i=1}\sin \left( \frac\pi n \right)  = 2 r n \sin \left(\frac \pi n \right)
+	.\] 
+	Quindi l'$n$-gono regolare massimizza il perimetro.\\
+	\subsection{Esercizi}
+	Esercizio 2\\
+	La tesi è equivalente a
+	\[
+		\int_x^{\lambda x + (1-\lambda)y}f dt \leq (1- \lambda)\int_x^y f dt = (1- \lambda) \int_x^{ \lambda x + (1 - \lambda)y}f + (1- \lambda)\int_{ \lambda x + (1- \lambda)y}^y f
+	.\] 
+	\[
+		\Leftrightarrow \lambda\int_x^{ \lambda x + (1- \lambda) y }f  \leq (1- \lambda) \int_{ \lambda x + (1- \lambda) y}^y f
+	.\] 
+
+	\[
+		\lambda\int_{x}^{ \lambda x + (1- \lambda)y}f\substack{\leq\\ f \text{ monotona}} f({ \lambda x + (1- \lambda)y}) \lambda (1- \lambda)(y-x)
+	.\] 
+	\[
+		(1 - \lambda) \int^y_{ \lambda x + (1- \lambda)y} f \leq (1- \lambda) f({ \lambda x + (1- \lambda)y}) \lambda (y-x)
+	.\] 
+	Metodo alternativo:\\
+	con $a < x_1 < x_0 < x_2$
+	\[
+		F_{x_0}(x) = \frac{\phi(x)-\phi(x_0)}{x-x_0}
+	.\] 
+	\[
+		F_{x_0}(x_1) = \frac{1}{x_1-x_0} \left( \int_a^{x_1}f- \int_a^{x_0} f\right) = \frac {1}{x_0-x_1}\int_{x_1}^{x_0}f
+	.\] 
+	\[
+		\leq F_{x_0}(x_2) = \frac{\int_{x_0}^{x_2}f}{x_2-x_0}
+	.\] 
+	Questo caso ci basta per dimostrare la convessità, tengo quindi $ x_0$ come centro.\\
+	$x < \lambda x+ (1- \lambda) y < y$\\
+	\[
+		F_{ \lambda x + (1- \lambda)y}(x)\leq F_{ \lambda x + (1- \lambda ) y}(y)
+	.\]
+
+	\[
+		\frac{ \phi (x) - \phi( \lambda x + (1 - \lambda)y)}{(1 - \lambda)(x - y)}\leq \frac{ \phi(y) - \phi( \lambda x + (1- \lambda)y)}{ \lambda (y-x)}
+	.\] 
+	moltiplicando per il denominatore otteniamo la disequazione della convessità, quindi è equivalente.\\
+	\textbf{Esercizio 3}\\
+	$0 < x < y$\\
+	 \[
+		 \frac{f(x) - f(0)}{x-0} \leq \frac{f(y)-f(0)}{y-0}\leq \frac{M - f(0)}{y}
+	 .\] 
+	 per $y \rightarrow +\infty$ \ $\displaystyle \frac { f(x) - f(0)}x \leq 0 \Rightarrow f(x) - f(0)\leq M - f(0)$\\
+	 $\forall z < 0$\\
+	  \[
+		  \frac{M-f(0)}z\leq \frac{f (z) - f(0)}z\leq \frac{f(x) - f(0)}x
+	 .\] 
+	 $ \Rightarrow  z \rightarrow - \infty$  $\frac{f(x)-f(0)}{x}\geq 0 \Rightarrow  f(x) = f(0)$
+\end{document}

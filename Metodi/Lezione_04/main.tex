@@ -1,0 +1,178 @@
+\documentclass[12px]{article}
+
+\title{Lezione 4 Metodi Numerici}
+\date{2026-03-10}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+\maketitle
+	\newpage
+	\subsection{Primi schemi}
+	usando $f_n = f(t_n,u_n)$\\
+	$FE\ \ \ u_{n+1} = u_n + hf_n$\\
+	$BE \ \ \ u_{n+1} = u_n + hf_{n+1}$\\
+	$CN \ \ \ u_{n+1} = u_n + \frac h 2 (f_n  + f_{n+1})$\\
+	$H \ \ \ \ \ u_{n+1} = u_n + \frac h 2 (f_n + f(t_{n+1}, u_n + h f_n))$\\
+	Tutti questi metodi hanno una filosofia comune
+	\subsection{Filosofia}
+	\[
+		(ODE) \begin{cases}
+		\dot y(t) = f(t,y(t)) \ t\in (0,T)\\
+		y(0) = u_0
+	\end{cases} \Leftrightarrow (V)\ y(t) = y_0 + \int_0^t f(s,y(s))ds
+	.\] 
+	Chiaramente a patto di avere una soluzione abbastanza regolare, se la dinamica è continua e anche la mia soluzione lo è, basterebbe.\\
+	Chiamiamo la forma dell'ODE forma forte, e la forma di Volterra forma debole.\\
+
+	Nel caso dell'ODE, cosa posso approssimare? Dato che è tutto dato posso solamente approssimare la derivata $\dot y$. (differenze finite)\\
+
+	Nel caso di Volterra, posso approssimare invece l'integrale. (formule di quadratura)\\
+
+	Ricordando che $\dot y = \lim_{\delta \rightarrow 0} \frac{y(t+\delta) - y(t)}{\delta} \\
+	\Rightarrow  \phi(\delta) \xrightarrow{\delta \rightarrow 0} 0 \Rightarrow  \dot y(t) = \lim_{\delta \rightarrow 0} \frac{y(t + \phi(\delta)) - y(t) }{\phi(\delta)}$ è una formulazione equivalente\\
+	
+	Proviamo a fare una scelta particolare $\delta = h$, ovvero il passo di discretizzazione (quanti nodi ci sono)\\
+	 \[
+		 \dot y(t) = \lim_{h \rightarrow 0}\frac{y(t+h)-y(t)} h\approx \frac{y(t+h) - y(t)}h
+	.\] 
+	\textbf{Esempio}\\
+	$\lim_{x \rightarrow 0}\frac{\sin x}x$ in matlab se sostituissi la $x$, verrebbe Nan, per ovviare a questo problema possiamo fare lo sviluppo di Taylor
+	\[
+		\Rightarrow  f(x) \sim f(x_0) + f'(x_0)(x-x_0) + \frac{f''(x_0)} 2 (x-x_0)^2 + \ldots
+	.\] 
+	$ \Rightarrow  \sin x \sim 0 + x - \frac{x^3}6 + \ldots$ \\
+	\[
+		\frac{\sin x}x \sim \frac{x - \frac {x^3}6 + O(x^3)}x = 1 - \frac{x^2}6 + o(x^2) \xrightarrow{x \rightarrow 0} 1
+	.\] 
+	Quindi tornando al nostro rapporto incrementale con $h$ (necessariamente) fissato\\
+	\[
+		\frac{ y(t+h) - y(t)}h =\frac{ \cancel{y(t)} + y'(t) + \frac 12 h^2y''(\xi) - \cancel{y(t)}}{h}
+	.\] 
+	con $t < \xi < t+ h$\\
+	\[\frac{y(t+h) - y(t)}h = y'(t) + \frac 12 h y''(\xi)\]
+	Quindi se approssimo ho un errore proporzionale a $h$
+	\[
+		err = \left|\frac{y(t+h)-y(t)}h - y'(t) \right| = \frac 12h|y''(\xi)|\leq \frac{M h}2
+	.\] 
+	con $M = \max_{0 < \xi < h}|y''(\xi)|$ \\
+	Se voglio che $\frac{Mh}2 < tol$  dovrò avere  $h < \frac {2 tol} M$\\
+	Tornando alla nostra ODE
+	\[
+	\begin{cases}
+		\dot y(t) = f(t,y(t))\\
+		y(0) = y_0
+	\end{cases} \rightarrow \frac{y(t+h) + y(t)}h = f(t,y(t))
+	.\] 
+	Leggiamo questa espressione con $t = t_n\ \ n = 0,\ldots, N$
+	 \[
+		 \frac{y(t_n + h) - y(t_n)}h = f(t_n,y(t_n))
+	.\] 
+	ovvero $y(t_{n+1}) = y(t_n) + hf(t_n,y(t_n))$, il metodo di Eulero in avanti\\
+
+	Posso ora provare ad approssimare la derivata prima in un altro modo.
+	 \[
+		 \dot y(t) = \lim_{ h \rightarrow 0}\frac{ y(t) - y(t-h)}h
+	.\] 
+	\[
+		\dot y(t) = f(t,y(t)) \rightarrow \frac{y(t) - y(t-h)}h = f(t,y(t))
+	.\] 
+	$y(t) = y(t-h) + h f(t,y(t))$\\
+	Leggo in $t = t_{n+1} \Rightarrow  y(t_{n+1} = y(t) + hf(t_{n+1},y(t_{n+1}))$ ovvero Eulero all'indietro.\\
+	Cambiamo punto di vista:\\
+	$y(t) = y_0 + \int_0^tf(s,y(s))ds$\\
+	Posso approssimare con dei quadrati $\int_0^t f(s,y(s))ds\sim tf(0,y(0))$\\
+	Scriviamo ora la forma di volterra in $t+h$
+	 \[
+		 y(t+h) =y_0 + \int_0^{t+h}f(s,y(s))ds = y_0 + \int_0^tf(s,y(s))ds + \int_{t}^{t+h}f(s,y(s))ds
+	.\] 
+	se $y = t_n$
+	 \[
+		 y(t_n + h) = y(t_{n+1}) = y_0 + \int_0^{t_n}f(s,y(s))ds + \int_{t_n}^{t_{n+1}}f(s,y(s))ds
+	\] 
+	\[
+	 = y(t_n) + \int_{t_n}^{t_{n+1}}f(s,y(s))ds
+	.\] 
+	\[
+		y(t_{n+1}) = y(t_n) + \int_{t_n}^{t_{n+1}}f(s,y(s))ds
+	.\] 
+	Approssimazione con il metodo dei rettangoli (a sinistra)
+	\[
+		\int_{t_n}^{t_{n+1}} f(s,y(s))ds\sim h f(t_n,y(t_n))
+	.\] 
+	Ovvero Eulero in avanti\\
+	Approssimazione con il metodo dei rettangoli (a destra)
+	\[
+		\int_{t_n}^{t_{n+1}}f(s,y(s))ds \sim hf(t_{n+1},y(t_{n+1}))
+	.\] 
+	Ovvero Eulero all'indietro\\
+	Approssimazione con il metodo dei trapezi
+	\[
+		\int_{t_n}^{t_{n+1}}f(s,y(s))ds\sim \frac h 2 (f(t_n,y(t_n)) + f(t_{n+1},y(t_{n+1})))
+	.\] 
+	Ovvero Crank Nicholson\\
+	Heun la vediamo dopo, non utilizza valori della griglia.\\
+	Introduciamo il $\theta$-Metodo,\\
+	Scelgo $\theta\in [0,1]$
+	 \[
+		 \int_{t_n}^{t_{n+1}}f(s,y(s))ds \sim h \left((1-\theta)f(t_n,y(t_n)) + \theta f(t_{n+1},y(t_{n+1})) \right)
+	.\] 
+	Per $\theta = \frac 12 $ ottengo Crank Nicholson.\\
+	Cosa succede se
+	 \[
+	 	 \frac{y(t+h) - y(t-h)}{2h} = \frac{y(t + h) - y(t) + y(t) - y(t+h)}{2h} 
+	\] 
+	\[
+		= \frac 12 \left(\frac{y(t+h)-y(t)}h \right) + \frac 12  \left( \frac{y(t) - y(t-h)}h \right) \xrightarrow{h \rightarrow 0} \frac 12\dot y(t) + \frac 12 \dot y(t) = \dot y(t)
+	.\]
+	Questo metodo ci permette di semplificare i termini di ordine superiore nello sviluppo di Taylor.\\
+	Faccio lo sviluppo di Taylor di $y(t+h)$ in  $t$ \\
+	\[
+	y(t+h) = y(t) + \dot y(t)h + \frac 12 \ddot y(t)h^2 + \frac 16 \dddot y(\xi)h^3\ \ t < \xi < t + h
+	.\] 
+	\[
+	y(t-h) = y(t) - \dot y(t)h + \frac 12 \ddot y(t)h^2  - \frac 16\dddot y(\eta)h^3\ \ \ t-h < \eta < t 
+	.\] 
+	Facendo la differenza rimuovo i termini pari
+	\[
+	y(t+h) - y(t-h) = \dot y(t)2h + \frac 16 h^3(\dddot y(\xi) + \dddot y(\eta))
+	.\] 
+	Dividendo entrambe le parti per $2h$
+	 \[
+		 \frac{y(t+h)-y(t-h)}{2h} = \dot y(t) + \frac{h^2}{12}(\dddot y(\xi) + \dddot y(\eta))
+	.\] 
+	Possiamo quindi essere più precisi, ma al costo di utilizzare dei nodi diversi, utilizza non solo $t_{n}$ ma anche  $t_{n-1}$, ovvero è uno schema a 2 passi.\\
+	$\dot y(t) = f(t,y(t)) \Rightarrow  \frac{y(t+h) - y(t-h)}{2h} = f(t,y(t))$ \\
+	$t=t_n$
+	 \[
+		 \frac{y(t_{n+1}) - y(t_{n-1})}{2h} = f(t_{n},y(t_{n})) \Rightarrow  y(t_{n+1}) = y(t_{n-1}) + 2h f(t_n,y(t_n))
+	.\] 
+	Questo è un metodo esplicito a 2 passi, viene chiamato il mid-point, poichè dal punto di vista integrale è come se approssimassimo gli integrali con li quadrato di base il punto medio\\
+	\[
+		y(t+h) = y(t) + \int_{t_n}^{t_{n+1}}f(s,y(s))ds = y(t-h) + \int_{t-h}^tf(s,y(s))ds + \int_t^{t+h}f(s,y(s))ds
+	\] \[
+	= y(t-h) + \int_{t-h}^{t+h}f(s,y(s))ds
+	.\] 
+	\subsection{Analisi dei metodi ad un passo (espliciti)}
+\[
+	u_{n+1} = u_n + h\Phi(t_n,u_n; h, f)
+.\] 
+il punto e virgola è per dire che in generale deve dipendere da $h$ e dalla dinamica del problema.\\
+$\Phi$ è la funzione incremento.\\
+ \textbf{Esempi}\\
+ $\Phi(t_n,u_n) = f(t_n,u_n)$ \hfill  (FE)\\
+ $\Phi(t_n,u_n) = \frac 12 (f(t_n,u_n) + f(t_{n+1},u_n + hf(t_n,u_n)))$ \hfill (H)
+ \subsubsection{Consistenza}
+Se sostituisco la soluzione esatta di ODE nello schema commetto un errore
+\[
+	y(t_{n+1}) = y(t_n) + h\Phi(t_n,y(t_n))+ \varepsilon_{n+1}
+.\] 
+o come formulazione alternativa
+\[
+	\varepsilon_{n+1}:= y(t_{n+1})-y(t_n) -h \Phi(t_n,y(t_n))
+.\] 
+Chiamo $\varepsilon_{n+1}$ residuo al tempo  $t_{n+1}$\\
+Riscrivo $\varepsilon_{n+1} = hz_{n+1}(h)$ LTE (Local Truncation Error)
+
+\end{document}

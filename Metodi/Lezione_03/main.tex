@@ -1,0 +1,36 @@
+\documentclass[12px]{article}
+
+\title{Metodi Lezione 3}
+\date{2026-03-06}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Metodi numerici a un passo}
+	\begin{defi}
+		Un metodo si dice a "un passo" se per calcolare la soluzione al tempo $t_{n+1}$ si usa soltanto la soluzione al tempo $n$.\\
+		Altrimenti si dice a "più passi" (Multi step)
+	\end{defi}
+	\begin{defi}
+		Un metodo si dice esplicito se il calcolo di $u_n{n+1}$ dipende solo da $u_n$ (oppure  $u_{n-1}, u_{n-2},\ldots$) ma non dipende da  $u_{n+1}$, altrimenti si dice implicito
+	\end{defi}
+	Ad esempio
+	\[
+		g(x) = 0 \ \ x_{k+1} = x_k - \alpha g(x_k) \ \ se \ \ x_k \xrightarrow{+\infty} x^*
+	.\] 
+	\[
+		x^* = x^* - \alpha g(x^*) \rightarrow g(x^*) = 0
+	.\] 
+	$G(x_{k+1}) = x_k - \alpha(g_{k+1}) - x_{k+1}$ Metodo implicito.\\
+	 \textbf{Esempi}\\
+	 $f_n = f(t_n,u_n)$ \\
+	 Forward Euler \ \ $u_{n+1} = u_n + hf_n\ \ u_0 = y_0$\\
+	 Backward Euelr \ \ $u_{n+1} = u_n + h f_{n+1}$\\
+	 Crank-Nicolson \ \  $u_{n+1} = u_n + \frac h 2 (f_n + f_{n+1})$\\
+	 Heun \ \  $u_{n+1} = u_n + \frac h 2 (f_n+ f(t_{n+1}, u_n + hf_n))$\\
+	 Crank-Nicolson ha calcolo implicito + calcolo esplicito, soluzioni più precise\\
+
+\end{document}
