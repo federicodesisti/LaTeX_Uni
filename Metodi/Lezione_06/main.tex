@@ -1,0 +1,162 @@
+\documentclass[12px]{article}
+
+\title{Lezione 6 Metodi numerici}
+\date{2026-03-17}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\section{Zero Stabilità }
+	(Parallelo alla stabilità di Lyapinov)\\
+	La stabilità di Lyapinov riguarda gli ODE, la \textbf{zero-stabilità} è una proprietà dello schema, non dell'ODE che sto approssimando.\\
+
+	Sia $\{u_n\}$ la soluzione numerica di  $ \begin{cases}
+		u_{n+1} = u_n + h\Phi(t_n,u_n; h, f)\\
+		 u_0 = y_0
+	\end{cases}$\\
+	
+	Sia $\{z_n\}$ la soluzione (numerica) di  $ \begin{cases}
+		z_{n+1} = z_n + h[ \Phi(t_n,z_n;h,f) + \delta_{n+1}]\\
+		z_0 = y_0 + \delta_0
+
+	\end{cases}$
+	$0\leq n\leq N-1 \ \ N = N(h) = [\frac T H]$\\
+	Il professore dice che sti quantificatori li sbagliano tutti, stai attento
+	 \begin{defi}
+		Diciamo che il metodo è zero-stabile se\\
+		$\exists h_0 > 0, \exists C>0$ tale che $\forall h \in (0,h_0]$ e $\forall \varepsilon > 0 $ sufficientemente piccolo se  $|\delta_{n+1}| < \varepsilon$  per  $0\leq n \leq N-1$ e  $|\delta_0| < \varepsilon$, allora
+		\[
+			|z_n^{(h)}-u_n^{(h)}|\leq C\cdot \varepsilon \ \ \ 0\leq n\leq N
+		.\] 
+	\end{defi}
+	l'h come apice sta a significare che $z_n$ e $u_n$ dipendono da $h$, nonostante ciò sono tutte controllate dalla stessa costante.
+
+	\begin{lemm}[di Gronwall discreto]
+		Sia $p_n$ una successione non negativa e siano $g_n, \varphi_n$ successioni con $g_n$ non decrescente\\
+		Se  $ \varphi_n$ soddisfa $ \varphi_n\leq g_n + \sum^{k=0}_{n-1}p_k \varphi_k\ \ \forall n\geq 0$, allora $ \varphi_n \leq g_n exp( \sum^{k=0}_{n-1}p_k )$
+	\end{lemm}
+	La dimostrazione è noiosa.\\
+	\begin{teo}
+		Se la funzione incremento $ \Phi$ è Lipschitziana nella variabile $u_n$ uniformemente in  $t_n$ con costante di Lipschitiz  $\Lambda$ (indipendente dai nodi  $t_n$ e da $h$) allora il metodo  $u_{n+1} = u_n + h\Phi(t_n,u_n)$ è zero-stabile
+	\end{teo}
+	\textbf{Reminder}\\
+	funzione Lipschitizna nelal variabile $u_n$ uniformemente in $t_n$
+	\[
+		\exists h_0 > 0, \exists \Lambda > 0, \ t.c. \ \forall h\in (0,h_0]
+	.\] 
+	 \[
+	|\Phi(t_n,u_n) - \Phi(t_n,z_n)| \leq \Lambda |u_n - z_n|
+	.\] 
+	\textbf{Osservazione:}\\
+	Cado del metodo di Heun
+	\[
+		u_{n+1} = u_n + h/2(f(t_n,u_n) + f(t_{n+1},u_n + hf(t_n,u_n)))
+	\] 
+	\[
+		\Rightarrow  \Phi(t_n,u_n) = \frac 12 f(t_n,u_n) + \frac 12 f(t_{n+1},u_n + h f(t_n,u_n))
+	.\] 
+	Proviamo a trovare $\Lambda$.\\
+	Valutiamo
+	 \[
+	 | \Phi(t_n,u_n)- \Phi(t_n,z_n)| = \]\[=\left|\frac 12 f(t_n,u_n) + \frac 12 (t_{n+1},u_n + h f ( t_n,u_n)) - \frac 12 (t_n,z_n) - \frac 12 f(t_{n+1},z_n + h f(t_n,z_n))\right|
+	.\] 
+	Con la disugualgianza triangolare
+	\[
+		\leq \frac 12 \left| f(t_n,u_n)-f(t_n,z_n)\right| + \frac 12 \left| f(t_{n+1},u_n+ hf(t_n,u_n)) - f(t_{n+1},z_n+hf(t_n,z_n))\right|
+	\] 
+	e tramite la Lipschitzianità
+	\[
+	\leq \frac 12 L|u_n-z_n| + \frac 12 L |u_n + hf(t_n,u_n)-z_n-hf(t_n,z_n)|
+	.\] 
+	\[
+	\leq \frac 12 L|u_n-z_n| + \frac 12 L(|u_n-z_n| + h |f(t_n,u_n) - f(t_n,z_n)|)
+	\] 
+	\[
+	\leq \frac 12 L|u_n-z_n| + \frac 12 L|u_n-z_n| + \frac 12 LhL|u_n-z_n|
+	\] 
+	\[
+	\Rightarrow  |\Phi(t_n,u_n)-\Phi(t_n,z_n)|\leq (L + \frac 12 L^2h)|u_n-z_n| = L(1+\frac 12 Lh)|u_n-z_n|
+	\] 
+	Ponendo $h_0 = 1$
+	\[
+	\leq L(1 + \frac 12 L h_0)|u_n-z_n|
+	.\] 
+	Posso quindi chiamare $\Lambda = L(1 + \frac 12 Lh_0)$
+	\begin{dimo}
+	Definiamo $w_k = z_k - u_k $ e otteniamo i corrispondneti schemi\\
+	$u_{k+1} = u_k + h\Phi(t_k,u_k)\ \ u_0 = y_0$\\
+	$z_{k=1} = z_k + h[\Phi(t_k,z_k) + \delta_{k+1}]\ \ \ z_0 = y_0 + \delta_0$\\
+	Sottraiamo membro a membro
+	\[
+		z_{k+1} - u_{k+1} = z_k - u_k + h\delta_{k+1} + h( \Phi(t_n,z_n)-\Phi(t_k,u_k))\ \ z_0 - u_0 = y_0 + \delta_0- y_0 = \delta_0
+	.\] 
+	Ovvero
+	\[
+		w_{k+1} = w_k + h(\Phi(t_k,z_k) - \Phi(t_k,u_k)) + h\delta_{k+1}
+	.\] 
+	Ora se $\Phi$ fosse lineare avremmo $\Phi(t_k,z_k-u_k) = \Phi(t_k,w_k)$ avremmo quindi avuto lo schema per $w_k$, tuttavia non possiamo, dobbiamo quindi fare delle stime
+	Scelgo $n$ e sommo su $ k$ da $0$ a $n-1$
+	 \[
+		 \sum^{n-1}_{k=0}w_{k+1} = \sum^{n-1}_{k=0}w_k + h \sum^{n-1}_{k=0}(\Phi(t_k,z_k) - \Phi(t_k,u_k)) + h \sum^{n-1}_{k=0}\delta_{k+1}
+	.\] 
+	Riscrivo come
+	\[
+		\cancel{\sum^{n-1}_{k=1}w_k} +w_n = w_0 + \cancel{\sum^{n-1}_{k=1}w_k} + h\cdots
+	\] 
+	\begin{aligned}
+		$|w_n| &= \left|w_0 + h \sum^{n-1}_{k=0}(\Phi(t_n,z_n) - \Phi(t_k,u_k)) + h \sum^{n-1}_{k=0}\delta_{k+1}\right|$\\
+		$ &\leq |w_0| + h \left| \sum^{n-1}_{k=0}(\Phi(t_k,z_k)-\Phi(t_k,u_k))\right| + h \sum^{n-1}_{k=0}|\delta_{k+1}|$\\
+		$ &\leq |w_0| + h  \sum^{n-1}_{k=0}\left|(\Phi(t_k,z_k)-\Phi(t_k,u_k)\right|) + h \sum^{n-1}_{k=0}|\delta_{k+1}|$\\
+		$ &\leq |w_0| + h  \sum^{n-1}_{k=0}\left|(\Phi(t_k,z_k)-\Phi(t_k,u_k)\right|) + h \sum^{n-1}_{k=0}|\delta_{k+1}|$\\
+	\end{aligned}
+	otteniamo quindi
+	\[
+		|w_n|\leq |w_0|  + h \sum^{n-1}_{k=0}\Lambda|z_k-u_k| + h \sum^{n-1}_{k=0}|\delta_{k+1}|
+	.\] 
+	$p_n := h\Lambda$, \ \ $g_n = \begin{cases}
+		|w_0| \ \ \text{se } n= 0\\
+		|w_0| + h \sum^{n-1}_{k=0}|\delta_{k+1}| \ \text{ se } n\geq 1
+	\end{cases}$
+	$ \varphi_n = |w_n|, \\
+	\varphi_n\leq g_n + \sum^{n+1}_{k=0}p_n \varphi_n$ $ \Rightarrow  \varphi_n\leq g_nexp \left( \sum^{n-1}_{k=0}p_k \right)$\\
+	ovvero 
+	\[
+		|w_n|\leq \left( |w_0| + h \sum^{n-1}_{k=0}|\delta_{k+1}| \right)exp \left( \sum^{n-1}_{k=0}h\Lambda \right)
+	.\] 
+	per ipotesi
+	\[
+		|\delta_k| < \varepsilon\ \ \text{ per ogni } k
+	.\] 
+	e quindi
+	\[
+	\leq \left(\varepsilon +h \sum^{n-1}_{k=0} \varepsilon \right) exp \left( nh\Lambda \right)\leq  \left(\varepsilon +h n\varepsilon \right) exp(nh\Lambda)
+	.\] 
+	Segue quindi 
+	\[
+		|w_n|\leq \varepsilon(1 + hn)exp(nh\Lambda)
+	.\] 
+	\[
+	|w_n| \leq \varepsilon (1 + t_n)e^{t_n\Lambda}
+	.\] 
+	ma sappiamo che $t_n\leq T$ per ogni $n$, guardando ora i singoli pezzi\\
+	$e^{t_n\Lambda}\leq e^{T\Lambda}$ l'esponenziale è crescnete\\
+	$1 + t_n\leq 1 + T$ 
+	\[
+		|z_n-u_n|=|w_n| \leq \varepsilon (1+T)e^{T\Lambda} = C\varepsilon
+	.\] 
+	\end{dimo}
+	Notiamo che la costante $C$ è la stessa del continuo, dipende solamente dal sistema.\\
+	Questo risultato è fondamentale per l'analisi numerica, $z_n$ è il perturbato del problema, quello che effettivamente posso scrivere al computer.\\
+Se questa proprietà non ci fosse non potrei implementare nulla, il mio $z_n$ potrebbe non rimanere vicino a $u_n$.\\
+È come se ci fossero 3 livelli, il primo della relatà, dove  $\pi$ non esiste, il seocondo dell'analisi numerica, dove posso fare stime su uno schema risolutivo, e il terzo dove vive la vera soluzione del problema differenziale.\\
+
+Sostanzialmente la consistenza mi dice che lo schema che considero approssima l'ODE.\\
+
+La zero-stabilità mi dice che lo schema accumula errore in modo controllato.\\
+
+Mi manca l'ultimo step delal convergenza, $u_n \xrightarrow{h \rightarrow 0} y_n?$
+
+\end{document}

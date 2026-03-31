@@ -1,0 +1,120 @@
+\documentclass[12px]{article}
+
+\title{Lezione 7 Metodi}
+\date{2026-03-20}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\section{Convergenza}
+	\subsection{Riassuntino}
+	\textbf{Consistenza:} Lo schema approssima l'ODE? Se $Z(h) \rightarrow 0$ (l'errore tende a 0)\\
+	o alternativamente $\Phi(t_n,u_n) \xrightarrow{h \rightarrow 0}f(t_n,u_n)$.\\
+	Si sostituisce la soluzione esatta $y$ di ODE nello schema e usando sviluppi di Taylor (assumendo che la soluzione sia sufficientemente regolare)\\
+	si mostra che  $\tau(h) \rightarrow 0$\\
+	Se $y$ è sufficientemente regolare $\tau(h) = O(h^q)$ ($q$ è ordine di consistenza)\\[10px]
+	\textbf{Zero-stabilità:} Lo schema è poco sensibile alle perturbazioni.\\
+$|u_n-z_n|\leq C|u_0-z_0| = C\varepsilon$   (differenza  tra soluzione perturbata e soluzione non perturbata, controllata dalla differenza iniziale)\\
+quindi se $C\varepsilon < tol \Rightarrow  \varepsilon < \frac{tol}C$ \\
+Se $C$ diventa molto grande sono costretto ad un  $\varepsilon$ molto piccolo.\\
+Se $\Phi$ è Lipschitziana con costante $\Lambda \Rightarrow $ lo schema (il metodo) è zero-stabile.\\
+\subsection{Convergenza}\\
+$u_n \xrightarrow{ h \rightarrow 0 } y_n$
+\begin{defi}[Convergenza]
+	Uno schema si dice convergente se $\exists C = C(h)$ tale che 
+	\[
+		|u_n - y_n|\leq C(h) \ \ \text{ e } \ \ C(h) \xrightarrow{h \rightarrow 0} 0\ \ \ \ 0\leq n\leq N
+	.\] 
+Se $y$ è sufficientemente regolare  e $C(h) = O(h^r)$ allora il metodo si dice convergente con ordine $r$. Chiameremo $r$ ordine di convergenza.
+\end{defi}
+\begin{teo}[di equivalenza di Lax-Richtmyer (Dahlquist)]
+	Se lo schema numerico è consistente e $|y_0-u_0| \xrightarrow{h \rightarrow 0} 0$ allora è convergente.\\
+	Se inoltre $|y_0 - u_0| = O(h^s)$ e lo schema ha ordine di consistenza $O(h^q)$ allora è convergente con ordine  $O(h^{\min\{s,q\}})$
+\end{teo}
+\textbf{Nota:}\\
+$u_0 $ non è $y_0$, per esempio $\pi$ possiamo prendere solo $n$ cifre dopo la virgola, non il valore esatto. La differenza può tendere a $0$ se magari ho una procedura che approssima $\pi$.
+ \begin{dimo}
+	 Pensiamo $\{y_n\}$ come perturbazione di $\{u_n\}$ 
+	 \[
+		 u_{n+1} = u_n + h\Phi(t_n,u_n)
+	 .\] 
+	 \[
+		 y_{n+1} = y_n + h\Phi(t_n,y_n) + h \tau_{n+1}(h)
+	 .\] 
+	 dove $\tay_{n+1}(h)$ è l'errore locale di troncamento.\\
+	 Se chiamiamo\ \ $h[\Phi + \delta_{n+1}]$\\
+	 $\delta_0 = y_0 - u_0$\\
+	 $\delta_{n+1} = \tau_{n+1}(h)$ \\
+	 Ripercorrendo la dimostrazione che utilizza il lemma di Gronwall discreto per la zero-stabilità, segue immediatamente
+	 \[
+		 |y_n - u_n| \leq (|y_0 - u_0| + nh\tau(h))e^{nh\Lambda} \ \ \ nh = t_n \leq T \ \ 0\leq n \leq N
+	 .\] 
+	 dove $\displaystyle\tau(h) = \sup_{n}|\tau_n(h)|$ \\
+	 $ \Rightarrow  |y_n - u_n|\leq (|y_0 - u_0| + T\tau (h))e^{T\Lambda}  = \varepsilon C$ \\
+	 dove $\varepsilon = |y_0-u_0 | + T\tau(h)$ e $C = e^{T\Lambda}$ e abbiamo $|y_0-u_0|$ che è l'errore sui dati, $T\tau(h)$ è la consistenza e $e^{T\Lambda}$ è la zero-stabilità\\
+	 Usando infine le ipotesi\\
+	 se  $| y_0 - u_0| \xrightarrow{h \rightarrow 0} 0$ e $\tau(h) \xrightarrow{ h \rightarrow 0} 0$  allora $|y_n-u_n| \xrightarrow{h \rightarrow 0} 0$ $0 \leq n\leq N$\\
+	 Se inoltre $|y_0 - u_0| = O(h^s)$ e $\tau(h) = O(h^q)$ allora l'ordine di convergenza è $O(h^{\min\{q,s\}})$ (Si capisce facilemnte dalla disequaizone sopra, la somma si "mangia" l'ordine maggiore)
+\end{dimo}
+\textbf{Nota:}\\
+Da notare come la richiesta sulla soluzione è solamente la sua esistenza.\\
+Consistenza + Zero-Stabilità $ \Rightarrow $ Convergenza\\
+\textbf{Analisi esplicita per il metodo di Eulero in avanti}\\
+Inizialmente assumiamo $u_0 = y_0$\\
+\[
+	u_{n+1} = u_n + hf(t_n,u_n)
+.\] 
+La soluzione esatta risolve $y'(t_n) = f(t_n,y(t_n))$ scriviamo in modo più compatto  $y'_n = f(t_n,y_n)$\\
+e  soddisfa
+\[
+	y_{n+1} = y_n  + hf(t_n,y_n) + h\tau_{n+1}(h)
+.\] 
+dato che c'è l'errore di troncamento\\
+Definiamo 
+\[
+	u_{n+1}^* = y_n + hf(t_n,y_n) = y_n + h y'(t_n)
+.\] 
+TODO AGGIUNGI FOTO 20 marzo 11:33\\
+L'errore 
+ \[
+	 e_{n+1} := y_{n+1} - u_{n+1} = (y_{n+1}-u_{n+1}^*) + (u_{n+1}^*- u_{n+1})
+\] \[
+= h\tau_{n+1}(h) + \alpha
+.\] 
+dove $\alpha$ è l'accumulazione degli errori precedenti.
+\[
+	u_{n+1}^*-u_{n+1}= y_n-u_n + h(f(t_n,y_n) - f(t_n,u_n)) = e_n + h(f(t_n,y_n) - f(t_n,u_n))
+.\] 
+\[
+	\Rightarrow  e_{n+1} = h\tau_{n+1}(h) + e_n + h(f(t_n,y_n) - f(t_n,u_n))
+.\] 
+\[
+	|e_{n+1}|\leq h | \tau_{n+1}(h)| + |e_n| + hL |y_n - u_n|\ \ \substack{\leq\\ \sup_n|\tau_{n+1}} \ \ h|\tau(h) | + (1 + hL)|e_n|
+.\] 
+$e_0 = y_0 - u_0= 0$\\
+$|e_1|\leq h|\tau(h)|$, $|e_2|\leq h|\tau(h)| + (1 + hL)|e_1|\leq h|\tau(h) + (1+hL)h|\tau(h)| = h|\tau(h)|(1 + (1 + hL))$\\
+$|e_n|\leq h|\tau(h)|[1 + (1 + hL) + (1 + hL)^2 + \ldots + (1 + hL)^{n-1}]$ 
+ $\displaystyle = h |\tau(h)|\sum^{n-1}_{k=0}(1+hL)^k$\\
+ $ \displaystyle = h|\tau(h)|\frac{1 - (1 + hL)^n}{1 - (1+hL)}= h|\tau(h)|\frac{1 - (1 + hL)^n}{-hL} =h|\tau(h)| \frac{(1 - hL)^n - 1}{hL}$\\
+ e utilizzando la stima  $h\leq \frac Tn $\\
+ $\displaystyle \leq \frac{(1 + \frac T n L )^n-1}{hL} \leq \frac{e^{LT}-1}{hL}$\\
+ \[|e_n|\leq \cancel{h}|\tau(h)|\frac{e^{Lt}-1}{\cancel{h}L}.\]
+
+ $h\tau_{n+1} = y_{n+1} - y_n - hf(t_n,y_n)$\\
+ $h\tay_{n+1} = y_n + h y_n' + \frac {h^2}2 y''(\xi_n)- y_n-h f(t_n,y_n) = \frac {h^2}2 y''(\xi_n) \ \ t_n\leq\xi_n\leq t_{n+1}$\\
+ $\tau_{n+1} = \frac h 2 y''(\xi_n)$\\
+ $\displaystyle|\tau_{n+1}|\leq \frac h 2 \sup_{t}|y''(t)| = h \frac M 2$ \\
+ con $M = \sup_t|y''(t)|$\\
+ In conclusione
+  \[
+	  |e_n|\leq h\frac M 2 \frac{e^{LT} - 1}L = h C
+ .\] 
+ con $C = \frac M 2 \frac{e^{LT} - 1}L$ \\
+ Quindi Eulero fa schifo perché è di ordine 1 ma $C$ può essere molto grande.\\
+ Vedremo il caso in cui i dati non son esatti.
+
+
+\end{document}

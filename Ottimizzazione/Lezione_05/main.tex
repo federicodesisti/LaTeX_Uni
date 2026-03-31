@@ -1,0 +1,171 @@
+\documentclass[12px]{article}
+
+\title{Lezione 5 Analisi Convessa}
+\date{2026-03-17}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Boh}
+	\begin{prop}[Locale limitatezza per le funzioni convesse]
+		Siano $A\subseteq\R^N$ aperto convesso (non vuoto e  $f:A \rightarrow \R$ convessa. Allora $f$ è localmente limitata.
+	\end{prop}
+	\begin{dimo}
+		Poiché già sappiamo che  $f$ è localmente limitata superiormente, basta far vedere che $f$ è anche localmente limitata inferiormente.\\
+		A tale scopo è sufficiente mostrare che se il cubo  \[\bar Q_r(x_0) = \{x\in\R^N\ : \ \|x-x_0\|_\infty\leq \frac r 2\}\subseteq A\] allora $\displaystyle\inf_{\bar Q_r(x_0)} f> - \infty$\\
+		 $\forall x\in \bar Q_r(x_0),$ il punto simmetrico di $x $ rispetto a $x_0$ è il punto $2x_0-x\in\bar Q_r(x_0)$
+		 poiché $(\|2x_0-x-x_0\|_\infty = \|x_0-x\|_\infty\leq \frac r 2)$\\
+		 $x_0 = \frac 12 x + \frac 12 (2x_0 - x)$
+		 \begin{center}
+		 	
+		 \begin{aligned}
+			 $f(x_0) &= f \left(\frac 12 x + \frac 12 (2x_0-x) \right)\\
+				 &\leq \frac 12 f(x) + \frac 12 f(2x_0 -x)$
+		 \end{aligned}
+		 \end{center}
+		 dove 
+		 $\displaysytle M = \sup_{\bar Q_r(x_0)}f< +\infty \Rightarrow  \forall x\in \bar Q_r(x_0)\ \ f(x_0)\geq 2f(x_0)-M \Rightarrow  \inf_{\bar Q_r(x_0)} f \geq 2f(x_0)-M >-\infty$
+	 \end{dimo}
+	 \begin{teo}[Locale Lipschitizanità funzioni convesse]
+		Siano $A\subseteq\R^N$ aperto convesso (non vuoto e  $f:A \rightarrow \R$ convessa. Allora $f$ è localmente lipschitziana.
+	 \end{teo}
+	 \begin{dimo}
+		 $K\subseteq A$ compatto Devo provare che  $\exists L = L(K,A,f)\geq 0$ t.c.
+		  \[
+		 \|f(x)-f(y)\|\leq L\|x-y\| \ \ \forall x,y\in K
+		 .\] 
+		 dove la norma è euclidea\\
+		 Sia $\varepsilon = \varepsilon(K,A)>0$ sufficientemente piccolo t.c.
+		  \[
+			  K_\varepsilon := \{x\in\R^n: d_K(x)\leq \varepsilon\}\subseteq A
+		 .\] 
+		 dove con $d_K(x)$ intendo la funzione distanza da  $K$ (relativamente alla norma euclidea).\\
+		 Dimostriamo questa proprietà supponendo per assurdo che $\forall \varepsilon > 0 K_\varepsilon$  non è tutto contenuto in  $A$.
+		 \begin{dimo}
+			 In particolare per  $\varepsilon = \frac 1n $ esisterà  $x_n\in K_{\frac 1 n}\setminus A$\\
+	 $\inf_{z\in K} |z-x_n| = d_K(x_n)\leq \frac 1n $\\
+	 \forall $n\exists z_n\in K$ tale che 
+	  $|z_n-x_n| < d_K(x_n) + \frac 1 n\leq \frac 2 n$ \\
+	  A meno di estratte, $\exist z_0\in K$ t.c. $z_n \rightarrow z_0 $ per $ n \rightarrow +\infty$
+	  Poiché 
+	  \begin{center}
+	  \begin{aligned}
+		  0\leq|x_n - z_0| &= |x_n-z_n+z_n-z_0|\\
+				    &\leq  |x_n - z_n| + |z_n - z_0|\\
+				    &\leq \frac 2 n + |z_n - z_0| \xrightarrow{n \rightarrow +\infty} 0\\
+				    &    \Rightarrow  x_n \rightarrow z_0\in K
+	  \end{aligned}
+	  \end{center}
+	  Poiché $x_n\in\R^N\setminus A$ che è un chiuso  $ \Rightarrow  z_0\not \in A$, assurdo.
+  \end{dimo}
+  Definiamo $M = \sup_{K_\varepsilon} f, m= \inf_{K} f$ \\
+  Per la locale limitatezza delle funzioni convesse risulta
+  \[
+  -\infty < m \leq M < +\infty
+  .\] 
+  Siano $x,y\in K, (x\neq y)$\\
+  definiamo\\
+  $x_\varepsilon = x- \varepsilon \frac{y - x}{\|y-x\|}$\\
+  $y_\varepsilon = y +\varepsilon \frac{y-x}{\|y-x\|}$ \\
+  che sono dei punti "spostati" esternamente lungo la retta che congiunge questi due punti.\\
+  $x_\varepsilon , y_\varepsilon \in K_\varepsilon$
+   \[
+	   d_K(x_\varepsilon) = \inf_{z\in K}|z-x_\varepsilon|\substack{z=x\\\leq }|x- x_\varepsilon| = \varepsilon
+  .\] 
+  \[
+	  d_K(y_\varepsilon) = \inf_{z\in k}|z-y_\varepsilon|\substack{z=y\\\leq}|y-y_\varepsilon|=\varepsilon
+  .\] 
+  Considero la funzione (reale di variabile reale) \[g(t) = f \left(x_\varepsilon + t\frac{y-x}{\|y-x\|} \right) \ \ \ t\in [0,2\varepsilon + |y-x|]\]
+  $g$ è convessa in quanto restrizione di $f$ convessa lungo un segmento.\\
+  Per monotonia dei rapporti incrementali.
+  \[
+	  \frac{g(\varepsilon)- g(0)}{\varepsilon}\leq \frac{g(|y - x| + \varepsilon) - g(\varepsilon)}{|y-x|}\leq \frac{g(2\varepsilon + |y-x|)- g(|y-x|+\varepsilon)}{\varepsilon}
+  .\] 
+  $g(0) = f(x_\varepsilon)$\\
+  $g(\varepsilon) = f(x_\varepsilon + \varepsilon \frac{y-x}{|y-x|}) = f(x)$\\
+  $g(|y-x| + \varepsilon) = f \left(x_\varepsilon + y - x + \varepsilon \frac{y-x}{\|y-x\|} \right) = f(y)$\\
+  $g(2\varepsilon + \|y-x\|) = \ldots = f(y_\varepsilon)$ \\
+  Posso quindi concludere che 
+  \[
+	  \frac{m-M}\varepsilon\leq \frac{f(x) - f(x_\varepsilon)}{\varepsilon}\leq \frac{f(y) - f(x)}{|y-x|}\leq \frac{f(y_\varepsilon)- f(y)}{\varepsilon}\leq \frac{M-m}\varepsilon
+  .\] 
+  $\displaystyle \Rightarrow  \frac{|f(y) - f(x)|}{|y-x|}\leq \frac{M-m}\varepsilon$ ovvero una possibile costante Lipschitz.
+	 \end{dimo}
+	 \textbf{Commento su esercizio della scheda}\\
+	 $u:(a,b) \rightarrow \R$ continua
+	 $u$ convessa $ \Leftrightarrow \forall x_0\in (a,b)$ $\forall \varphi\inC^2(a,b)$t.c.  $u- \varphi$ ha max locale in $x_0$ allora $ \varphi''(x_0)\geq 0$  \\
+	 \textbf{Osservazione}\\
+	 Se $u\in C^2$  $u- \varphi$ ha max locale in $x_0$\\
+	 $ \Rightarrow 0 \geq (u- \varphi)''(x_0) = u''(x_0) - \varphi''(x_0) \Rightarrow \varphi''(x_0)\geq (u''(x_0))\geq 0 $ \\
+	 $ \Rightarrow  $ \\
+	 $u(x) - \varphi(x)\leq u(x_0)- \varphi(x_0)\forall x\in (x_0-\delta, x_0 + \delta)$\\
+	 Sia $r = r(x)$ retta di supporto\\
+	  $r(x_0) = u(x_0)$, $r(x)\leq u(x)\ \ \forall x\in (a,b)$\\
+	   \[
+	  r(x) -phi(x)\leq  u(x) - \varphi(x)\leq u(x) - \varphi(x_0) = r(x_0) - \varphi(x_0)
+	  .\] 
+	  $ \Rightarrow  r - \varphi$ ha max locale in $x_0$
+	  \[
+	  0 \geq (r - \varphi)''(x_0) = -\varphi''(x_0) \Rightarrow \varphi''(x_0)\geq 0
+	  .\] 
+	  \textbf{Osservazione}\\
+	  $ \Leftarrow$ $u\in C^2$\\
+	   $ \varphi = u$, $u - \varphi  =0 $\\
+	    $\forall x_0$ $u-\varphi$ ha min/max locale in $x_0\ \ \Rightarrow  u''(x_0)\geq 0 \Rightarrow  u$ è convesso\\
+	    $" \Leftarrow "$\\
+	    Per assurdo  $u$ non convessa $u(\lambda x_1 + (1- \lambda )x_2)$ \\
+	    $\varepsilon > 0 $
+	    $\varphi = - \varepsilon x^2 + A_\varepsilon x + B_\varepsilon$\\
+	    $ \varphi(x_1) = u(x_1), \ \varphi(x_2) = u(x_2)$ \\
+	    Per $\varepsilon$ "piccolo"
+	     \[
+	    \varphi( \lambda x_1 + (1- \lambda)x_2) < u( \lambda x_1 + (1- \lambda)x_2)
+	    .\] 
+	    \[
+		    \max_{[x_1,x_2]}u - \varphi = (u- \varphi(x_\varepsilon))\ \ x_\varepsilon\in(x_1,x_2) \Rightarrow  -2\varepsilon = \varphi''(x_\varepsilon)\geq 0
+	    .\] 
+	    che è un assurdo.
+	    \newpage
+	    \begin{teo}[Criterio di convessità per funzioni differenziabili]
+	    Siano $A\subseteq \R^N$ aperto convesso
+	     \[
+		     f:A \rightarrow \R^N\ \ \text{differenziabile in } A
+	    .\] 
+	    Allora sono equivalenti
+	    \begin{enumerate}
+		    \item $f$ convessa
+		    \item $f(x)\geq f(y) + Df(y) \cdot(x-y)\ \forall x,y\in A$
+		    \item $(Df(x)-Df(y))\cdot(x-y)\geq 0$ ovvero il gradiente $Df$ è monotono.
+	    \end{enumerate}
+	    \end{teo}
+	    \begin{dimo}
+	    	$(a) \Rightarrow (b)$ \\
+		$x,y\in A, \lambda(0,1)$
+		\[
+		f( \lambda x + (1 - \lambda)y) \leq \lambda f(x) + (1- \lambda)f (y)
+		.\] 
+		\[
+		f(y + \lambda (x-y)) - f(y) \leq \lambda(f(x)-f(y))
+		.\] 
+		\[
+			\frac{ \lambda Df(y)\cdot (x-y) + o( \lambda)} \lambda= \frac{f(y + \lambda (x-y)) - f(y)} \lambda\leq f(x) - f(y)
+		.\] 
+		\[
+			Df(y)\cdot (x-y) + \frac{ o( \lambda)} \lambda \leq f(x) - f(y)\ \ \forall \lambda\in(0,1)
+		.\] 
+		$ \Rightarrow  $ per $ \lambda \rightarrow 0^+$ $f(x) - f(y)\geq Df(y)\cdot (x-y)$\\
+		 $(b)  \Rightarrow  (a)$\\
+		 $f(x)\geq f(y) + D f(y)\cdot (x-y)$\\
+		 $f(y)\geq f(x) + Df(x)\cdot (y-x)$\\
+		 Sommando membro a membro
+		  \[
+			  \cancel{f(x)} + \cancel{f(y)} \geq \cancel{f(y)} + \cancel{f(x)} + (Df(y) - Df(x))\cdot (x-y)
+		 .\] 
+	    \end{dimo}
+	    
+
+	
+\end{document}

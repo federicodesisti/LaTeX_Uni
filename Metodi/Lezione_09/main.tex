@@ -1,0 +1,181 @@
+\documentclass[12px]{article}
+
+\title{Metodi Numerici Lezione 9}
+\date{2026-03-31}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Come impostare un problema non lineare}
+	In generale abbiamo la forma 
+	\[
+		\frac{dy}{dt} =f (t,y(t))
+	.\] 
+	Se scegliamo Eulero implicito all'indietro
+	\[
+		u_{n+1} = u_n + hf(t_{n+1},u_{n+1})
+	.\] 
+	Bisognerebbe definire una funzione non lineare su cui cercare lo zero
+	\[
+		F(x) :=  x - u_n - hf(t_{n+1},x)
+	.\] 
+	La nostra soluzione $u_{n+1}$ al tempo nuovo è la  $x^*$ tale che
+	\[
+		F(x^*) = 0 \rightarrow u_{n+1} = x^*
+	.\] 
+	Usiamo il metodo di punto fisso per trovare lo zero della funzione
+	\[
+		x_{k+1} = F(x_k) \ \ \ \ \ \text{con }x_0 \text{ dato}
+	.\] 
+	Se $F$ è una contrazione allora
+	\[
+		x_k \xrightarrow{k \rightarrow +\infty} x^*
+	.\] 
+	Come faccio la mia guess iniziale su $x_0$? Converge sempre per Banach-Caccippoli, ma vogliamo ridurre gli step.\\
+	La guess più naturale è $u_n$ dato che sto approssimando la soluzione dovrei essere vicino a  $u_{n+1}$.\\
+	Dato che siamo in uno spazio di Banach ogni successione converge se e solo se è di Cauchy\\
+	$\|x_{k+1}-x_k\| < tol$ \\
+	Ovvero itero su $k$ fino a che non raggiungo una data tolleranza\\
+	La dovrò scegliere molto più piccola della consistenza, se $h$ è $\frac 1 {100}$,  $tol = 10^{-6}$ potrà andare bene.\\
+	Quindi  ad un certo $k^* \rightarrow u_{n+1} = x_{k^*}$\\
+	Criterio aggiuntivo $\|F(x_k)\|<tol$\\
+	Il prof consiglia di reimplementare punto fisso perchè all'esame non ci sono apppunti\\
+	\textbf{Posso applicare il teorema delle contrazioni?}\\
+	$F$ è Lipschitz con costante $L < 1$?\\
+	Voglio dimostrare che 
+	\[
+		\|F(x) - F(y)\| <= L\|x-y\| \ \ \ \ \text{con } L < 1 \ \ \ \forall x,y
+	.\] 
+	 Ricordiamo che:
+	 $F(x) :=  x - u_n - hf(t_{n+1},x)$, quindi:
+	 \[
+	 \|F(x) - F(y)\| = \|x - u_n - hf(t_{n+1},x) - y + u_n + hf(t_{n+1},y)\|
+	 \] 
+	 \[
+		 \|x - y - h(f(t_{n+1},x) - f(t_{n+1},y))\|\leq \|x-y\| + h\|f(t_{n+1},x) - f(t_{n+1}, y)\|
+	 \] 
+	 Il professore si è confuso, pensava di star facendo newton, la giusta $F$ è  \\
+	 $F(x) :=  u_n + hf(t_{n+1},x)$, quindi cerchiamo invece
+	 \[
+	 x^* = F(x^*)
+	 .\] 
+	 e la condizione sarà
+	 \[
+	 \|x_{k+1} - f(x_K)\| < tol
+	 .\] 
+	 Quindi il nuovo calcolo diventa
+	 \[
+		 \|F(x) - F(y)\| = \|\cancel{u_n} + hf(t_{n+1},x) - \cancel{u_n} - hf(t_{n+1},y)\|
+	 \] 
+	 \[
+		 \| h(f(t_{n+1},x) - f(t_{n+1},y))\|=  h\|f(t_{n+1},x) - f(t_{n+1}, y)\|
+	 \] 
+	 \[
+	 \leq hL_f\|x-y\|
+	 .\] 
+	 Quindi mi basta scegliere $L_F = hL_f$ dove  $L_f$ è la costante di Lipschitz della dinamica.\\
+	 Mi basta imporre  $L_F < 1 \Rightarrow  hL_f < 1 \Rightarrow  h < \frac { 1}{L_f}$, ho quindi una nuova condizione, che mi da una nuova restrizione che potrebbe "cozzare" con l'h grande che potrebbe essermi concessa dal metodo risolutivo.\\
+	 \subsection{Caso particolare, problema lineare in dimensione $>$ 1}
+	 $y'(t) = A(t)\cdot y(t)\ \ \ $ con  $y\in \R^m$ \\
+	 $F(t,Y) = A(t)\cdot Y$ con $A(t)\in \R^{m\times m}$ \\
+	 Proviamo ad applicare un metodo implicito su un problema lineare.\\
+	 usiamo Backward Euler
+	 \[
+		 U_{n+1} = U_n + hF(t_{n+1}, U_{n+1})\ \ \text{ con } U_n\in\R^m
+	 .\] 
+	 Si scrive
+	 \[
+		 U_{n+1} = U_n + hA_{t_{n+1}}\cdot U_{n+1}
+	 .\] 
+	 porto il termine con $A$ a sinistra dello schema 
+	 \[
+	 
+		 U_{n+1}- hA_{t_{n+1}}\cdot U_{n+1} = U_n 
+	 .\] 
+	 \[
+		 (Id - hA_{t_{n+1}})\cdot U_{n+1} = U_n
+	 .\] 
+	 \[
+		 M_{t_{n+1}}\cdot U_{n+1} = U_n
+	 .\] 
+	 con $M_{t_{n=1}} = Id - hA_{t_{n+1}}$, mi basta quindi risolvere adesso un sistema lineare.\\
+	 In matlab è semplicemente (si può usare $C$, ma il professore vuole che glielo si dica per scegliere una libreria apposita)
+	 \[
+		 U(n+1) = M(t(n+1))\  \backslash\  U(n)
+	 .\] 
+	 \textbf{Esempio: Oscillatore armonico}\\
+	 \[
+		 \begin{cases}
+		x''(t) + \omega^2 x(t) = 0 \\ x(0) = x_0, \ \  x'(0) = v_0
+		 \end{cases}
+	 .\] 
+	 usando la variabile ausiliaria $x'(t) = v(t)$ otteniamo
+	 \[
+	 \begin{cases}
+	 	v'(t) = -\omega^2x(t)\\
+		x(0) = x_0, \ \ v(0) = v_0
+	 \end{cases}
+	 .\] 
+	 \[
+	 \begin{cases}
+	 y(t) = \matrice{x(t)\\ v(t)}\\
+	 y'(t) = \matrice{x'(t)\\v'(t)}
+	 \end{cases} \Rightarrow  y'(t) = A(\omega)\cdot y(t)
+	 .\] 
+	 con $A(\omega) = \matrice{0 & 1\\ -\omega^2 & 0}$\\
+	 Questo si risolve con Eulero all'indietro definendo
+	 \[
+		 M = Id- hA(t_{n+1})
+	 .\] 
+	\textbf{Esempio: Crank Nicholson}
+	\[
+		U_{n+1} = U_n + h/2(F(t_{n},U_{n})+ F(t_{n+1},U_{n+1}))
+	.\]
+	La $F$ non è quella del punto fisso ma è semplicemente una dinamica vettoriale.
+	\[
+		U_{n+1} = U_n + h/2(A(t_{n})\cdot U_{n}+ A(t_{n+1})\cdot U_{n+1})
+	\] 
+	\[
+		U_{n+1}- h/2A(t_{n+1})\cdot U_{n+1} = U_n + h/2A(t_{n})\cdot U_{n}
+	\] 
+	\[
+		(Id-h/2A(t_{n+1}))\cdot U_{n+1} = (Id + h/2\cdot A(t_n))\cdot U_n
+	.\] 
+	\textbf{Theta metodo}
+	\[
+		U_{n+1} = U_n + h((1-\theta)\codt F(t_{n},U_{n})+ \theta F(t_{n+1},U_{n+1}))
+	.\]
+Nel caso lineare
+\[
+	U_{n+1} = U_n + h((1-\theta)A(t_n)\cdot U_n + \theta A(t_{n+1})\cdot U_n)
+\] 
+\[
+	U_{n+1}-h\theta A(t_{n+1})\cdot U_n = U_n + h(1-\theta)A(t_n)\cdot U_n 
+\] 
+\[
+	(Id- h\theta A(t_{n+1}))U_{n+1} = (Id + h(1-\theta)A(t_n))\cdot U_n
+.\] 
+\textbf{Heun}\\
+\[
+	U_{n+1} = U_n + h/2 (A(t_n)\cdot U_n +  A(t_{n+1})\cdot (U_n + h A(t_n)\cdot U_n)
+\] 
+Caso particolare $A= cost$
+\[
+	U_{n+1} = U_n + h A(t_n)\cdot U_n + h/2 A^2(t_{n+1})\cdot U_n
+\] 
+\[
+	U_{n+1} = (I+hA + h^2/2(A^2))\cdot U_n
+.\] 
+dove il primo termine è la serie di Taylor dell'esponenziale della matrice
+\[
+	\sum^{2}_{k=0}\frac{(hA)^k}{k!}
+.\] 
+Quindi Heun al secondo ordine sta approssimazione la soluzione dell'equazione differenziale con l'approssimazione di Taylor dell'esponenziale.
+\[
+exp(At) =I + tA + ...
+.\] 
+
+\end{document}

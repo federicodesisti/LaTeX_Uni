@@ -1,0 +1,46 @@
+\documentclass[12px]{article}
+
+\title{Dispense Fisica Matematica}
+\date{2026-03-17}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\section{Notazioni}
+	Sia  $u: R^d \rightarrow \R$ chiamiamo il gradiente:
+	 \[
+		 \triangledown u(x) = \matrice{\frac {\partial \ }{\partial x_1}u(x)\\ \\
+	 \frac{\partial \ }{\partial x_d}u(x)}
+	.\] 
+	\[
+	Du(x) = (\triangledown u(x))^T
+	.\] 
+	\[
+		D^2u(x) = \matrice {\frac{ \partial^2 \ }{\partial x_1^2}u(x) & \ldots & \frac{ \partial^2 \ }{\partial x_1\partial x_d}u(x) \\
+		\vdots & \ & \vdots\\
+\frac{ \partial^2\ }{\partial x_i\partial x_d} u(x)& \ldots & \frac{ \partial^2 \ }{\partial x_d^2}u(x)}
+	.\] 
+	chiameremo anche $\frac{\partial } {\partial x} u = \partial_x u$ e $\frac{\partial^2}{\partial x^2} u = \partial_x^2 u$
+
+	\section{Equazione della corda vibrante}
+	Osservo un filo o una corda di sezione trascurabile, questa è una curva in $\R^3$ e ha una densità lineare di massa ( $\rho(x) = \rho$)\\
+	possiamo scrivere  $d m = \rho dl$ \ \ $[\rho] = [m][l^{-1}]$\\
+	Considero questa corda come
+	 \begin{itemize}
+		 \item Perfettamente flessibile
+		 \item Perfettamente elastica
+	\end{itemize}
+	$\rho = \frac M {L_0}$ con $L_0$ la lunghezza a riposo e $M$ la massa della corda.\\
+	Considero una trazione $\tau$ che porta la lunghezza  $L_0 $ a $L$, tale processo è reversibile e posso scrivere  $L = L(\tau)$, ovvero la lunghezza è univocamente determinata da  $\tau$\\
+	Per passare da uno stato ad un altro devo compiere lavoro che si trasforma in energia potenziale elastica\\
+	 $U(L) - U(L_0)$ è il lavoro compiuto sul sistema.\\
+	 $(\tau,L) \rightarrow (\tau + \delta \tau , L + \delta L)$, considero quindi una variazione infinitesima sulla tensione e quindi sulla lunghezza siccome $d \tau \propto d L$\\
+	  $U(L + \delta L) - U(L) = ?$\\
+	  $U(L + \delta L) - U(L) = \int_L^{L+\delta L} dl \tau(l) = \tau\delta l o(\delta L^2)$, ovvero la legge di Hooke.
+	  Poiché 
+
+	
+\end{document}

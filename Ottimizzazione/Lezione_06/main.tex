@@ -1,0 +1,41 @@
+\documentclass[12px]{article}
+
+\title{Lezione 6 Analisi Convessa}
+\date{2026-03-20}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{boh}
+	\begin{prop}[Caratterizzazione funzioni convesse differenziabili]
+		Siano $A\subseteq\R^N$ aperto convesso (non vuoto) e  $f:A \rightarrow \R^N$ differenziabile in $A$.\\
+		Allora sono equivalenti
+		\begin{enumerate}
+			\item La funzione è convessa
+			\item $f(x)\geq f(y) + Df(y)\cdot (x-y) \ \ \forall x,y\in A$
+			\item $(Df(x)-Df(y))\cdot (x-y) \geq 0$
+		\end{enumerate}
+	\end{prop}
+	\begin{dimo}
+			Abbiamo già visto $1)  \Rightarrow  2) \Rightarrow  3)$.\\
+			$3) \Rightarrow  1)$ $x,y\in A, x\neq y, \lambda\in (0,1)$ (con $\lambda \in\{0,1\}$ è banale.\\
+			Per il teorema di Lagrange $\exists \theta = \theta(x,y, \lambda)\in(0,1)$  t.c.\\
+			$f( \lambda x + (1 - \lambda)y) - f(x) = Df(x + \theta( \lambda x + (1 - \lambda)y - x))\cdot ( \lambda x + (1 - \lambda)y - x)$\\
+			$f( \lambda x + (1 - \lambda) y ) - f(x) = Df(x + \theta( 1 - \lambda) (y - x))\cdot (1 - \lambda)(y-x)$\\
+			Per l'ipotesi 3)
+			\[
+				(Df( \lambda x + (1 - \lambda) y) - Df (x + \theta (1 - \lambda)(y - x)))\cdot ( \lambda x + (1 - \lambda) y - x - \theta ( 1 - \lambda)(y - x)) \geq 0
+			.\] 
+			\[
+				(Df( \lambda x + (1 - \lambda) y) - Df (x + \theta (1 - \lambda)(y - x)))\cdot ( 1 - \lambda) \cancel{(1 - \theta)} (y - x)\geq 0
+			.\] 
+			\[
+			D f ( \lambda x + (1 - \lambda)(y-x)\geq D f(x + \theta ( 1- \lambda)(y-x)
+			.\] 
+			qui la dimostrazione continua te la puoi tranquillamente vedere sule dispense
+
+	\end{dimo}
+\end{document}
