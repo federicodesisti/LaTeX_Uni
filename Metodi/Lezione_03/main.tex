@@ -9,13 +9,30 @@
 \begin{document}
 	\maketitle
 	\newpage
+	\subsection{Notazioni}
+	$y$ è la soluzione esatta di ode 
+	\[
+	\begin{cases}
+		\dot y (t) = f(t,y(t)) \ \ \ t\in (0,T)\\
+		$y(0) = y_0$
+	\end{cases}
+	.\] 
+	con $y:(0,T) \rightarrow \R, \ \ f : (0,T)\times \R \rightarrow \R$\\
+	La griglia di calcolo su $[0,T]$ con passo uniforme  $h > 0$ è la partizione di ampizza  $h$ del suddetto intervallo\\
+	Una volta assegnato $h$ avrò $\lfloor \frac T h \rfloor = : N$ intervalli in  $[0,T]$\\
+	Se si assegna  $N$ avrò $\frac T{N-1} = h$\\
+	Definiamo poi  $t_n:= n\cdot h$ con  $n = 0,\ldots, N$\\
+	Scriviamo infine  $y_n = y(t_n)$ con  $n= 0,\ldots, N-1$ e l'approssimazione numerica di  $y$ sulla griglia come $u_n\approx y_n = y(t_n)$ con  $n = 0,\ldots, N-1$\\
+	Chiaramente  $u_n$ è legata ad $h$ e vogliamo che $u_n \xrightarrow {h \rightarrow 0}y_n$\\
+	Sappiamo poi che $u_0 \approx y_0$, sarà uguale per i numeri finiti ma per numeri irrazionali sarà solamente simile.\\
+	Scriviamo poi $f_n:= f(t_n,u_n)$ (dinamica sulla griglia della soluzione numerica.
 	\subsection{Metodi numerici a un passo}
 	\begin{defi}
-		Un metodo si dice a "un passo" se per calcolare la soluzione al tempo $t_{n+1}$ si usa soltanto la soluzione al tempo $n$.\\
+		Un metodo si dice a "un passo" se per calcolare la soluzione al tempo $t_{n+1}$ si usa soltanto la soluzione al tempo $t_n$.\\
 		Altrimenti si dice a "più passi" (Multi step)
 	\end{defi}
 	\begin{defi}
-		Un metodo si dice esplicito se il calcolo di $u_n{n+1}$ dipende solo da $u_n$ (oppure  $u_{n-1}, u_{n-2},\ldots$) ma non dipende da  $u_{n+1}$, altrimenti si dice implicito
+		Un metodo si dice esplicito se il calcolo di $u_{n+1}$ dipende solo da $u_n$ (oppure  $u_{n-1}, u_{n-2},\ldots$) ma non dipende da  $u_{n+1}$, altrimenti si dice implicito
 	\end{defi}
 	Ad esempio
 	\[
@@ -24,7 +41,7 @@
 	\[
 		x^* = x^* - \alpha g(x^*) \rightarrow g(x^*) = 0
 	.\] 
-	$G(x_{k+1}) = x_k - \alpha(g_{k+1}) - x_{k+1}$ Metodo implicito.\\
+	$g(x_{k+1}) = x_k - \alpha(g_{k+1}) - x_{k+1}$ Metodo implicito.\\
 	 \textbf{Esempi}\\
 	 $f_n = f(t_n,u_n)$ \\
 	 Forward Euler \ \ $u_{n+1} = u_n + hf_n\ \ u_0 = y_0$\\

@@ -1,0 +1,116 @@
+\documentclass[12px]{article}
+
+\title{Lezione 05 Metodi}
+\date{2026-04-21}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Consistenza di un metodo a un passo per ODE}
+	\[
+	\begin{cases}
+		\dot y(t) = f(t,y(t))\\
+		y(0) = y_0
+	\end{cases}
+	.\] 
+	Per approssimare la soluzione esatta $y(t)$ utilizziamo il seguente schema
+	\[
+	\begin{cases}
+		u_{n+1} = u_n +h \Phi(t_n, u_n; h,f)\\
+		u_0 \approx y_0
+	\end{cases}
+	.\] 
+	Possiamo immaginare quindi $\Phi$ come una scatola nera che ci restituisce il nodo successivo della nostra approssimazione.\\
+	Definiamo ora la consistenza:\\
+	Uno schema numerico si dice consistente se approssiam l'equazione differenziale.\\
+	\textbf{Osservazione}\\
+	$y_n + h\Phi(t_n,y_n)\substack{?\\=}y_{n+1}$?\\
+	non necessariamente, poiché  $y_{n+1} = y(t_{n+1})$ e potrebbe non avere relazioni con l'approssimazione dello schema.\\
+	\begin{defi}[Residuo]
+	\[\varepsilon_{n+1} := y_{n+1} - (y_n + h\Phi(t_n,y_n).\]
+	\end{defi}
+	voglio quindi che $\varepsilon_{n+1} \xrightarrow{h \rightarrow 0}0$ \ \ $\forall n$\\
+	Scriviamo quindi
+	 \[
+		 \frac{y_{n+1}-(y_n + h \Phi(t_n,y_n))}h= \frac{\varepsilon_{n+1}}{h} \Rightarrow \frac{y_{n+1}-y_n}{h} - \Phi(t_n,y_n) = \frac{\varepsilon_{n+1}}h = \tau_{n+1}
+	.\] 
+Da cui deduciamo che se il metodo è consistente allora.
+\[
+	\lim_{h \rightarrow 0 }\Phi(t_n,y_n) = f(t_n,y_n)
+.\] 
+$t_{n+1}(h) = \frac{\varepsion_{n+1}}h$ è l'errore locale di troncamento.\\
+Una definizione equivalente è
+ \begin{defi}
+	Il metodo si dice consistente se 
+	\[
+		\tau_{n+1}(h) \xrightarrow{h \rightarrow 0} 0 \ \ \forall n = 0,\ldots, N-1
+	.\]  
+	Se $\tau_{n+1} = O(h^q)$ con  $q\geq 1$, il metodo si dice consistente di ordine  $q$.
+\end{defi}
+\textbf{Esempio}\\
+Eulero in avanti:\\
+$u_{n+1} = u_n + hf(t_n,u_n)$ con  $\Phi(t_n,u_n):= f(t_n,u_n)$\\
+$\varepsilon_{n+1}= h\tau_{n+1}(h) = y_{n+1}-y_n-hf(t_n,y_n) = y(t_n + h) - y(t_n) - hf(t_n,y(t_n))$\\
+Usando lo sviluppo di Taylor di  $y(t_n + h)$ in  $t_n$ otteniamo
+ \[
+	 h\tau_{n+1}(h) = \cancel{y(t_n)} + \cancel{\dot y(t_n)h} + \frac 12 \ddot y(\xi)h^2 - \cancel{y(t_n)} - \cancel{hf(t_n,y(t_n))}; \text{ con } \xi\in(t_n, t_n + h)
+.\] 
+Quindi 
+\[
+	h\tau_{n+1}(h) = \frac 12 \ddot y(\xi)h^2 \Rightarrow  \tau_{n+1}(h) = \frac 12\ddot y(\xi)h
+.\]  
+$ \Rightarrow  |\tau_{n+1}(h)|\leq \frac 12 Mh;$ dove $M = \max_{t\in[0,T]}|\ddot y(t)|$ \  $\forall n$\\
+\begin{defi}[GTE (Global Truncation Erorr)]
+	\[
+		\tau(h) = \sup_{n}|\tau_{n+1}(h)|
+	.\] 
+\end{defi}
+\textbf{Crank-Nicolson}
+\[
+	u_{n+1} = u_n + \frac h 2(f(t_n,u_n) + f(t_{n+1}, u_{n+1}))\\
+.\] 
+$h\tau_{n+1}(h) = y_{n+1} - y_n - \frac h 2 (f(t_n,y_n) + f(t_n,y_{n+1}))$\\
+Uso lo sviluppo di Taylor\\
+$y_{n+1} = y(t_n + h) = y(t_n) + \dot y(t_n) h + \frac 12 \ddot y(t_n)h^2 + \frac 16 \dddot y (\xi) h^3$, \ \ $\xi \in (t_n,t_{n+1})$\\
+ \textbf{Nota}\\
+ $f(t_n + h, y(t_n + h):= g(h)$ dato che  $t_n$ è fisso a me interessa lo sviluppo per $h \rightarrow 0$\\
+ \[
+ g(h) = g(0) + g'(0) h + O(h^2)
+ .\] 
+ con $g(0) = f(t_n,y_n)$ \\
+\[
+	g'(h) = \drac{\partial f}{\partial t}(t_n+h,y(t_n+h)) + \frac{\partial f}{\partial y} (t_n+h,y(t_n+h))\dot y(t_n+h)
+\] 
+\[
+	\Rightarrow g'(0) = \frac{\partial f}{\partial t}(t_n,y(t_n)) + \frac {\partial f}{\partial y}(t_n,y(t_n))\dot y(t_n)
+.\] 
+Possiamo quidni scrivere
+\[
+	f(t_n+h,y(t_n+h)) = f(t_n,y(t_n)) + (\frac{\partial f}{\partial t}(t_n,y(t_n)) + \frac{\partial f}{\partial t} (t_n,y(t_n))f(t_n,y(t_n))h + O(h^2)
+.\] 
+Quindi:\\
+\[
+	\begin{split}
+		h\tau_{n+1}(h) & = y_{n+1}-y_n-\frac h 2(f(t_n,y_n) + g(t_{n+1}y_{n+1}))\\
+			       & =y_n + \dot y_n + h\ddot y_n h^2 + O(h^3) - y_n - \frac h 2 f_n - \frac h 2 \left[ f_n + \left(\frac{\partial fn}{\partial t} + \frac {\partial f_n}{\partial y}f_n \right)h + O(h^2)\right]
+	\end{split}
+.\] 
+\[
+	\Rightarrow  h\tau_{n+1}(h) = \frac 12 \left(\frac{\parital f_n}{\partial t} + \frac{\partial f_n}{\partial y} f_n \right) h^2+ O(h^3) - \frac {h^2}2 \left(\frac {\partial f_n}{\partial t} + \frac{\partial f_n}{\partial y}f_n \right)h^2 + O(h^3)
+.\] 
+\[
+	\Rightarrow  h\tau_{n+1}(h) = O(h^3) \Rightarrow  \tau_{n+1}(h) = O(h^2)
+.\] 
+Quindi facendo
+\[
+\tau(h) = \sup_n|\tau_{n+1}(h)| =  O(h^2)
+.\] 
+\textbf{Esercizio}\\
+Calcolare la consistenza del metodo di Heun
+\[
+	u_{n+1} = u_n + \frac {h} 2 [f(t_n,u_n) + (u_n + h(f(t_n,u_N))]
+.\] 
+\end{document}

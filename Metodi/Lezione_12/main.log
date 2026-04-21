@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Fedora 40) (preloaded format=pdflatex 2025.3.29)  21 APR 2026 16:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Fedora 40) (preloaded format=pdflatex 2025.3.29)  17 APR 2026 12:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -924,50 +924,92 @@ Package hyperref Info: Link coloring ON on input line 9.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-./main.tex:17: Missing $ inserted.
-<inserted text> 
-                $
-l.17 		$y(0) = y_
-                 0$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-./main.tex:18: Missing $ inserted.
-<inserted text> 
-                $
-l.18 	\end{cases}
-                 
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 30.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 34.
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--52
+Underfull \hbox (badness 10000) in paragraph at lines 41--46
 
  []
 
-[2] (./main.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--49
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 52--61
+
+ []
+
+[3]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 121.
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
+
+ []
+
+[4]
+Overfull \hbox (0.47888pt too wide) in paragraph at lines 147--163
+\OML/cmm/m/it/10 u[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 u[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 hb[]K[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 hb[]K[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 u[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 hb[]f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; u[]\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 hb[]f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 c[]h; u[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 hc[]f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; u[]\OT1/cmr/m/n/10 ))$ 
+ []
+
+[5]
+
+LaTeX Warning: Command \b invalid in math mode on input line 204.
+
+./main.tex:204: Missing $ inserted.
+<inserted text> 
+                $
+l.204  $\alpha = \frac 12 , \  \b_
+                                  1 = \frac 12, \ \ b_2 = \frac 12, \ \ c_2 ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./main.tex:204: Missing { inserted.
+<to be read again> 
+                   \endtemplate 
+l.204  $\alpha = \frac 12 , \  \b_
+                                  1 = \frac 12, \ \ b_2 = \frac 12, \ \ c_2 ...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./main.tex:204: Missing $ inserted.
+<inserted text> 
+                $
+l.204  $\alpha = \frac 12 , \  \b_
+                                  1 = \frac 12, \ \ b_2 = \frac 12, \ \ c_2 ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./main.tex:204: Missing } inserted.
+<inserted text> 
+                }
+l.204  $\alpha = \frac 12 , \  \b_
+                                  1 = \frac 12, \ \ b_2 = \frac 12, \ \ c_2 ...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+[6] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E93CB85EC0C9020CC3931C26BD570B28;283.
+(rerunfilecheck)             Checksum: BEEDE30CECDC73B464362998D3A4AF6F;456.
  ) 
 Here is how much of TeX's memory you used:
- 28123 strings out of 476034
- 586306 string characters out of 5792854
- 1863388 words of memory out of 6000000
- 48094 multiletter control sequences out of 15000+600000
- 521193 words of font info for 69 fonts, out of 8000000 for 9000
+ 28130 strings out of 476034
+ 586385 string characters out of 5792854
+ 1868388 words of memory out of 6000000
+ 48096 multiletter control sequences out of 15000+600000
+ 521891 words of font info for 71 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 121i,12n,121p,491b,438s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (2 pages, 139329 bytes).
+ 121i,11n,121p,491b,532s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (6 pages, 187323 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
- 7 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 137 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
+ 11 named destinations out of 1000 (max. 500000)
+ 37 words of extra memory for PDF output out of 10000 (max. 10000000)
 
