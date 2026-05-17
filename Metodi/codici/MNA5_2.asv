@@ -1,0 +1,44 @@
+clear;
+clc;
+close all;
+
+% Caloclo livelli di energia
+
+E = @(phi, theta) 0.5 * (phi)^2 + 1 - cos(theta0);
+
+phi_range = linspace(-10, 10, 1000);
+theta_range = linspace(-10, 10, 1000);
+
+[Phi, Theta] = meshgrid(phi_range,theta_range);
+
+E_grid = 0.5*Phi.^2 + 1 - cos(Theta);
+
+
+%first 2 are axes third one is actual value, \R\times\R -> \R, 25 layers,
+%green color
+contour(Theta, Phi, E_grid, 25, 'g');
+
+
+%dinamica
+F = @(y) [y(2), - sin(y(1))];
+
+%% Options
+
+% con y1 angolo
+% con y2 velocita angolare
+phi0 = 1;
+theta0 = 0;
+
+%timestep
+h = 0.05;
+%total time
+T = 10;
+%times
+t = [0:h:T];
+
+N = length(t);
+
+U_fe = zeros(2, N);
+
+U_fe(1,1) = theta0;
+U_fe(2,1) = phi0;

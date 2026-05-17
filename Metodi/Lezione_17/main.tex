@@ -1,0 +1,178 @@
+\documentclass[12px]{article}
+
+\title{Lezione 17 Metodi Numerici di Approssimazione}
+\date{2026-05-12}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Continuo metodi multistep}
+	Ricordiamo la formulazione del caso generale
+	\[
+		u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + h\sum^{p}_{j=-1}b_jf_{n-j}
+	.\] 
+	Questo è un metodo lineare multistep a $p+1$ passi ($p\geq 0$)\\
+	Ricordiamo\\
+	$u_{n-j} \approx y(t_{n-j})$\\
+	$f_{n-j} = f(t_{n-j},u_{n-j})\approx f(t_{n-j},y_{n-j})$\\
+	Dobbiamo definire i valori di innesco, $u_0,u_1,\ldots,u_p$ che devono essere dei dati.\\
+	$u_0$ ce lo da il problema il resto ce li dobbiamo ricavare con metodi che non variano l'ordine del problema.\\
+	Possiamo immaginare un buffer in cui memorizziamo i valori, che si sposta ad ogni passo immagazzinando il nuovo valore e dimenticando l'ultimo.\\
+	\textbf{Condizione minimale per Consistenza}
+	\[
+	\sum^{}_{}a_j = 1, \ \  \ \ \ - \sum^{p}_{j=0}ja_j + \sum^{p}_{j=-1}b_j=1
+	.\] 
+	Con questa abbiamo la condizione di consistenza al primo ordine.\\
+	\subsection{Problema Omogeneo}
+	\[
+		u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j}
+	.\] 
+	Ovvero con  $f = 0$, quindi $\dot y(t) = 0$\\
+	Tutti i metodi ad un passo nel caso $f = 0$ sono
+	\[
+		u_{n+1} =u_n
+	.\] 
+	Quindi $u_n$ è costante. Ma è l'unica soluzione?\\
+	Queste sono le \textbf{equazioni alle differenze}, o meglio questo ne è un caso particolare.
+	\begin{defi}[Equazioni alle differenze]
+		Un'equazione alle differenze è una qualsiasi equazione di questo tipo
+		\[
+			u_{n+1} + \alpha_0u_n + \alpha_1u_{n-1} + \ldots + \alpha_pu_{n-p} =0 \ \ \forall n\geq p
+		.\] 
+		con $u_0,\ldots,u_p$ dati
+	\end{defi}
+	\textbf{Esempio}\\
+	 \[\begin{cases}
+	u_{n+1} = 2u_n\\
+		u_0=1
+\end{cases}\]
+$u_1 = 2u_0 = 2 \  \ u_2 = 4  \ \ \Rightarrow \ \ u_n = 2^n$\\
+\subsubsection{Parallelismo con le equazioni differenziali lineari a coefficienti costanti}
+\textbf{Esempio}\\
+$n=2$, \ \  $ay''(x) + by'(x) + cy(x) =0$, Ansatz:  $y(x) = e^{\lambda x} \ \ \lambda\in \C$\\
+immagino che la soluzione sia qualcosa del genere siccome l'esponenziale è l'unico che derivato rimane lo stesso.\\
+$y'(x) = \lambda e^{\lambda x}, y''(x) = \lambda^2 e^{\lambda x}$, sostituendo:
+ \[
+	 a\lambda^2 e^{\lambda x} + b \lambda e^{\lambda x} + c e^{\lambda x} = 0
+\] 
+\[
+e^{\lambda x} (a\lambda^2 + b\lambda + c) = 0 \Leftrightarrow a \lambda^2 + b \lambda + c =0
+.\] 
+Per il teorema dell'algebra e dal polinomio caratteristico posso avere 
+\begin{itemize}
+	\item due soluzioni reali distinte
+	\item due soluzioni reali coincidenti\\
+		In questo caso abbiamo
+		$e^{\lambda x}, x e^{\lambda x}$
+		\item due soluzioni complesse coniugate
+\end{itemize}
+$ \Rightarrow $ soluzione per ogni $\lambda$ soluzione del polinomio caratteristico \\
+$y(x) = e^{\lambda x} = e^{Re(\lambda x)}e^{Im(\lambda x)}$\\
+Più in generale se $n\geq 2$
+ \[
+	 \alpha_n y^{(n)}(x) + \alpha_{n-1}y^{(n-1)}(x) + \ldots + \alpha_1y^{(1)}(x) + \alpha_0y^{(0)}(x) = 0
+.\] 
+Con gli stessi calcoli di prima ottengo
+\[
+\alpha_n\lambda^n + \ldots + \alpha_1\lambda + \alpha_0 =0 
+.\]
+Se una radice $\bar \lambda$ ha molteplicità  $m$ allora tutte le soluzioni si ottengono come combinazioni lineari di $e^{\bar\lambda x}, x e^{\bar \lambda x},\ldots,x^{m-1}e^{\bar\lambda x}$\\
+Riprendendo l'esempio di prima, quel $2^n$ sembra un po la versione discreta dell'esponenziale.\\
+C'è una simmetria con le equazioni alle differenze che suggerisce la ricerca di soluzioni della forma
+ \[
+	 u_{n} = r^n \ \ \ \ \text{per qualche } r\in\C
+.\] 
+$u_{n+1} + \alpha_0 u_n+ \alpha_1 u_{n-1} + \ldots + \alpha_p u_{n-p}=0 \hfill \circledast$\\
+Se sostituisco 
+\[
+	r^{n+1} + \alpha_0 r^{n} + \alpha_1r^{n-1} + \ldots + \alpha_pr^{n-p} = 0
+\] 
+\[
+	r^{n-p} (r^{p+1} + \alpha_0 r^{p} + \ldots + \alpha_p ) = 0
+.\] 
+Otteniamo quindi un polinomio caratteristico di grado $p+1$\\
+Questo polinomio genera  $p+1$ soluzioni $r_i, \ \ i=0,\ldots, p$ dell'equazione alle differenze  $\circledast$.\\
+Inoltre la soluzione generale di  $\circledast$ si scrive come combinazione lineare di 
+\begin{itemize}
+	\item $r_i^n$ se $r_i$ ha molteplicità 1
+	\item $r_i^n, nr^n_i, n^2r^n_i,\ldots,n^{m-1}r^n_i$ se $r_i$ ha molteplicità $m$.
+\end{itemize}
+Tornando al metodo multistep 
+\[
+	u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + h \sum^{p}_{j=-1}b_jf_{n-j}
+.\] 
+è nella sua parte omogenea una equazione alle differenze.\\
+Se trascuriamo la parte della dinamica e portiamo tutto a sinistra otteniamo un'equazione alle differenze.\\
+\textbf{Primo polinomio caratteristico}\\
+\[
+	\rho(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j}
+.\] 
+\textbf{Secondo polinomio caratteristico }
+\[
+	\sigma(r) = \sum^{p}_{j=-1}b_jr^{p-j}
+.\] 
+\textbf{Polinomio caratteristico}
+\[
+P(r) = \rho(r) - h\lambda\sigma(r)
+.\] 
+e questo è relativo al problema $\dot y = \lamdba y $ (lo useremo per la stabilità assoluta).\\
+Cercheremo di far diventare le condizioni di zero stabilità e stabilità assoluta in concetti algebrici, sennò tocca fare un sacco di sviluppi di Taylor e diventa un incubo e non se ne esce più.\\
+\textbf{Osservazione}\\
+Nel caso lineare $f = \lambda y$ e quindi lo schema è $u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + h \sum^{p}_{j=-1}b_j\lambda u_{n-j}$.\\
+Posso quindi portare fuori $\lambda$
+ \[
+	 u_{n+1} - \sum^{p}_{j=0}a_ju_{n-j} - h\lambda \sum^{p}_{j=-1}b_ju_{n-j}
+.\] 
+\[
+	r^{p+1} - \sum^{p}_{j=0}a_j r^{p-j} - h\lambda \sum^{p}_{j=-1}b_jr^{p-j} = P(r)
+.\] 
+Le radici di $P(r)$ dipendono da  $h\lambda \rightarrow r_j(h\lambda)$ \\
+In particolare $\lambda= 0$  $r_j(h\lambda) = r_j(0) = r_j$ soluzione del primo polinomio caratteristico.
+\subsubsection{Condizione delle radici}
+\begin{defi}[Condizione delle radici]
+	Un LMM soddisfa la condizione delle radici (CR) se sono soddisfatte
+	\begin{enumerate}
+		\item tutte le radici $r_j$ del primo polinomio caratteristico $\rho(r)$ sono nel cerchio unitario, ovvero $\|r_j\|\leq 1 \ \ \forall j =0 ,\ldots, p $
+		\item le radici sul bordo del cerchio unitario sono semplici, \\
+			ovvero  se $\exists \bar j \in \{0,\ldots,p\} \ | \ \|r_{\bar j}\| = 1 \Rightarrow \rho'(r_{\bar j})\neq 0 $
+	\end{enumerate}
+\end{defi}
+\begin{defi}[Condizione assoluta delle radici]
+	Un LMM soddisfa la condizione assoluta delle radici (CAR) se $\exists h_0$  tale che le radici $r_j(h\lambda)$ di  $P(r)$ verificano  $|r_j(h\lambda)|< 1$ \ \ \ \ $j = 0,\ldots, p$ e  $\forall h\leq h_0$
+\end{defi}
+\begin{teo}
+	Un LMM è Zero-Stabile $ \Leftrightarrow$ soddisfa la condizione delle radici (CR).
+\end{teo}
+\begin{teo}
+	Un LMM è assolutamente stabile $ \Leftrightarrow$ soddisfa la condizione assoluta delle radici (CAR).
+\end{teo}
+\textbf{Osservazione}\\
+Un metodo a un passo ha $p=0$
+ \[
+	 p(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} = r - a_0 = r - 1 \Rightarrow r = 1
+.\] 
+Poiché $\sum^{}_{}a_j = 1$, Questa $r = 1$ si chiama radice di consistenza.\\
+Ricordiamo la condizione di consistenza  "al primo ordine" per un LMM
+\[
+\sum^{p}_{j=0}a_j = 1, \ \ \ - \sum^{ p }_{j=0}ja_j + \sum^{p}_{j=-1}b_j = 1
+.\] 
+$\rho(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} \rightarrow \rho(1) = 1 - \sum_{j=0}^{p}a_j = 0 \Leftrightarrow \rho(1) =0 $ \\ 
+e questo è il motivo per cui si chiama radice di consistenza.\\
+$\displaystyle\rho'(r) = (p+1)r^p - \sum^{p}_{j=0}a_j(p-j)r^{p-j-1}$\\
+$\displaystyle \substack{r = 1\\ \Rightarrow }\rho'(1) = p+ 1- \sum^{p}_{j=0}a_j(p-j) = \cancel p+1-\cancel{p \sum^{p}_{j=0}a_j} +  \sum^{p}_{j=0}j a_j = 1 + \sum^{p}_{j=0}ja_j$\\
+D'altra parte
+\[
+	\sigma(r) = \sum^{p}_{j=-1}b_jr^{p-j} \substack{r = 1\\\Rightarrow } \sigma(1) = \sum^{p}_{j=-1}b_j
+.\]  
+\[
+\rho'(1) - \sigma(1) = 1 + \sum^{p}_{j=0}ja_j - \sum^{p}_{j=-1}b_j = 0
+.\] 
+ovvero \[
+\rho'(1) = \sigma(1)
+.\] 
+Per la consistenza al primo ordine.
+
+\end{document}

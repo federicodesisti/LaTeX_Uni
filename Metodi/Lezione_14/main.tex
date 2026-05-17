@@ -1,0 +1,120 @@
+\documentclass[12px]{article}
+
+\title{Lezione 14 Metodi Numerici}
+\date{2026-04-24}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Stabilità assoluta dei metodi $RK$ a $s$-stadi }
+	$ \begin{cases}
+		\dot y = \lambda y\\
+		y(0) = 1
+	\end{cases} \Rightarrow  u_{n=1} = R(z)u_n\ \ \ R(z) = (1 + zb^T \sum^{s-1}_{j=0}(zA)^j\mathbb 1)$\\
+	RK2 s= 2
+	$ \begin{cases}
+		b_1 + b_2 =1\\
+		c_2b_2 = \frac 12
+		\end{cases} \Rightarrow \left( \begin{array}{c|c c}
+			0 & 0 & 0 \\
+			\frac 1{2 \alpha} & \frac 1 {2\alpha} & 0\\
+			\hline
+					  & 1 - \alpha & \alpha
+	\end{array} \right)$ \\
+	$R(z) = (1 + z(1-\alpha,\alpha)(I+zA)\mathbb 1)$\\
+\[A = \matrice{0 & 0\\ \frac 1 {2\alpha}& 0}\ \ b^T = (1-\alpha,\alpha), \ \ (zA)^0 = I \ \ (zA)^1 = zA\]
+$I + zA = \matrice{1 & 0\\ 0 & 1} + z\matrice { 0 & 0\\\frac 1 {2\alpha} &0} = \matrice {1 & 0 \\ \frac z{2\alpha} & 1}$\\
+$(I + zA)\mathbb 1 = \matrice{1 & 0 \\ \frac z{2\alpha} & 1}\matrice {1\\1} = \matrice {1\\ \frac z {2\alpha} + 1}$
+ \[
+\begin{split}
+R(z) &= 1 + z(1-\alpha,\alpha) \matrice{1\\\frac z {2\alpha} + 1} =1 + z (1-\alpha + \alpha(\frac z {2\alpha} + 1))\\
+     &= 1 + z( 1 - \cancel {\alpha} + \frac z 2 + \cancel{\alpha} ) = 1 + z + \frac {z^2} 2 \ \ \text{(Taylor al secondo ordine)}
+\end{split}
+.\] 
+Ricordiamo che dato il problema test:\\
+$y(t) = e^{\lambda t} = e^{Re(\lambda)t}e^{iIm(\lambda)t}$\\
+$y(t_{n+1}) = e^{\lanbda t_{n+1}} = e^{\lambda(t_n+h)} = e^{\lambda t_n}\cdot e^{\lambda h} = y(t_n)e^z$\\
+$y(t_{n+1}) = y(t_n)e^z = \ldots = u(0)(e^z)^n = (e^z)^n$ 
+\subsection{Pendolo (non lineare)}
+\[
+\begin{cases}
+	x = l\sin\theta\\
+	y = -l\cos\theta 
+\end{cases} \xrightarrow{\frac {d}{dt}} \begin{cases}
+	\dot x = l \cos\theta\dot \theta\\
+	\dot y = l\sin\theta \dot \theta
+\end{cases}
+.\]
+$T = \frac 12 mv^2 = \frac 12 m(\dot x^2 + \dot y ^2) = \frac 12 m l^2 \dot \theta^2 \\ \
+U = mgy + mgl = mgl (1 - \cos\theta)$\\
+$L = T- U = \frac 12 m l^2\dot\theta^2- mgl(1-\cos\theta)$ \\
+$\frac d{dt}\frac {\partial L}{\partial\dot\theta} - \frac{\partial L}{\partial\theta} = 0$ Equazioni del moto \\
+$\frac{\partial L}{\partial \dot \theta} = ml^2\dot\theta \rightarrow \frac{d}{dt}\frac{\partial L}{\partial \theta}= m l^2\ddot\theta$ \\
+$\frac{\partial L}{\partial \theta} = - mgl\sin\theta$\\
+ $ \Rightarrow  ml^2\ddot \theta + mgl\sin\theta = 0 \Rightarrow  \ddot \theta + \frac g l \sin\theta=0$ \\
+ se $\theta\sim 0 \Rightarrow  \sin\theta\sim\theta \Rightarrow  \ddot \theta + \frac g l \theta = 0 \Rightarrow \ddot\theta + \omega^2\theta = 0$ \\
+ $g = l = m =1$\\
+  \[
+ \begin{cases}
+ 	\ddot\theta = -\sin\theta\\
+	\theta(0) = \theta_0\\
+	\dot\theta(0) = \varphi_0
+ \end{cases} \Rightarrow  \ddot \theta = -\theta
+ .\] 
+ $ \begin{vector}
+ 	\dot\theta =\varphi\\
+	\dot \varphi = -\theta
+\end{vector} \Rightarrow \dot {\matrice{\theta\\ \varphi} }= \matrice{0 &1 \\ -1 & 0}\matrice{\theta\\ \varphi}$\\
+ $ \begin{cases}
+ 	\dot\theta = \varphi\\
+	\dt \phi = 0\sin\theta
+ \end{cases}$\\
+ $Y = \matrice {y_1\\y_2}=\matrice{\theta\\\varphi} \ \ \ F(Y) = \matrice{y_2\\-\sin y_1}$\\
+ $\dot Y = F(Y)$\\
+ $Y(0) = \matrice{\theta_0\\ \varphi_0} = \matrice{y_{10}\\y_{20}}$ \\
+ Forward Euler\\\
+ $U^{n+1}=U^n + hF(U^n)$\\
+ Backward Euler\\
+ $U^{n+1} = U^n+ hF(U^{n+1})$\\
+ $\mathcal F(x) = x - hF(x) - U^n$ cerco  $x^*$ tale che  $\mathcal F(x^*) = 0$ Uso il metodo di punto fisso con newton\\
+ \[
+	 x^{(k+1)} = x^{(k)} - J_{\mathcal F}(x^{(k)})^{-1}\mathcal F(x^{(k)})
+ .\] 
+ $
+ \begin{cases}
+	 J_{\mathcal F} (x^{(k)})(x^{(k+1)}-x^{(k)}) = -\matchal F(x^{(k)})\\
+	 x^{0} = U^n
+ \end{cases}
+ $\\
+ Che riscriviamo come\\
+ $
+ \begin{cases}
+	 J_{\mathcal F}(x^{(k)})W = - \mathcal F(x^{(k)})\\
+ x^{(0)} = U^n
+\end{cases} \rightarrow x^{(k+1)} = x^{(k)} + W$\\
+si itera finché $\|x^{(k_1)}- x^{(k)}\| = \|W\|<tol$\\
+ $\mathcal F(x) = x - hF(x) - U^n$\\
+ $J_{\mathcal F}(x) = I-h J_F(x)$ \\
+ $J_\mathcal F(x) = \matrice {1 & 0 \\ 0 & 1}- h\matrice{0 & 1\\-\cos x & 0}$\\
+ $J_\matchal F(x) = \matrice{1 & -h\\h\cos x & 1}$\\
+ Dove abbiamo usato  $F(x) = \matrice {x_2\\-\sin x_1}$ e $J_F(x) = \matrice{0 & 1\\-\cos x& 0}$
+  \[
+ \begin{cases}
+	 \matrice{1 & - h\\
+ h\cos x_1^{(k)} & 1}\matrice {w_1\\w_2} = -(x^{(k)} - hF(x^{(k)}) - U^n)\\
+	x_1^{(k+1)} = x_1^{(k)} + w_1 \ \ \ x_1^{(0)} = u_1^n\\
+	x_2^{(k+1)} = x_2^{(k)} + w_2 \ \ \ x_2^{(0)} = u_2^n
+ \end{cases}
+ .\] 
+ Per vedere che il solver funzioni guardiamo l'energia\\
+ $E = T + U = \frac 12 \dot \theta^2 + (1 - \cos\theta)\substack{\theta\sim 0\\\sim}\frac 12 \dot\theta^2 + \frac 12 \theta^2$ energia dell'oscillatore armonico  \\
+ \begin{center}
+	 \includegraphics[scale=0.4]{energia.png}
+ \end{center}
+ $\frac {d}{dt} E = \frac d {dt} \left(\frac 12 \dot \theta^2 + 1-\cos\theta) = \dot\theta\ddot\theta + \sin\theta\dot\theta = \dot\theta(\ddot\theta + \sin\theta) = 0 $\\
+	 $ \Rightarrow  E = cost = E(0) = \frac 12 ( \varphi_0)^2 + 1 - \cos\theta_0$
+
+\end{document}

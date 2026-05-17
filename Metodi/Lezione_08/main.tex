@@ -1,0 +1,144 @@
+\documentclass[12px]{article}
+
+\title{Lezione 8 Metodi Numerici}
+\date{2026-03-24}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	Prendiamo in considerazione
+	\[
+	\begin{cases}
+		\dot y(t) = f(t,y(t)) \ \ \ t\in (0,T)\\
+		y(0) = y_0
+	\end{cases} \Rightarrow  y_{n+1} = y_n + h\Phi(t_n,y_n) + h\tau_{n+1}(h)
+	.\] 
+	\[
+		\begin{cases}
+			\bar u_{n+1} = \bar u_n + h \Phi(t_n,U\bar u_n) + \xi_{n+1} = \bar u_n + h[\Phi(t_n,\bar u_n) + \frac {\xi_{n+1}} {h} ]\\
+		\bar u_0 = y_0 + \xi_0
+		\end{cases}
+	.\] 
+	dove $\xi_{n+1}$ sono gli errori dovuti all'aritmetica finita.
+	Scriviamo ora
+	\[
+	\begin{split}
+		|y_{n+1} - \bar u_{n+1}| &= |y_{n+1} - u_{n+1} + u_{n+1} - \bar u_{n+1}|\\
+					 &\leq |y_{n+1} - u_{n+1}| + |u_{n+1} - \bar u_{n+1}|
+	\end{split}
+	.\] 
+	dove $u_{n+1}$ è la soluzione teorica (senza contare dell'errore floating point\\
+	\[
+		|y_{n+1} - u_{n+1}| \substack{FE\\\leq} \frac{e^{LT}-1}L = Ch^q
+	.\] 
+	che vale in tenerale per metodi consistenti di ordine $q$\\ 
+	dalla zero stabilità:
+	\[
+		|w_n|\leq (|w_0| + h \sum |\delta_{k+1}|)e^{nh\Lambda}
+	.\] 
+	$\delta_0 = \xi_0 \ \ \delta_n = \frac{\xi_n}{h} \ \  z_n = \bar u_n$
+	\[
+	\begin{split}
+		\Rightarrow |u_n - \bar u_n| &\leq \left(|\xi_0 - h \sum^{n-1}_{k=0}|\frac{\xi_{n+1}}h| \right) e^{nh\Lambda}\\
+					     &\leq (|\xi| + h |\frac \xi h| n)e^{T\Lambda}\\
+					     &\leq |\xi| \left( 1 + \frac T h \right)e^{T\Lambda}\\
+	\end{split}
+	.\] 
+	dove abbiamo utilizzato $\xi = \sup_n |\xi_n|$\\
+	Otteniamo quindi
+	\[
+		|y_{n+1} - \bar u_{n+1}|\leq Ch^q + |\xi| \left(1 + \frac Th \right)e^{T\Lambda}
+	.\] 
+ Lo schema va a convergenza ma l'errore dato da accumulo floatinc point esplode, c'è un errore di consistenza del metodo utilizzato,\\
+ Cerchiamo un bilanciamento tra i due termini di errore $h^*$ tale che se\\
+  \begin{itemize}
+	  \item  $h > h^*$ l'errore di troncamento domina\\
+	  \item  $h < h^*$ l'errore di arrotondamento domina
+ \end{itemize}
+ \textbf{Stabilità Asintotica per ODE}\\
+ Descrive il comportamento delle soluzioni per tempi $T$ grandi $(T \rightarrow +\infty)$ \\
+ Una ODE  è asintoticamente stabile se è stabile in senso Lyapunov $\dorall T > 0$ \\
+ se è stabile in senso Lyapunov $\forall T> 0$
+  \[
+ |y(t) - z(t)| < C\varepsilon \ \ \begin{cases}
+ 	\dot y = f(t,y)\\
+	y(0) = y_0
+ \end{cases} \ \ \begin{cases}
+ 	\dot z = f(t,\dot z) + \delta(t)\\
+	z(0) = y_0 + \delta_0
+\end{cases} \ t\in [0,T]
+ .\] 
+ se $|\delta_0| < \varepsilon \ \ |\delta(t)|< \varepsilon \ \ \forall t$\\
+ e se $|y(t) - z(t)| \xrightarrow{t \rightarrow +\infty} 0$ se $|\delta(t)| \xrightarrow {t \rightarrow +\infty}0$ \\
+ \textbf{Stabilità Assoluta} (versione discreta)\\
+ È una proprietà dello schema che descrive il comporamento della soluzoien numerica prodotta da un metodo a un passo per $t_n \rightarrow +\infty $ con $h$ fissato.\\
+ \textbf{Osservazione}\\
+ Nella zero-stabilità $t_n$ è fissato e $h \rightarrow 0 $, La definizione di stabilità assoluta si basa su una ode modello:
+ \[
+ \begin{cases}
+ 	\dot y (t) = \lambda y(t) \ \ \ t > 0 \\
+	y(0) = 1 \ \ \ \ \ \lambda \in \C
+\end{cases} \Rightarrow  y(t) = e^{\lambda t} = e^{Re(\lambda)t}e^{iIm(\lambda)t}
+ .\]  
+ \begin{center}
+ \includegraphics[scale=0.16]{stabilita.jpg}
+ \end{center}
+ Se $Re(\lambda) < 0 $ allora  $y(t) \xrightarrow{t \rightarrow +\infty} 0$
+ \begin{defi}
+ 	Un metodo numerico si dice assolutametne stabile se appplicato al problema lineare modello 
+	\[
+	\begin{cases}
+		\dot y = \lambda y\\
+		y(0) = 1
+	\end{cases} \ \ \lambda\in \C \ \ Re(\lambda) < 0
+	.\] 
+	Produce una soluzione numerica $u_n$ tale che $|u_n| \xrightarrow{n \rightarrow +\infty}0$
+ \end{defi}
+ \textbf{Esempio} Eulero in avanti\\
+
+ \[\begin{cases}
+		\dot y = \lambda y\\
+		y(0) = 1
+	\end{cases}\ \ \begin{cases}
+	u_{n+1} = u_n + h\lambda u_n = u_n ( 1 + h \lambda )\\
+	u_0 = 1
+	\end{cases}\] 
+	$u_{n+1} = (1 + h\lambda) u_n = (1 + h\lambda)(u_{n-1}(1+h\lambda)) = (1 + h\lambda)^2u_{n-1} = (1+ h\lamda)^{n+1}u_0 = (1 + h\lambda)^{n+1}$\\
+	$|u_n| = |(1+h\lambda)^n|\leq |1 + h\lambda|^n \xrightarrow{ n \rightarrow \infty} 0$\\
+	se $|1 + h\lambda | < 1$ \\
+	Ovvero se $h\lambda$ è nel cerchio unitario centrato in $(-1,0)$\\
+	 \textbf{Caso oscillatore armonico}\\
+	 $\ddot x = -x \ \ x\in \R$\\
+	 $\dot x = v \ \ y = \icol {x\\v}$ \ \ $\dot y = \icol {0 & 1\\ -1 &0}\icol{x\\v} = \icol{v\\-x}$\\
+	 $\dot v = -x \ \ \dot y = \icol {\dot x\\\dot v}$\\
+	 $\dot y = \mu y$ \ \  $\mu = \icol {0 & 1\\-1 & 0} \rightarrow\lambda = \pm i$\\
+	 A me no di un cambio di ocordinate la soluzione di questo problema corrisponde a risolvere
+	 \[
+	 \begin{cases}
+	 	\dot z_1 = i z_1\\
+		\dot z_2 = -i z_2
+	 \end{cases}
+	 .\] 
+	 che è il problema modello con $\lambda = \pm i $ (non risolvibile con FE)\\
+	  \textbf{Eulero implicito}\\
+	  $
+	  \begin{cases}
+	  	\dot y = \lambda y\ \ \ \ Re(\lambda) < 0 \\ 
+		y(0) = 1
+	  \end{cases}
+	  $\\
+	  $u_{n+1} = u_n + hf(t_{n+1},u_{n+1}) = u_n + h\lambda u_{n+1}$\\
+	  $u_{n=1} = u_n + h\lambda u_{n+1}$\\
+	  $ \Rightarrow  (1-h\lambda)u_{n+1} = u_n$ \\
+	  \[
+		  u_{n+1} =\frac{ u_n}{(1-h\lambda)} = \frac{1}{(1-h\lambda)^{n+1}}\\
+	  .\] 
+	  \[
+		  |u_{n+1}| = \left|\frac{1}{(1-h\lambda)^{n+1}}\right|\leq \left| \frac {1}{1-h\lambda}\right|^{n+1} \xrightarrow{n \rightarrow +\infty}0
+	  .\] 
+	  $ \Leftrightarrow \left| \frac 1{1-h\lambda} \right| <1$\\
+	  $ \Leftrightarrow |1 - h\lambda| > 1$
+\end{document}

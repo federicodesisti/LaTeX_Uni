@@ -1,0 +1,103 @@
+% Absolute Stability
+clc; clear; close all;
+
+% Animazione theta metodo? drawnow
+
+% campionamento funzione di stabilità in modulo su griglia x y che
+% rappresenta una porzione della variabile z
+
+xM = 5; Nx = 100;
+yM = 5; Ny = 100;
+
+x = linspace(-xM, xM, Nx);
+y = linspace(-yM, yM, Ny);
+
+[X, Y] = meshgrid(x,y);
+
+Z = complex(X,Y);
+
+subplot(2,2,1)
+RZ_FE = abs(1+Z);
+contour(real(Z), imag(Z), RZ_FE, [0.5, 1, 1.5])
+colormap([0 1 0; 1 1 1; 1 0 0])
+title('Forward Euler')
+grid on
+axis square
+
+subplot(2,2,2)
+RZ_BE = abs(1./(1-Z));
+contour(real(Z), imag(Z), RZ_BE, [0.5, 1, 1.5])
+colormap([0 1 0; 1 1 1; 1 0 0])
+title('Backward Euler')
+grid on
+axis square
+
+subplot(2,2,3)
+RZ_CN = abs((1+0.5*Z)./(1-0.5*Z));
+contour(real(Z), imag(Z), RZ_CN, [0.5, 1, 1.5])
+colormap([0 1 0; 1 1 1; 1 0 0])
+title('Crank Nicholson')
+grid on
+axis square
+
+subplot(2,2,4)
+RZ_HE = abs(1+Z+0.5*Z.^2);
+contour(real(Z), imag(Z), RZ_HE, [0.5, 1, 1.5])
+colormap([0 1 0; 1 1 1; 1 0 0])
+title('Heun')
+grid on
+axis square
+
+%% Theta metodo
+
+figure(2)
+
+theta = 0.5; % valore iniziale
+
+% calcolo iniziale
+RZ_theta = abs((1+(1-theta)*Z)./(1-theta*Z));
+
+h = contour(real(Z), imag(Z), RZ_theta, [0.5, 1, 1.5]);
+colormap([0 1 0; 1 1 1; 1 0 0])
+title(['Theta metodo, \theta = ', num2str(theta)])
+grid on
+axis square
+
+% SLIDER
+uicontrol('Style','slider',...
+    'Min',0,'Max',1,'Value',theta,...
+    'Units','normalized',...
+    'Position',[0.2 0.02 0.6 0.05],...
+    'Callback',@(src,~) updateTheta(src, Z));
+
+function updateTheta(src, Z)
+    theta = src.Value;
+
+    RZ_theta = abs((1+(1-theta)*Z)./(1-theta*Z));
+
+    contour(real(Z), imag(Z), RZ_theta, [0.5, 1, 1.5])
+    colormap([0 1 0; 1 1 1; 1 0 0])
+    title(['Theta method, \theta = ', num2str(theta)])
+    grid on
+    axis square
+end
+
+%% RK
+figure(3)
+for s = 1:4
+    subplot(2,2,s)
+    if s == 1
+        RZ_RK = abs(1 + Z);
+    elseif s == 2
+        RZ_RK = abs(1 + Z + 0.5*Z.^2);
+    elseif s == 3
+        RZ_RK = abs(1 + Z + 0.5*Z.^2 + Z.^3/6);
+    else
+        RZ_RK = abs(1 + Z + 0.5*Z.^2 + Z.^3/6 + Z.^4/24);
+    end
+    contour(real(Z), imag(Z), RZ_RK, [0.5, 1, 1.5])
+colormap([0 1 0; 1 1 1; 1 0 0])
+    title(['RK ', num2str(s)])
+    grid on
+    axis square
+end

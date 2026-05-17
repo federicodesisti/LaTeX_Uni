@@ -1,0 +1,38 @@
+\documentclass[12px]{article}
+
+\title{Lezione 15 Metodi Numerici di Approssimazione}
+\date{2026-04-28}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{boh}$
+	 \begin{cases}
+		 \dot {y_1} = y_2\\
+		 \dot {y_2} = -\sin y_1\\
+		y_1(0) = y_{1,0}\\
+		y_2(0) = y_{2,0}\\
+	 \end{cases}$\\
+$y_1$ è l'angolo e $y_2$ è la velocità angolare\\
+La consegna è
+\begin{enumerate}
+	\item Grafico di  $E(y_1,y_2)$
+	\item Calcolo della soluziona numerica $U^n = (u_1^n, u_2^n)$ e con, Eulero in avanti, Heun, RK4, Eulero all'indietro, Crank-Nicholson (per quelli impilici usare il metodo i newton)
+	\item Grafico della soluzione sovrapposto a quello di $E$ IMMAGINE
+	\item Grafico dell'energia discreta nel tempo confrontato con l'energia esatta IMMAGINE
+\end{enumerate}
+Siccome tutti i metodi che abbiamo visto perdono o guadagnano energia non ci aspettiamo che segua le curve di livello.\\
+\textbf{Consiglio}\\
+Strutturare il codice in moduli
+\begin{itemize}
+	\item Function per la dinamica $F:\R^2 \rightarrow \R^2$
+	\item Un blocco di codice per ogni metodo
+\end{itemize}
+
+
+
+	
+\end{document}

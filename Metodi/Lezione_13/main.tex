@@ -1,0 +1,111 @@
+\documentclass[12px]{article}
+
+\title{Lezione 13 Metodi Numerici di approssimazione}
+\date{2026-04-28}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{RK2}
+	$K_1 = f(t_n,u_n),  K_2 = f(t_n+C_2h, u_n + d_2;hk_1$
+	\[
+	\begin{cases}
+		b_1 + b_2 = 1\\
+		c_2b_2 = \frac 12
+	\end{cases}
+	.\] 
+	La zero stabilità segue dalla Lipschitizanità della dinamica del problema.\\
+	\begin{dimo}
+		Per $RK2$\\
+		\[
+			u_{n+1} = u_n = h \sum^{s}_{i=1}b_iK_i \ \ \ \Phi(t_n,u_n) = \sum^{s}_{i=1}b_iK_i = b_1f(t_n,u_n) + b_2f(t_n+c_2h,u_nhc_2f_n)
+		.\] 
+		Dobbiamo dimostrare che
+		\[
+			\begin{split}
+				&|\Phi(t_n,u_n) - \Phi(t_n,v_n)|\leq \Lambda|u_n-v_n|\\
+							       &|\Phi(t_n,u_n) - \Phi(t_n,v_n)|=\\
+							       &=|b_1f(t_n,u_n) + b_2f(t_n+c_2h,u_n+hc_2f(t_n,u_n)-b_1f(t_n,v_n)-b_2f(t_n+c_2h,v_n+hc_2f(t_n,v_n)|\\
+							       &  \leq |b_1||f(t_n,u_n)-f(t_n,v_n)| + |b_2||f(t_n+c_2h,u_n + hc_2f(t_n,u_n)) - f(t_n+c_2h,v_n+hc_2f(t_n,v_n)|\\
+							       & \leq |b_1|L|u_n-v_n|+|b_2|L|u_n+hc_2f(t_n,u_n)-v_n-hc_2f(t_n,u_n)|\\
+							       &\leq |b_1|L|u_n-v_n| + |b_2|L(|u_n-v_n|+|hc_2||f(t_n,u_n)-f(t_n,v_n)|)\\
+							       &\leq |b_1|L|u_n-v_n|+ |b_2|L|u_n-v_n| + |b_2|Lh|c_2|L|u_n-v_n|\\
+							       &\leq [(|b_1| + |b_2|)L + |c_2b_2|L^2h]|u_n-v_n|\\
+							       &\leq [(|b_1| + |b_2|)L + |c_2b_2|L^2h_0]|u_n-v_n| \leq \Lambda |u_n-v_n| \ \ \forall h\leq h_0
+			\end{split}
+		.\] 
+	\end{dimoo}
+	\subsection{RK4}
+	$u_{n+1} = u_n + h(\frac 16 K_1 + \frac 13 K_2 + \frac 13 K_3 + \frac 14 K_4$\\
+	Con:\\
+	$K_1 = f(t_n,u_n)$\\
+	$K_2 = f(t_n + \frac h 2, u_n + \frac h 2 K_1)$\\
+	$K_3 = f(t_n + \frac h 2, u_n + \frac h 2 K_2)$\\
+	$K_4 = f(t_n + \frac h 2, u_n + \frac h 2 K_3)$\\
+	\textbf{Proprietà}
+\begin{itemize}
+	\item  L'ordine di convergenza di un metodo RK a $s$ stadi non può essere maggiore di $s$
+	\item Non esistono metodi espliciti a  $s$ stadi di oridne $s$ se $s\geq 5$
+\end{itemize}
+\subsection{Assoluta stabilità}
+
+\begin{cases}
+$	\dot y = \lambda y\\
+	y(0) = 1$
+\end{cases}\ \ \ $Re\lambda < 0 \Rightarrow  |y(t)| = |e^{Re(\lambda)e^{iIm(\lambda)}| \xrightarrow{t \rightarrow \infty} 0$\\
+	$u_n \xrightarrow{n \rightarrow \infty} 0$  con $h$ fissato
+	\[
+	\begin{split}
+		K_i &= f(t_n + c_ih,u_n + h \sum^{s}_{k=1}a_{ij}K_j) = \lambda (u_n + h \sum^{s}_{j-1}a_{ij}K_j)\\
+		u_{n+1} &= u_n + h \sum^{s}_{i=j}b_iK_i
+	\end{split}
+	.\] 
+	\textbf{Notazione }\\
+	\[
+		\K = (K_1,\ldots,K_s)^T\ \ \ \mathbb{1} = (1,\ldots, 1)^T \ \ A = \{a_{ij}\}_{i,j = 1,\ldots,s}
+	.\] 
+	 \[
+	\begin{split}
+		\K = \lambda u_n\mathbb 1 + h\lambda A\K & \Leftrightarrow(I - zA)\K = \lambda u_n\mathbb 1\\
+							 & \Leftrightarrow \K = (I-zA)^{-1}\lambda u_n\mathbb 1
+	\end{split}
+	.\] 
+	con $z = h\lambda$\\
+	$
+		b = (b_1,b_2,\ldots,b_s)^T \Rightarrow  u_{n+1}= u_n + hb^T\K
+	$\\
+	$u_{n+1} = u_n + hb^T(I-zA)^{-1}\lambda u_n\mathbb 1$\\
+	$u_{n+1}= (1 + zb^T(I-zA)^{-1}\mathbb 1)u_n= R(z)u_n$ dove  $R(z)$ è la funzione di stabilità\\
+	$u_{n+1} = R(z)u_n = (R(z))^{n+1}u_0 \Rightarrow  u_n \xrightarrow{n \rightarrow +\infty} 0 \Leftrightarrow |R(z)| \leq 1$ \\
+	\[
+	\begin{cases}
+		u_{n+1} - hb^T\K = a_n\\
+		(I-zA)\K = \lambda u_n\mathbb 1
+		\end{cases} \Leftrightarrow \left( \begin{array}{c|c}
+			1 &-hb^T\\
+			\hline
+			0 & I-zA
+\end{array} \right) \matrice{u_{n+1}\\\K } = u_N\matrice{1\\\lambda \mathbb 1}
+	\]
+	La soluzione si puo calcolare con il metodo di Cramer\\
+	\begin{center}
+	\includegraphics[scale=0.18]{cramer.png}
+	\end{center}\\
+	Quindi $u_{n+1} = \det(I-zA + Z\mathbb 1 b^T)u_n = R(z)u_n$   $z$ compone linearmente e il determinante produce un polinomio in $z$ \\
+	 \[
+	\begin{split}
+		u_{n+1} &= u_n + hb^T\K = u_n + zb^T\frac \K \lambda\\
+			&= u_n + zb^T(u_n\mathbb 1 + h A\K )\\
+			&= u_n + zb^T \left(u_n\mathbb 1 + \frac{zA\K}\lambda \right)\\
+			&= u_n + zb^T \left(u_n\mathbb 1 + zAu_n \mathbb 1 + \frac{(zA)^2\K}\lambda \right)\\
+			&=u_n + zb^T \left(u_n\mathbb 1 + zA u_n \mathbb 1 + \frac{(zA)^2\K}\lambda \right)
+	\end{split}
+	.\] 
+	Poichè $A$ strettamente diagonale inferiore di dimensione $s$ $A$ è nihil potente di oridne $s$ ( $A^s = 0$)\\
+	$u_{n+1} = u_n + zb^T[u_n\mathbb 1 (1 + zA + (zA)^2 + \ldots + (zA)^{s-1}]$\\
+	$u_{n+1} = u_n(1 + zb^t \sum^{s-1}_{j=0}(zA)^j\mathbb 1) = u_nR(z) \Rightarrow $  $R(z)$ è un polinomio di grado  $s$ in $z$\\
+	Se  $s = 1,2,3,4$ allora  $R(z)$ è lo sviluppo di Taylor di $e^z$ all'ordine  $s$, indipendentemente da $A$ e $b$.
+\end{document}

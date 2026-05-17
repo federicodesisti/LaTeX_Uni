@@ -1,0 +1,151 @@
+\documentclass[12px]{article}
+
+\title{Lezione 16 Metodi Numerici di Approssimazione}
+\date{2026-05-05}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Metodi Multistep (Linear multistep method)}
+	\begin{defi}[Metodo Multi Step]
+	La soluzione al passo $n+1$ dipende non solo dalla soluzione al passo $n$ (ed eventualmente da se stessa nel caso di metodi impliciti) ma anche da $p+1$ passi precedenti, cioè dipende da $u_n,u_{n-1},u_{n-2}, \ldots,u_{n+1-p}$, \ \ \ $p\geq 0$.\\
+	\end{defi}
+	\textbf{Osservazione}\\
+	Runge Kutta non è mutlistep, perchè calcola la soluzione in tempi intermedi tra $u_n$ e $u_{n+1}$.\\
+	Diciamo $p+1$ perché quel $p$ torna comodo in futuro.\\
+	Un metodo ad un passo ha $p=0$.\\
+	L'approccio qui è furbo, si memorizza non solo le soluzioni ai tempi precedenti ma anche la dinamica calcolata ai tempi precedenti.\\
+	Sono metodi della forma generale
+	\[
+		u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + j \sum_{j={-1}}^{p}b_jf_{n-j} \ \ \ n\geq p
+	.\] 
+	dove $u_{n-j} \approx y(t_{n-j})$ e  $f_{n-j} = f(t_{n-j},u_{n-j})\approx f(t_{n-j}, y(t_{n-j}))$\\
+	Se sostituisco quel  $j=-1$ noto che ottengo  $f_{n+1}$, quindi questa scrittura comprende anche i metodi impliciti.\\
+	\textbf{Esempio} \\
+	$p = 0 \Rightarrow  $ 1 passo $ \Rightarrow u_{n+1} = a_0u_n + h(b_{-1}f_{n+1}+b_0f_n)$ 
+	\begin{itemize}
+		\item $a_0 = 1 \ \ b_{-1} = 0 \ \ b_0 = 1 \Rightarrow  $ Eulero in avanti.
+		\item $a_0 = 1 \ \  b_{-1} = 1 \ \ b_0 = 0 \Rightarrow  $ Eulero all'indietro.
+		\item $a_0 = 1 \ \ b_{-1} = 1/2 \ \ b_0 = 1/2 \Rightarrow  $ Crank Nicholson.
+	\end{itemize}
+	L'obbiettivo è però quello di alzare l'ordine di convergenza.\\
+	Teniamo in memoria\\
+	$u_{n-p},\ldots,u_n$\\
+	$f_{n-p}, \ldots, f_n, f_{n+1}$ se  $b_{-1}\neq 0$\\
+	Una volta usati questi valori per calcolare  $u_{n+1}$, non mi serve più il valore  $u_{n-p}$ dato che utilizzo solamente i  $p+1$ passi precedenti, analogo per la dinamica $f_{n-p}$.\\
+	Al contrario di Runge Kutta, che butta via i  $K_n$ calcolati ogni passo, qui "riciclo" quasi tutti i calcoli fatti.\\
+\textbf{Osservazione}\\
+Il metodo ha bisogno di $p+1$ dati precedenti, dove li prendo se ho solo un dato iniziale? Questi dati per iniziare si chiamano Valori di innesco.
+\newpage
+\subsubsection{Valori di Innesco}
+Abbiamo bisogno di $u_0,u_1,\ldots,u_p$\\
+$u_0$ è dato. Come calcolo gli altri valori? Potrei usare uno sviluppo di Taylor per i primi valori? Solitamente si calcolano con un metodo diverso, ad esempio Runge Kutta, oppure con un LMM con meno passi.\\
+Potrei per esempio fare il primo passo con Eulero in avanti che per un passo ha ordine $2$, per poi proseguire con u metodo a 2 passi per esempio, questo posso farlo perché lo sviluppo di Taylor  genera un errore di ordine $h^4$
+ \begin{itemize}
+	 \item Se $b_{-1} = 0$ il metodo è esplicito
+	 \item Se $b_{-1}= 0$ il metodo è implicito
+\end{itemize}
+\textbf{Esempi}\\
+Se la prima sommatoria in LMM si riduce ad un solo elemento, cioè $\exists \bar J$ tale che  $a_{\bar J}=1$ e  tutti gli altri sono nulli
+ \[
+	 u_{n+1} = u_{n-\bar J} + h \sum^{p}_{j=-1}b_jf_{n-j} 
+.\] 
+Questa sarebbe una versione discreta di
+\[
+	y(t_{n+1}) = y(t_{n-\bar J}) + \int_{t_n-\bar J}^{t_n + 1}f(t,y(t))dt
+.\] 
+In cui $\int$ è approssimato da una formula di quadratura.\\
+\textbf{Esempi}\\
+$\bar J =1$ su  $[t_{n-1}, t_{n+1}] \Rightarrow \int_{t_{n-1}}^{t_{n+1}}f(t,y(t))dt\approx f(t_n,y(t_n))2h$
+\[
+	\Rightarrow u_{n+1} = u_{n-1} + 2hf_n
+.\] 
+\textbf{Esempi}\\
+Simpson: $\bar J = 1$ su  $\displaystyle[t_{n-1},t_{n+1}] \Rightarrow  \int_{t_{n-1}}^{t_{n+1}}f(t,y(t))dt\approx \frac h 3(f_{n-1} + 4f_n + f_{n+1})$
+\[
+	\Rightarrow  u_{n+1} = u_{n-1} + \frac h 3 (f_{n-1} + 4f_n + f_{n+1})
+.\] 
+\textbf{Esempi}\\
+$\bar J = p = 0 $ su  $[t_{n},t_{n+1}]$ + Rettangoli $ \Rightarrow $ Eulero in avanti
+$\bar J = p = 0 $ su  $[t_{n},t_{n+1}]$ + Trapezi $ \Rightarrow $ Crank Nicholson\\
+\hline\ \\
+Se la seconda sommatoria in LMM si riduce al solo termine $n+1$
+\[
+\begin{split}
+	u_{n+1} &= \sum^{p}_{j=0}a_ju_{n-j} + h b_{-1}f_{n+1}\\
+	\frac{u_{n+1} - \sum^{p}_{j=0}a_j u_{n-j}}{hb_{-1}} &= f_{n+1}
+\end{split}
+.\] 
+Con il quale stiamo approssimando $\dot y(t_{n+1}) = f(t_{n=1},y(t_{n+1},y_{n+1})$ per  $h \rightarrow 0$\\[10px]
+In generale sembra quindi che la prima sommatoria sia legata alla derivata e la seconda sembra legata alla quadratura.\\
+\textbf{Esempio}\\
+$b_{-1} = 1$  \ \  $a_j = \begin{cases}
+	1 \ \ j =0 \\
+	0 \ \ \text{altrimenti}
+\end{cases} \Rightarrow  $ Eulero all'indietro
+\subsubsection{Consistenza di un LMM}
+Come per i metodi ad un passo considero la soluzione esatta di ODE, la sostituisco nello schema e valuto il residuo.
+\[
+	h\tau_{n+1}(h) = y_{n+1} - \left[ \sum^{p}_{j=0}a_jy_{n-j} + h \sum^{p}_{j=-1}b_jf(t_{n-j},y_{n-j}) \right] \ \ \ n\geq p
+.\] 
+\[
+	\tau(h) = \sup_{n} |\tau_{n+1}(h)|
+.\] 
+LMM è consistente se $\tau(h) \xrightarrow{h \rightarrow 0} 0$, di ordine $q$ se $\tau(h) = O(h^q)$\\
+\begin{prop}
+	LMM è consistente $ \Leftrightarrow$ $ \sum^{p}_{j=0}a_j = 1$ e $- \sum^{p}_{j=0}ja_j + \sum^{p}_{j=-1} b_j=-1$\\
+	Inoltre se $y\in C^{q+1}((0,T)), \ q\geq 1$ allora LLM è consistente di ordine $q$ se e solo se
+	\[
+		\sum^{p}_{j=0}a_j = 1\ \ \ \sum^{p}_{j=0}(-j)^ka_j + k \sum^{p}_{j=-1}(-j)^{k-1}b_j=1\ \ \ k=1,\ldots,q
+	.\] 
+\end{prop}
+\begin{dimo}
+	$q=1$ (se proprio vogliamo possiamo fare noi i conti per gli altri casi)\\
+	Consideriamo lo sviluppo di Taylor di $y_{n-j}=y(t_{n-h})$ in $t_n$, ricordando che  $t_{n-j} = t_n - jh = nh-jh = (n-j)h$
+	\[
+	h\tau_{n+1}(h) = y_{n+1} - \left[ \sum^{p}_{j=0}a_jy_{n-j} + h \sum^{p}_{j=-1}b_jf(t_{n-j},y_{n-j}) \right] \ \ \ n\geq p\]
+	\[
+		\begin{split}
+			y(t_{n-j})&= y(t_n) + \dot y (t_n)(-jh) + O(h^2)\\
+			f(t_{n-j}, y(t_{n-j})) &= f(t_n,y_n) + O(h)
+		\end{split}
+	.\] 
+	Sostituendo nello schema LMM
+	\[
+		\begin{split}
+		&y_{n+1} - \sum^{p}_{j=0}a_j(y_n + \dot y(t_n)(-jh)+O(h^2)) - h \sum^{p}_{j=-1}b_j (f_n + O(h))\\
+		&= y_{n+1} - \sum^{p}_{j=0} a_jy_n + h \sum^{p}_{j=0}a_jj\dot y(t_n) - O(h^2) \sum^{p}_{k=0}a_j - hf_n \sum_{j=-1}^{p} - O(h^2) \sum^{p}_{j=-1}b_j
+		\end{split}
+	.\] 
+	Dividiamo tutto per  $h$ per trovare $\tau_{n+1}$
+	 \[
+		 \begin{split}
+		& \tau_{n+1}(h) = \frac{y_{n+1}} h- \sum^{p}_{j=0}\frac{a_jy_n} h + \frac {\cancel{h}}{\cancel{h}}\dot y(t_n) \left( \sum^{p}_{j=0}ja_j - \sum_{j=-1}^{p}b_j \right) + O(h)\\
+		&\tau_{n+1}(h) = \frac{y_{n+1}-y_n}h + \frac{y_n - \sum^{p}_{j=0}a_jy_n}h + \dot y (t_n) \left( \sum^{p}_{j=0}ja_j- \sum^{p}_{j=-1}b_j  \right)+ O(h)\\
+		&\tau_{n+1} = \dot y (t_n) + \frac {y_n}h(1 - \sum^{p}_{j=0}a_j) + \dot y (t_n) (\ldots ) + O(h)
+		\end{split}
+	.\] 
+	Da cui ricaviamo le condizioni della proposizione.\\
+	Quindi 
+	\[
+		t_{n+1} (h) \xrightarrow{h \rightarrow 0} 0 \Leftrightarrow \sum^{p}_{j=0}a_j = 1 \text { e } \sum^{p}_{j=0}ja_j + \sum^{p}_{j=-1}b_j = -1 
+	.\] 
+	
+\end{dimo}
+\textbf{Nota}\\
+Nella notazione compatta compare $0^0$, per convenzione lo poniamo uguale a $1$.\\
+\textbf{Esempio} midpoint\\
+$u_{n+1} = u_{n-1} + 2hf_n\ \ \ p = 1 \Rightarrow $  LMM a $2$ passi con \\
+$a_0 = 0, \ a_1 =1, \ b_{-1}=0, \ b_{0}=2,\ b_{1} = 0$\\
+Notiamo che  $ \sum^{p}_{j=0}a_j=1$ e $ \sum^{p}_{j=0}ja_j - \sum^{p}_{j=-1}b_j = 0\cdot a_0 + 1\cdot a_1 - b_{-1}- b_0- b_1 = 1 - 0 -2 -0  = -1$\\
+Proviamo $k=2$ per vedere se il metodo è di ordine  $2$\\
+sostituendo nella formula ottengo $1 + 2\cdot 0 = 1$ quindi è di ordine 2\\
+ $k = 3$  \\
+ $-1 + 3\cdot 0 = -1$ che non soddisfa la condizione.\\
+  \textbf{Esercizio}\\
+  Verificare che il metodo di Simpson è di ordine?
+
+\end{document}
