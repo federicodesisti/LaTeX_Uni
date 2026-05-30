@@ -2003,6 +2003,7 @@ Con gli stessi calcoli di prima ottengo
 Se una radice $\bar \lambda$ ha molteplicità  $m$ allora tutte le soluzioni si ottengono come combinazioni lineari di $e^{\bar\lambda x}, x e^{\bar \lambda x},\ldots,x^{m-1}e^{\bar\lambda x}$\\
 Riprendendo l'esempio di prima, quel $2^n$ sembra un po la versione discreta dell'esponenziale.\\
 C'è una simmetria con le equazioni alle differenze che suggerisce la ricerca di soluzioni della forma
+
  \[
 	 u_{n} = r^n \ \ \ \ \text{per qualche } r\in\C
 .\] 
@@ -2267,6 +2268,375 @@ Eulero in tempo
 .\] 
 e questo è stabile se $\frac {\Delta t}{\Delta x^2}\leq \frac 12$\\
 Questo per dire che possiamo riciclare quello che sappiamo per le ODE con le PDE.
+
+\newpage
+\part{Lezione 19 Metodi}
+% --- Content from Lezione_19 ---
+	\subsection{boh}
+	\[
+	\begin{cases}
+		\dot y = 0\\
+		y(0) = 0
+	\end{cases} u_n =0 \ \  \begin{cases}
+	z_{n+1} = \sum^{p}_{j=0}a_jz_{n-j}\\
+	z_0,z_1,\ldots, z_p = \varepsilon
+	\end{cases}
+	.\] 
+	Volevamo costruire $z_n = \begin{cases}
+		\varepsilon r_j^n, \ \ n > p\\
+		\cancel{z_0} = \cancel{z_1} = \ldots = \cancel{z_p}= \cancel \varepsilon
+	\end{cases}$ ma $z_i = \varepsilon r_j^i$, quindi cambiamo i dati iniziali in \\
+	\[
+	z_0 = \varepsilon r^0_j, z_1 = \varepsilon r_j^1,\ldots, z_p = \varepsilon r_j^p
+	.\] 
+	 $ \Rightarrow  z_n = \varepsilon r^n_j \ \ \forall n$, scegliamo quei valori iniziali ad hoc perché sono probabilmente quelli più problematici siccome presentano $r_j$ che se ha modulo $ > 1$ porterebbe a errori grossi.\\
+	  \textbf{Esempio}
+
+
+	  Applichiamo il Criterio delle radici per la $\theta$ stabilità e il criterio assoluto delle radici per l'assoluta stabilità.\\
+	  \textbf{Mid point:} $u_{n+1} = u_{n-1} + 2hf_n$\\
+	  Per la formulazione di Volterra abbiamo
+	   \[ 
+		   y(t+\Delta t) = y(t) + \int_t^{t + \Delta t} f(s,y(s))ds \Leftrightarrow y(t_{n+1}) = y(t_{n-1}) + \int_{n-1}^{n+1} f(s,y(s))ds
+	  .\] 
+	  Sapendo che
+	  \[
+	  y(t) = y_0 + \int_0^t f(s,y(s))ds
+	  .\] 
+	  Ottengo
+	  \[
+		  y(t + \Delta t) = y_0 + \int_0^{t + \Delta t} f(s,y(s))ds = \underbrace{y_0 + \int_0^t f(s,y(s))ds}_{\displaystyle y(t)} + \int_t^{t+\Delta t}f(s,y(s))ds
+	  .\] 
+	  \[
+		  \Rightarrow  y(t+ \Delta t) = y(t) + \int_t^ {t+\Delta t} f(s,y(s))ds = y(t-\Delta t) + \int_{t-\Delta t}^{t+\Delta t}f(s,y(s))ds
+	  .\] 
+	  \[
+		  u_{n+1} = u_{n-1} + 2 h f_n \leadsto \rho(r) = r^ {p+1} - \sum^{p}_{j=0}a_jr^ {p-j} = r^ 2 - 1 = (r+1)(r-1)
+	  .\] 
+	  2 passi $\leadsto$  $ p + 1$ passi  $ \Rightarrow  p =1$\\
+	  Le radici sono $r = \pm 1$  e sono entrambe semplici  $ \Rightarrow  r = \pm $ soddisfa il criterio delle radici $ \Rightarrow  $ il midpoint è $\theta$-stabile.\\
+	  Verifichiamo ora il criterio assoluto delle radici:\\
+	  \[
+		  P(r) = \rho(r) - h\lambda \sigma(r), \ \ \sigma(r) = \sum^{p}_{j=-1}b_jr^{p-j}
+	  .\] 
+	  $ \Rightarrow P(r) = r^2 - 1 - z 2r = r^2 -  2zr -1 = 0$\\
+
+	  $r\pm = z \mp \sqrt{1 + z^2} = h\lambda \mp \sqrt{1 + h^2 \lambda^2} \ \ \substack{ h \rightarrow 0\\ \approx} \ \ \mp 1 \mp h\lambda \pm h^2 \lambda^2  \frac 12$\\
+	  \textbf{Esercizio}\\
+	  $\forall \lambda (Re \lambda <0)$ almeno una delle due radici è fuori dal centro unitario\\
+	   $ \Rightarrow $ midpoint non verifica la condizione assoluta delle radici $ \Rightarrow $ non è assolutamente stabile\\
+	   Caso particolare: Oscillatore armonico $\leadsto \kambda = \pm 1$ 
+	   $r_{\mp} = h \lambda \mp \sqrt{1 + h^2\lambda^2} = \pm i h \mp \sqrt{1 - h^2}$\\
+	   $|r_{\mp} = \sqrt{1 - \cancel{h^2} +\cancel{h^2}} = 1 \leadsto$ Sta calcolando la soluzione esatta\\
+	   $r^_{\pm}^n$ rotazione
+	   \subsection{Metodi di Adams}
+	   Sono metodi multistep della forma
+	   \[
+		   u_{n+1} = u_n  + h \sum^{p}_{j=-1}b_j f_{n-j}
+	   .\] 
+	   Se $b_{-1} = 0$ (cioè metodo esplicito) $ \leadsto$ metodi di \textbf{Adams-Bashfort}\\
+	   Se  $b_{-1} \neq 0$ (implicito)  $\leadsto$ \textbf{Adams-Moulton}\\
+	   \textbf{Idea}:\\
+	   Poiché stiamo approssimando la forma integrale di ODE vogliamo trovare i coefficienti $b_j$ in modo da approssimare $\displaystyle \int_{t_n}^{t_{n+1}}f(s,y(s))ds$ tramite un'interpolazione nei nodi  $t_{n-p},\ldots,t_n,t_{n+1}$\\
+	   $ \Rightarrow  $ Posso costruire il polinomio interpolatore di grado $p$ che è definito su tutto $\R$, in particolare anche su $[t_n, t_{n+1}]$ allora uso il polinomio per approssimare $\displaystyle \int_{t_n}^{t_{n+1}}f(t,y(t))dt$\\
+	   Nel caso implicito (AM):\\
+	   $t_{n-p},\ldots, t_n,t_{n+1}$ \\
+	   $u_{n-p}, \ldots, u_n, u_{n+1}$\\
+	   $f_{n-p},\ldots, f_n,f_{n+1}$ \\
+	   $ \Rightarrow $ Interpolo con un polinomio di grado $p+1$ \\
+	   \textbf{Esempi}\\
+	   $AB 1 \Rightarrow p =0 $ polinomio interpolatorio di grado $0: \Pi_0 f(t_n) = f(t_n,u_n)$\\
+	   \[
+		   \int_{t_n}^{t_{n+1}}f(t,y(t))dt\sim \int_{t_n}^{t_{n+1}}\Pi_0 [f(t_n)](t)dt = f_n h \leadsto b_0 =1
+	   .\] 
+	   $ \Rightarrow AB 1= $   Eulero Esplicito\\
+	   $AB 2 \Rightarrow  p =1 \rightarrow$  Polinomio interpolatorio di grado $1:$\\
+	   $\Pi_1f[t_{n-1},t_n](t) = f_n + (t-t_n)\frac{f_{n-1}-f_n}{t_{n-1}-t_n}$\\
+	   \[
+	   \begin{split}
+		   \int_{t_n}^{t_{n+1}}f(t,y(t))dt & \approx \int_{t_n}^{t_{n+1}}\Pi_1f[\ldots](t)dt = \frac h 2 (\Pi_1 f[\ldots](t_n) + \Pi_1 f[\ldots](t_{n+1})) =\\
+						   &= \frac{h}{2} \left(f_n + f_n + \overbrace{(t_{n+1} - t_n)}^{\cancel h} \underbrace{\frac{f_{n-1} - f_n}{t_{n-1}-t_n}}_{\cancel{-h}} \right) = \frac h 2 ( f_n\cdot 2 + f_n - f_{n-1} )\\
+						   & = \frac h 2(3\cdot f_n - f_{n-1} )= h \left( \frac 32 f_n - \frac 12 f_{n-1} \right)
+	   \end{split}
+   \]
+   \[
+	   u_{n+1} = u_n + h \sum^{p}_{j = - 1} b_j f_{n-j}
+   .\] 
+   \[
+	   y_{n+1} = y_n + \int_{t_n}^{t_n + h} f(t,y(t))dt \approx y_n + \int_{t_n}^{t_n + h} \Pi_1 f[\ldots] (t) dt 
+   .\] 
+$b_0 = \frac 3 2 b_1 = - \frac  12$\\
+AB2:
+\[
+	u_{n+1} = u_n + h \left(\frac 3 2 f_n - \frac 12 f_{n-1} \right)
+.\] 
+Ecco una tabella che mostra i coefficienti nei vari casi
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5} % Increases row height for fractions
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+    & $P$ & $b_0$           & $b_1$            & $b_2$           & $b_3$           \\ \hline
+AB1 & $0$ & $1$             & $-$              & $-$             & $-$             \\ \hline
+AB2 & $1$ & $\frac{3}{2}$   & $-\frac{1}{2}$   & $-$             & $-$             \\ \hline
+AB3 & $2$ & $\frac{23}{12}$ & $-\frac{16}{12}$ & $\frac{5}{12}$  & $-$             \\ \hline
+AB4 & $3$ & $\frac{55}{24}$ & $-\frac{59}{24}$ & $\frac{37}{24}$ & $-\frac{9}{24}$ \\ \hline
+AB5 & $-$ & $-$             & $-$              & $-$             & $-$             \\ \hline
+\end{tabular}
+\end{table}
+\subsubsection{Adams-Bashfort (AM)}
+AM0 $ \rightarrow p = -1$: $u_{n+1} = u_n + h b_{-1}f_{n+1} \Rightarrow  b_{-1} = 1$ \\
+$AM1 \rightarrow p= 0$  $ \rightarrow $ polinomio interpolatore di grado $1 \rightarrow AM 1 = $   Crank-Nicholson.\\
+\textbf{Esercizio:} Calcolare i coefficienti di AM2 $ \rightarrow p=1 \rightarrow$   polinomi interpolatore di grado $2$\\
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5} % Aumenta l'altezza delle righe per le frazioni
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+    & $p$  & $b_{-1}$          & $b_0$             & $b_1$              & $b_2$             & $b_3$             \\ \hline
+AM0 & $-1$ & $1$               & $-$               & $-$                & $-$               & $-$               \\ \hline
+AM1 & $0$  & $\frac{1}{2}$     & $\frac{1}{2}$     & $-$                & $-$               & $-$               \\ \hline
+AM2 & $1$  & $\frac{5}{12}$    & $\frac{8}{12}$    & $-\frac{1}{12}$    & $-$               & $-$               \\ \hline
+AM3 & $2$  & $\frac{9}{24}$    & $\frac{19}{24}$   & $-\frac{5}{24}$    & $\frac{1}{24}$    & $-$               \\ \hline
+AM4 & $3$  & $\frac{251}{720}$ & $\frac{646}{720}$ & $-\frac{264}{720}$ & $\frac{106}{720}$ & $-\frac{19}{720}$ \\ \hline
+\end{tabular}
+\end{table}
+\subsection{Consistenza dei metodi AB \& AM}
+Si ottiene con il teorema generale per i metodi metodi lineari multistep (LMM)\\
+Tuttavia si può usare la teoria dell'interpolazione.
+\[
+	h\tau_{n+1}(h) = \left|y_{n+1} - y_n - h \sum^{p}_{j=-1}b_jf_{n-j}\right| = \left| \cancel{y_n} + \int_{t_n}^{t_{n+1}}f(t,y(t))dt - \cancel{y_n} + h \sum^{p}_{j=-1}b_jf_{n-j}\right|
+.\] 
+Per i metodi AB il polinomio interpolatore è di grado $p$ e approssima $f$ con un errore $O(h^{p+1} )$ e $\int f$ con un errore di  $O(h^{p+2})$ Se divido per  $h \Rightarrow  \tau_{n+1}(h) = O(h^{p+1})$ \\
+Per gli AM: il polinomio interpolatore è di grado $p+2$ ed approssimo $f $ con un errore $O(h^{p+2})$ e $\int f$ con un errore $O(h^{p+3})$ dividendo per  $h$ 
+ \[
+	 \tau_{n+1}(h) = O(h^{p+2})
+.\] 
+
+
+
+
+
+\newpage
+\part{Lezione 20 Metodi}
+% --- Content from Lezione_20 ---
+	\subsection{Zero-Stabilità dei metodi di Adams}
+	Zero-Stabilità $ \Leftrightarrow$ condizione delle radici su $\rho(r)$\\
+	 \[
+		 u_{n+1} = u_n + h \sum^{p}_{j=-1}b_j f_{n-j} \ \ \ \rho(r) = r^{p+1} - r^p = r^p(r-1)
+	.\] 
+	Le radici sono: $r=1$ semplice,  $r=0$ con molteplitictà $p$ $ \Rightarrow  $, il criterio della radice è rispettato\\
+	\textbf{Osservazione}\\
+	Per l'assoluta stabilità bisogna calcolare le radici di  $P(r) = \rho(r) - z\sigma(r)$ e verificare che  $|r_j(z)|<1$\\
+	In generale la forma del polinomio $P(r)$ non fornisce le radici esplicitamente.\\
+	\begin{defi}[Regione di stabilità]
+		Chiamo $A$ la regione di stabilità
+		 \[
+			 A = \{z\in \C,Re(z) < 0 \ \ t.c.\ \ |r_j(z)| < 1, \ j = 0,\ldots, p\}
+		.\] 
+		definisco poi
+		\[
+			R_j = \{z\in \C, Re(z) < 0 \ \ t.c\ \ |r_j(z)| < 1\}
+		.\] \\
+		Allora
+		 \[
+			 A = \bigcap^p_{j=0}R_j
+		.\] 
+	\end{defi}
+	Vedremo un modo più facile per visualizzare $A$
+	\subsection{Metodi BDF (Backward Differentiation Formule)}
+	Sono particolari metodi LMM sempre impliciti della forma
+	 \[
+		 u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + h b_{-1}f_{n+1}
+	.\] 
+	Introdotti per trattare i cosiddetti problemi SIFF (problemi che presentano autovalori $\lambda$ con moduli molto diversi fra loro)\\
+	\textbf{Osservazione}\\[5px]
+	$\displaystyle \frac{u_{n+1} - \sum^{p}_{j=0}a_ju_{n-j}}{hb_{-1}} = f_{n+1} = f(t_{n+1},u_{n+1}) \xrightarrow{h \rightarrow 0} f(t_{n+1},y_{n+1}) = \dot y(t_{n+1})$\\
+	Quindi i coefficienti devono essere scelti per approssimare $\dt y(t_{n+1})$ tramite una interpolazione di  $y$ nei nodi $t_{n-p},\ldots, t_n, t_{n+1}$ che sono  $p+2$\\
+	Questo si fa con un polinomio di grado $p+1$\\
+	Una volta calcolato  $\Pi_{p+1}[y][t_{n-p},\ldots,t_{n+1}](t)$ si calcola la sua derivata prima  $\Pi_{p+1}'$ che è un approssimazione di  $\dot y(t)$ e la si calcola con $t = t_{n+1}$ ottenendo lo schema BDF:  $\underbrace{\Pi'_{p+1}[u_{n-p},\ldots,u_{n+1}] = f(t_{n+1},u_{n+1})}_{\text{impongo}}$\\
+	\textbf{Esempio} $ p = 0$\\
+\[\Pi_1[u_n,u_{n+1}](t) = u_n + (t-t_n)\frac{u_{n+1}-u_n}{t_{n+1}-t_n}\]
+\[
+	\Pi_1'[u_n,u_{n+1}](t) = \frac{ u_{n+1} - u_n}{t_{n+1}-t_n} = \frac {u_{n+1}-u_n}h
+.\] 
+\[
+	\leadsto \Pi'_1[u_{n},u_{n+1}](t_{n+1}) = \frac{u_{n+1} - u_n}h \Rightarrow \frac{u_{n+1}-u_n}{h} = f(t_{n+1},u_{n+1}) \ \ b_{-1} =1
+.\] 
+$ \Rightarrow BDF1 \equiv BE$ \\
+\textbf{BDF2}: $u_{n-1},u_n,u_{n+1}$ Costruisco il polinomio interpolatorio  $\Pi_2(t)$\\
+Useremo la forma di Newton $\Pi_2(t)$ (Differenze divise)\\
+
+
+\[
+	\begin{centered}
+		\hspace{-40px}
+\begin{tikzpicture}
+  % We apply \small to shrink the text size slightly if needed,
+  % but adjusting column sep is usually enough.
+  \matrix (m) [
+    matrix of math nodes,
+    row sep=1em,        % Reduced vertical space
+    column sep=0.5em,   % Drastically reduced horizontal space
+    nodes={anchor=center}
+  ] {
+    % Riga 1
+    & \textcolor{red}{\text{Diff div ORD 0}} & \textcolor{red}{\text{ORD 1}} & \textcolor{red}{\text{ORD 2}} \\
+    % Riga 2
+    t_{n-1} : & u_{n-1} & & \\
+    % Riga 3
+    & & \displaystyle u[t_{n-1}, t_n] = \frac{u_n - u_{n-1}}{h} & \\
+    % Riga 4
+    t_n : & u_n & & \displaystyle u[t_{n-1}, t_n, t_{n+1}] = \frac{u[t_n, t_{n+1}] - u[t_{n-1}, t_n]}{2h} \\
+    % Riga 5
+    & & \displaystyle u[t_n, t_{n+1}] = \frac{u_{n+1} - u_n}{h} & \\
+    % Riga 6
+    t_{n+1} : & u_{n+1} & & \\
+  };
+
+  % Arrows
+  \begin{scope}[every path/.style={->, shorten >=3pt, shorten <=3pt}]
+    % Da ORD 0 a ORD 1
+    \draw (m-2-2.east) -- (m-3-3.west);
+    \draw (m-4-2.east) -- (m-3-3.west);
+
+    \draw (m-4-2.east) -- (m-5-3.west);
+    \draw (m-6-2.east) -- (m-5-3.west);
+
+    % Da ORD 1 a ORD 2
+    \draw (m-3-3.east) -- (m-4-4.west);
+    \draw (m-5-3.east) -- (m-4-4.west);
+  \end{scope}
+
+\end{tikzpicture}
+	\end{centered}
+\]
+\[
+	\Rightarrow  u[t_{n-1},t_n,t_{n+1}] = \frac{ \frac{u_{n+1}-u_n}{h} - \frac{u_n - u_{n-1}}{h}}{2h} = \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^2}
+.\] 
+\[
+	\begin{split}
+		\Rightarrow \Pi_2(t) &= u_{n+1} + u[t_{n-1},t_n](t-t_{n-1}) + u[t_{n-1},t_n,t_{n+1}](t-t_{n-1})(t-t_n)\\
+				     &= u_{n+1} + \frac{u_n - u_{n-1}}{h}(t-t_{n-1}) + \frac{u_{n+1}-2u_n + u_{n-1}}{2h^2}(t^2-t_{n-1}t - t_nt + t_nt_{n-1})\\
+				     &= u_{n+1} + \frac{u_n - u_{n-1}}{h}(t-t_{n-1}) + \frac{u_{n+1}-2u_n + u_{n-1}}{2h^2}(t-t_{n-1})(t-t_n)
+	\end{split}
+.\] 
+\[
+	\Pi_2'(t) = \frac{u_n - u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^2}(t-t_n + t-t_{n-1})
+\] 
+\[
+	\Pi'_2(t_{n+1}) = \frac{u_n - u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^{\cancel 2}}( \overbrace{t_{n-1}- t_n}^{\cancel h} +\overbrace{t_{n+1}-t_{n-1}}^{2\cancel h} ) \underbrace{=}_{\text{impongo}} f(t_{n+1}, u_{n+1})
+.\] 
+Quindi
+\[
+	\frac{u_n-u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h}\cdot 3 = f(t_{n+1},u_{n+1})
+.\] 
+\[
+2(u_n - u_{n-1}) + 3(u_{n+1} - 2u_n + u_{n+1}) = 2h f(t_{n+1}u_{n_+1})
+.\] 
+\[
+	2u_n - 2u_{n-1} + 3u_{n+1} - 6 u_n + 3u_{n+1} = 3u_{n+1} - 4u_n + u_{n-1} = 2h f_{n-1}
+.\] 
+\[
+	\Rightarrow u_{n+1} = \underbrace{\frac 43}_{\alpha_0} \underbrace{-\frac 13}_{\alpha_1}u_{n-1} + \underbrace {\frac 23}_{b_{-1}}hf_{n+1}
+.\]  
+\begin{center}
+	
+\renewcommand{\arraystretch}{1.5} % Aumenta lo spazio verticale per le frazioni
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+& $P_0$ & $a_0$ & $a_1$ & $a_2$ & $a_3$ & $a_4$ & $a_5$ & $b_{-1}$ \\
+\hline
+BDF1 & $0$ & $1$ & $-$ & $-$ & $-$ & $-$ & $-$ & $1$ \\
+\hline
+BDF2 & $1$ & $\frac{4}{3}$ & $-\frac{1}{3}$ & $-$ & $-$ & $-$ & $-$ & $\frac{2}{3}$ \\
+\hline
+BDF3 & $2$ & $\frac{18}{11}$ & $-\frac{9}{11}$ & $\frac{2}{11}$ & $-$ & $-$ & $-$ & $\frac{6}{11}$ \\
+\hline
+BDF4 & $3$ & $\frac{48}{25}$ & $-\frac{36}{25}$ & $\frac{16}{25}$ & $-\frac{3}{25}$ & $-$ & $-$ & $\frac{12}{25}$ \\
+\hline
+BDF5 & $4$ & $\frac{300}{137}$ & $-\frac{300}{137}$ & $\frac{200}{137}$ & $-\frac{75}{137}$ & $\frac{12}{137}$ & $-$ & $\frac{60}{137}$ \\
+\hline
+BDF6 & $5$ & $\frac{360}{147}$ & $-\frac{450}{147}$ & $\frac{400}{147}$ & $-\frac{225}{147}$ & $\frac{72}{147}$ & $-\frac{10}{147}$ & $\frac{60}{147}$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\begin{teo}
+	I metodi BDF sono consistenti, con ordine pari al numero di passi
+\end{teo}
+\begin{teo}
+	I metodi BDF sono $\theta$-stabili solo per $p\leq 5$
+\end{teo}
+\textbf{Osservazione}\\
+I BDF sono sempre impliciti quindi vanno risolti con metodi per la ricerca di zeri (punto fisso o newton)\\
+\begin{teo}
+	I metodi BDF sono $\theta$-stabili solo per $p \leq 5$\\
+	La loro regione di stabilità assoluta include tutto l'asse negativo ($A(\theta)$-stabili)
+\end{teo}
+\textbf{Esempio Stiff}:\\
+Soluzione: \begin{cases}
+	$y_1 = e^{-\lambda_1 t}\\
+	y_2 = e^{-\lambda_2 t}$
+\end{cases} $\rightarrow \begin{cases}
+	\dot y_1 = -\lambda_1 y_1\\
+	\dot y_2 = - \lambda_2 y_2\\
+	y_1(0)\\
+	y_2(0)
+\end{cases}$\\
+Se $0 < \lambda_1 << \lambda_2$
+Se uso FE: $|1 + \lambda_1 h| < 1, \ \ |1 + \lambda_2h| < 1\leadsto $ questa è più restrittiva\\
+\textbf{Zero-Stabilità}\\
+$p =1 \rightarrow BDF 2: \rho(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} = r^2 - \frac 43 r + \frac 13 = (r-1)(r-\frac 13) \leadsto r_1 = 1, \ r_2= \frac 13$\\
+\begin{defi}[Boundary Lotus]
+	Chiamiamo la regione di stabilità assoluta per un LMM Boundary Lotus
+\end{defi}
+\[
+	P(r) = \rho(r) - z\sigma(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} - z \sum^{p}_{j=-1}b_jr^{p-j}
+.\] 
+$z\in A \Leftrightarrow |r_j(z)| < 1$ per $j = 0,\ldots, p$ con  $P(r_j(z)) = 0$\\
+Possiamo esplicitare  $P(r)$ rispetto a $z$ ovvero se $r$ è radice $P(r) = 0$
+ \[
+	 P(r) = 0 \Leftrightarrow\rho(r) - z\sigma(r) = 0 \Leftrightarrow z = \frac{\rho(r)}{\sigma(r)}= \frac{r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j}}{ \sum^{p}_{j=-1}b_jr^{p-j}} \ \ \ \circledast
+\] 
+Se $z \in \partial A \Rightarrow  \exists \bar j \ t.c.\ |r_{\bar j}(z)| = 1 \Leftrightarrow r_{\bar j}(z) = e^{i\bar \theta}$ per qualche $\bar \theta\in[0,2\pi]$\\
+Se sostituiamo $r_{\bar j}(z)$ su $\circledast$
+ \[
+	 z = \frac{e^{i(p+1)\bar\theta} - \sum^{p}_{j=0}a_je^{i(p-j)\bar\theta}}{ \sum^{p}_{j=-1}b_je^{i(p-j)\bar\theta}} = z(\bar\theta)
+.\] 
+Al variare $\bar \theta$ $z(\bar\theta)$ descrive una curva nel piano complesso
+ \[
+	 \Rightarrow \partial A\subseteq \{z(\bar \theta) \ \ t.c.\ \ \bar \theta\in[0,2\pi]\}
+.\] 
+
+
+\newpage
+\part{Lezione 21 Metodi Numerici}
+% --- Content from Lezione_21 ---
+	\subsection{Boundary Locus}
+	$P(r) = \rho(r) - z\sigma(r)$ con  $z = h\lambda$\\
+	CAR (Criterio assoluto delle radici)\\
+	$\exist h_0$ t.c. $\forall h < h_0\ \ |r_j(z)| < 1$ per $j=0,\ldots, p$ con  $r_j(z)$ tale che  $P(r_j(z)) = 0$\\
+	se $z\in\partial A$  $ \rightarrow$ $\exists \bar j $ tale che  $r_{\bar j} (z)| = 1$ \ \  $r_{\bar j}(z) = e^{i\theta} $ per  $\theta\in[0,2\pi]$\\
+	$ \Rightarrow $ poiché $r_{\bar j}(z)$ è una radice di  $P(r)$ \ \  $P(r_{\bar j }(z)) = 0 = \rho(e^{i\theta}) - z\sigma(e^{i\theta}) = 0$\\
+	$ \Rightarrow  z = \frac{\rho(e^{i\theta})}{\sigma(e^{i\theta})} = z(\theta)$ \\
+	$z\in\partial A \Rightarrow z = z(\theta)$ per qualche $\theta\in[0,2\pi]$\\
+	Ma al variare di $\theta \in [0,2\pi]$  $z(\theta)$ descrive una curva nel piano complesso 
+	 \[
+		 B = \{z(\theta)\in\C, \theta[0,2\pi]\}
+	.\] 
+	$z\in\partial A \Rightarrow z\in B \Rightarrow  \partial A \subseteq B$\\
+	Se $z\in \C\setminus \bar A$ esiste almeno una radice  $|r_j(z)| > 1\ \ \ \ r_j(z) = \alpha e^{i\theta} $ con  $\alpha > 1$ e se è radice di $P$ allora $P(\alpha e^{i\theta}) =0  \Rightarrow  z\in B_{\alpha} = \{z = \frac{\rho(\alpha e^{i\theta})}{\sigma (\alpha e^{i\theta})}$ con $\alpha > 1$  e $\theta\in[0,2\pi]\}$ \\
+	Se $B\cap B_\alpha\neq 0$ per qualche  $\alpha > 1$ allora i punti di intersezione non possono appartenere a $\partial A$ \\
+	\[
+		B_\alpha = \left\{z(\alpha, \theta) = \frac{\rho(\alpha e^{i\theta})}{\sigma(\alpha e ^{i\theta})}, \theta \in [0,2\pi]\right\}
+	.\] 
+	 \[
+	 LMM \ \ z(\alpha,\theta) = \frac{(\alpha e^{i\theta})^{p+1} - \sum^{p}_{j=0}a_j (\alpha e^{i\theta})^{p-j}}{ \sum^{p}_{j=-1}(b_j (\alpha e^{i\theta}))^{p-j}}
+	.\] 
+	codice bounadry_lotus.m
+
+	
 
 \newpage
 \end{document}

@@ -1,0 +1,201 @@
+\documentclass[12px]{article}
+
+\title{Lezione 20 Metodi}
+\date{2026-05-29}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Zero-Stabilità dei metodi di Adams}
+	Zero-Stabilità $ \Leftrightarrow$ condizione delle radici su $\rho(r)$\\
+	 \[
+		 u_{n+1} = u_n + h \sum^{p}_{j=-1}b_j f_{n-j} \ \ \ \rho(r) = r^{p+1} - r^p = r^p(r-1)
+	.\] 
+	Le radici sono: $r=1$ semplice,  $r=0$ con molteplitictà $p$ $ \Rightarrow  $, il criterio della radice è rispettato\\
+	\textbf{Osservazione}\\
+	Per l'assoluta stabilità bisogna calcolare le radici di  $P(r) = \rho(r) - z\sigma(r)$ e verificare che  $|r_j(z)|<1$\\
+	In generale la forma del polinomio $P(r)$ non fornisce le radici esplicitamente.\\
+	\begin{defi}[Regione di stabilità]
+		Chiamo $A$ la regione di stabilità
+		 \[
+			 A = \{z\in \C,Re(z) < 0 \ \ t.c.\ \ |r_j(z)| < 1, \ j = 0,\ldots, p\}
+		.\] 
+		definisco poi
+		\[
+			R_j = \{z\in \C, Re(z) < 0 \ \ t.c\ \ |r_j(z)| < 1\}
+		.\] \\
+		Allora
+		 \[
+			 A = \bigcap^p_{j=0}R_j
+		.\] 
+	\end{defi}
+	Vedremo un modo più facile per visualizzare $A$
+	\subsection{Metodi BDF (Backward Differentiation Formule)}
+	Sono particolari metodi LMM sempre impliciti della forma
+	 \[
+		 u_{n+1} = \sum^{p}_{j=0}a_ju_{n-j} + h b_{-1}f_{n+1}
+	.\] 
+	Introdotti per trattare i cosiddetti problemi SIFF (problemi che presentano autovalori $\lambda$ con moduli molto diversi fra loro)\\
+	\textbf{Osservazione}\\[5px]
+	$\displaystyle \frac{u_{n+1} - \sum^{p}_{j=0}a_ju_{n-j}}{hb_{-1}} = f_{n+1} = f(t_{n+1},u_{n+1}) \xrightarrow{h \rightarrow 0} f(t_{n+1},y_{n+1}) = \dot y(t_{n+1})$\\
+	Quindi i coefficienti devono essere scelti per approssimare $\dt y(t_{n+1})$ tramite una interpolazione di  $y$ nei nodi $t_{n-p},\ldots, t_n, t_{n+1}$ che sono  $p+2$\\
+	Questo si fa con un polinomio di grado $p+1$\\
+	Una volta calcolato  $\Pi_{p+1}[y][t_{n-p},\ldots,t_{n+1}](t)$ si calcola la sua derivata prima  $\Pi_{p+1}'$ che è un approssimazione di  $\dot y(t)$ e la si calcola con $t = t_{n+1}$ ottenendo lo schema BDF:  $\underbrace{\Pi'_{p+1}[u_{n-p},\ldots,u_{n+1}] = f(t_{n+1},u_{n+1})}_{\text{impongo}}$\\
+	\textbf{Esempio} $ p = 0$\\
+\[\Pi_1[u_n,u_{n+1}](t) = u_n + (t-t_n)\frac{u_{n+1}-u_n}{t_{n+1}-t_n}\]
+\[
+	\Pi_1'[u_n,u_{n+1}](t) = \frac{ u_{n+1} - u_n}{t_{n+1}-t_n} = \frac {u_{n+1}-u_n}h
+.\] 
+\[
+	\leadsto \Pi'_1[u_{n},u_{n+1}](t_{n+1}) = \frac{u_{n+1} - u_n}h \Rightarrow \frac{u_{n+1}-u_n}{h} = f(t_{n+1},u_{n+1}) \ \ b_{-1} =1
+.\] 
+$ \Rightarrow BDF1 \equiv BE$ \\
+\textbf{BDF2}: $u_{n-1},u_n,u_{n+1}$ Costruisco il polinomio interpolatorio  $\Pi_2(t)$\\
+Useremo la forma di Newton $\Pi_2(t)$ (Differenze divise)\\
+
+
+\[
+	\begin{centered}
+		\hspace{-40px}
+\begin{tikzpicture}
+  % We apply \small to shrink the text size slightly if needed,
+  % but adjusting column sep is usually enough.
+  \matrix (m) [
+    matrix of math nodes,
+    row sep=1em,        % Reduced vertical space
+    column sep=0.5em,   % Drastically reduced horizontal space
+    nodes={anchor=center}
+  ] {
+    % Riga 1
+    & \textcolor{red}{\text{Diff div ORD 0}} & \textcolor{red}{\text{ORD 1}} & \textcolor{red}{\text{ORD 2}} \\
+    % Riga 2
+    t_{n-1} : & u_{n-1} & & \\
+    % Riga 3
+    & & \displaystyle u[t_{n-1}, t_n] = \frac{u_n - u_{n-1}}{h} & \\
+    % Riga 4
+    t_n : & u_n & & \displaystyle u[t_{n-1}, t_n, t_{n+1}] = \frac{u[t_n, t_{n+1}] - u[t_{n-1}, t_n]}{2h} \\
+    % Riga 5
+    & & \displaystyle u[t_n, t_{n+1}] = \frac{u_{n+1} - u_n}{h} & \\
+    % Riga 6
+    t_{n+1} : & u_{n+1} & & \\
+  };
+
+  % Arrows
+  \begin{scope}[every path/.style={->, shorten >=3pt, shorten <=3pt}]
+    % Da ORD 0 a ORD 1
+    \draw (m-2-2.east) -- (m-3-3.west);
+    \draw (m-4-2.east) -- (m-3-3.west);
+
+    \draw (m-4-2.east) -- (m-5-3.west);
+    \draw (m-6-2.east) -- (m-5-3.west);
+
+    % Da ORD 1 a ORD 2
+    \draw (m-3-3.east) -- (m-4-4.west);
+    \draw (m-5-3.east) -- (m-4-4.west);
+  \end{scope}
+
+\end{tikzpicture}
+	\end{centered}
+\]
+\[
+	\Rightarrow  u[t_{n-1},t_n,t_{n+1}] = \frac{ \frac{u_{n+1}-u_n}{h} - \frac{u_n - u_{n-1}}{h}}{2h} = \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^2}
+.\] 
+\[
+	\begin{split}
+		\Rightarrow \Pi_2(t) &= u_{n+1} + u[t_{n-1},t_n](t-t_{n-1}) + u[t_{n-1},t_n,t_{n+1}](t-t_{n-1})(t-t_n)\\
+				     &= u_{n+1} + \frac{u_n - u_{n-1}}{h}(t-t_{n-1}) + \frac{u_{n+1}-2u_n + u_{n-1}}{2h^2}(t^2-t_{n-1}t - t_nt + t_nt_{n-1})\\
+				     &= u_{n+1} + \frac{u_n - u_{n-1}}{h}(t-t_{n-1}) + \frac{u_{n+1}-2u_n + u_{n-1}}{2h^2}(t-t_{n-1})(t-t_n)
+	\end{split}
+.\] 
+\[
+	\Pi_2'(t) = \frac{u_n - u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^2}(t-t_n + t-t_{n-1})
+\] 
+\[
+	\Pi'_2(t_{n+1}) = \frac{u_n - u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h^{\cancel 2}}( \overbrace{t_{n-1}- t_n}^{\cancel h} +\overbrace{t_{n+1}-t_{n-1}}^{2\cancel h} ) \underbrace{=}_{\text{impongo}} f(t_{n+1}, u_{n+1})
+.\] 
+Quindi
+\[
+	\frac{u_n-u_{n-1}}{h} + \frac{u_{n+1} - 2u_n + u_{n-1}}{2h}\cdot 3 = f(t_{n+1},u_{n+1})
+.\] 
+\[
+2(u_n - u_{n-1}) + 3(u_{n+1} - 2u_n + u_{n+1}) = 2h f(t_{n+1}u_{n_+1})
+.\] 
+\[
+	2u_n - 2u_{n-1} + 3u_{n+1} - 6 u_n + 3u_{n+1} = 3u_{n+1} - 4u_n + u_{n-1} = 2h f_{n-1}
+.\] 
+\[
+	\Rightarrow u_{n+1} = \underbrace{\frac 43}_{\alpha_0} \underbrace{-\frac 13}_{\alpha_1}u_{n-1} + \underbrace {\frac 23}_{b_{-1}}hf_{n+1}
+.\]  
+\begin{center}
+	
+\renewcommand{\arraystretch}{1.5} % Aumenta lo spazio verticale per le frazioni
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+& $P_0$ & $a_0$ & $a_1$ & $a_2$ & $a_3$ & $a_4$ & $a_5$ & $b_{-1}$ \\
+\hline
+BDF1 & $0$ & $1$ & $-$ & $-$ & $-$ & $-$ & $-$ & $1$ \\
+\hline
+BDF2 & $1$ & $\frac{4}{3}$ & $-\frac{1}{3}$ & $-$ & $-$ & $-$ & $-$ & $\frac{2}{3}$ \\
+\hline
+BDF3 & $2$ & $\frac{18}{11}$ & $-\frac{9}{11}$ & $\frac{2}{11}$ & $-$ & $-$ & $-$ & $\frac{6}{11}$ \\
+\hline
+BDF4 & $3$ & $\frac{48}{25}$ & $-\frac{36}{25}$ & $\frac{16}{25}$ & $-\frac{3}{25}$ & $-$ & $-$ & $\frac{12}{25}$ \\
+\hline
+BDF5 & $4$ & $\frac{300}{137}$ & $-\frac{300}{137}$ & $\frac{200}{137}$ & $-\frac{75}{137}$ & $\frac{12}{137}$ & $-$ & $\frac{60}{137}$ \\
+\hline
+BDF6 & $5$ & $\frac{360}{147}$ & $-\frac{450}{147}$ & $\frac{400}{147}$ & $-\frac{225}{147}$ & $\frac{72}{147}$ & $-\frac{10}{147}$ & $\frac{60}{147}$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\begin{teo}
+	I metodi BDF sono consistenti, con ordine pari al numero di passi
+\end{teo}
+\begin{teo}
+	I metodi BDF sono $\theta$-stabili solo per $p\leq 5$
+\end{teo}
+\textbf{Osservazione}\\
+I BDF sono sempre impliciti quindi vanno risolti con metodi per la ricerca di zeri (punto fisso o newton)\\
+\begin{teo}
+	I metodi BDF sono $\theta$-stabili solo per $p \leq 5$\\
+	La loro regione di stabilità assoluta include tutto l'asse negativo ($A(\theta)$-stabili)
+\end{teo}
+\textbf{Esempio Stiff}:\\
+Soluzione: \begin{cases}
+	$y_1 = e^{-\lambda_1 t}\\
+	y_2 = e^{-\lambda_2 t}$
+\end{cases} $\rightarrow \begin{cases}
+	\dot y_1 = -\lambda_1 y_1\\
+	\dot y_2 = - \lambda_2 y_2\\
+	y_1(0)\\
+	y_2(0)
+\end{cases}$\\
+Se $0 < \lambda_1 << \lambda_2$
+Se uso FE: $|1 + \lambda_1 h| < 1, \ \ |1 + \lambda_2h| < 1\leadsto $ questa è più restrittiva\\
+\textbf{Zero-Stabilità}\\
+$p =1 \rightarrow BDF 2: \rho(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} = r^2 - \frac 43 r + \frac 13 = (r-1)(r-\frac 13) \leadsto r_1 = 1, \ r_2= \frac 13$\\
+\begin{defi}[Boundary Lotus]
+	Chiamiamo la regione di stabilità assoluta per un LMM Boundary Lotus
+\end{defi}
+\[
+	P(r) = \rho(r) - z\sigma(r) = r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j} - z \sum^{p}_{j=-1}b_jr^{p-j}
+.\] 
+$z\in A \Leftrightarrow |r_j(z)| < 1$ per $j = 0,\ldots, p$ con  $P(r_j(z)) = 0$\\
+Possiamo esplicitare  $P(r)$ rispetto a $z$ ovvero se $r$ è radice $P(r) = 0$
+ \[
+	 P(r) = 0 \Leftrightarrow\rho(r) - z\sigma(r) = 0 \Leftrightarrow z = \frac{\rho(r)}{\sigma(r)}= \frac{r^{p+1} - \sum^{p}_{j=0}a_jr^{p-j}}{ \sum^{p}_{j=-1}b_jr^{p-j}} \ \ \ \circledast
+\] 
+Se $z \in \partial A \Rightarrow  \exists \bar j \ t.c.\ |r_{\bar j}(z)| = 1 \Leftrightarrow r_{\bar j}(z) = e^{i\bar \theta}$ per qualche $\bar \theta\in[0,2\pi]$\\
+Se sostituiamo $r_{\bar j}(z)$ su $\circledast$
+ \[
+	 z = \frac{e^{i(p+1)\bar\theta} - \sum^{p}_{j=0}a_je^{i(p-j)\bar\theta}}{ \sum^{p}_{j=-1}b_je^{i(p-j)\bar\theta}} = z(\bar\theta)
+.\] 
+Al variare $\bar \theta$ $z(\bar\theta)$ descrive una curva nel piano complesso
+ \[
+	 \Rightarrow \partial A\subseteq \{z(\bar \theta) \ \ t.c.\ \ \bar \theta\in[0,2\pi]\}
+.\] 
+
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[12px]{article}
+
+\title{Lezione 21 Metodi Numerici}
+\date{2026-05-26}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{Boundary Locus}
+	$P(r) = \rho(r) - z\sigma(r)$ con  $z = h\lambda$\\
+	CAR (Criterio assoluto delle radici)\\
+	$\exist h_0$ t.c. $\forall h < h_0\ \ |r_j(z)| < 1$ per $j=0,\ldots, p$ con  $r_j(z)$ tale che  $P(r_j(z)) = 0$\\
+	se $z\in\partial A$  $ \rightarrow$ $\exists \bar j $ tale che  $r_{\bar j} (z)| = 1$ \ \  $r_{\bar j}(z) = e^{i\theta} $ per  $\theta\in[0,2\pi]$\\
+	$ \Rightarrow $ poiché $r_{\bar j}(z)$ è una radice di  $P(r)$ \ \  $P(r_{\bar j }(z)) = 0 = \rho(e^{i\theta}) - z\sigma(e^{i\theta}) = 0$\\
+	$ \Rightarrow  z = \frac{\rho(e^{i\theta})}{\sigma(e^{i\theta})} = z(\theta)$ \\
+	$z\in\partial A \Rightarrow z = z(\theta)$ per qualche $\theta\in[0,2\pi]$\\
+	Ma al variare di $\theta \in [0,2\pi]$  $z(\theta)$ descrive una curva nel piano complesso 
+	 \[
+		 B = \{z(\theta)\in\C, \theta[0,2\pi]\}
+	.\] 
+	$z\in\partial A \Rightarrow z\in B \Rightarrow  \partial A \subseteq B$\\
+	Se $z\in \C\setminus \bar A$ esiste almeno una radice  $|r_j(z)| > 1\ \ \ \ r_j(z) = \alpha e^{i\theta} $ con  $\alpha > 1$ e se è radice di $P$ allora $P(\alpha e^{i\theta}) =0  \Rightarrow  z\in B_{\alpha} = \{z = \frac{\rho(\alpha e^{i\theta})}{\sigma (\alpha e^{i\theta})}$ con $\alpha > 1$  e $\theta\in[0,2\pi]\}$ \\
+	Se $B\cap B_\alpha\neq 0$ per qualche  $\alpha > 1$ allora i punti di intersezione non possono appartenere a $\partial A$ \\
+	\[
+		B_\alpha = \left\{z(\alpha, \theta) = \frac{\rho(\alpha e^{i\theta})}{\sigma(\alpha e ^{i\theta})}, \theta \in [0,2\pi]\right\}
+	.\] 
+	 \[
+	 LMM \ \ z(\alpha,\theta) = \frac{(\alpha e^{i\theta})^{p+1} - \sum^{p}_{j=0}a_j (\alpha e^{i\theta})^{p-j}}{ \sum^{p}_{j=-1}(b_j (\alpha e^{i\theta}))^{p-j}}
+	.\] 
+	codice bounadry_lotus.m
+
+	
+\end{document}

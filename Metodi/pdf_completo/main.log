@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.4.23)  17 MAY 2026 17:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.4.23)  30 MAY 2026 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1973,7 +1973,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 [28]
-<./images//stabilita.jpg, id=434, 2029.5825pt x 1039.885pt>
+<./images//stabilita.jpg, id=485, 2029.5825pt x 1039.885pt>
 File: ./images//stabilita.jpg Graphic file (type jpg)
 <use ./images//stabilita.jpg>
 Package pdftex.def Info: ./images//stabilita.jpg  used on input line 1104.
@@ -2283,7 +2283,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1626--1628
 
  []
 
-<./images//cramer.png, id=490, 1753.55125pt x 1411.2725pt>
+<./images//cramer.png, id=540, 1753.55125pt x 1411.2725pt>
 File: ./images//cramer.png Graphic file (type png)
 <use ./images//cramer.png>
 Package pdftex.def Info: ./images//cramer.png  used on input line 1629.
@@ -2395,7 +2395,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1748--1751
  []
 
 [44]
-<./images//energia.png, id=510, 828.09375pt x 501.875pt>
+<./images//energia.png, id=560, 828.09375pt x 501.875pt>
 File: ./images//energia.png Graphic file (type png)
 <use ./images//energia.png>
 Package pdftex.def Info: ./images//energia.png  used on input line 1752.
@@ -2485,12 +2485,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 1972--1974
  []
 
 [52]
-Underfull \hbox (badness 10000) in paragraph at lines 2027--2031
+Underfull \hbox (badness 10000) in paragraph at lines 2028--2032
 
  []
 
 ! Undefined control sequence.
-l.2042 ...¨ relativo al problema $\dot y = \lamdba
+l.2043 ...¨ relativo al problema $\dot y = \lamdba
                                                    y $ (lo useremo per la st...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2499,7 +2499,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (21.12212pt too wide) in paragraph at lines 2041--2047
+Overfull \hbox (21.12212pt too wide) in paragraph at lines 2042--2048
 \OT1/cmr/m/n/10 Nel caso lin-eare $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 = \OML/cm
 m/m/it/10 ^^Uy$ \OT1/cmr/m/n/10 e quindi lo schema ^^Re $\OML/cmm/m/it/10 u[] \
 OT1/cmr/m/n/10 = [][] \OML/cmm/m/it/10 a[]u[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/1
@@ -2509,34 +2509,34 @@ OT1/cmr/m/n/10 = [][] \OML/cmm/m/it/10 a[]u[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/1
 [53]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2056.
+(mdframed)              on input line 2057.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2064.
+(mdframed)              on input line 2065.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2067.
+(mdframed)              on input line 2068.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2070.
+(mdframed)              on input line 2071.
  [54] [55]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 2103.
-
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 2104.
 
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 2105.
+
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2117.
+(mdframed)              on input line 2118.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2120.
+(mdframed)              on input line 2121.
 [56]
 ! Undefined control sequence.
-l.2146 ...n= 0,\ldots, p $  \ \ \ $u_n =0,  \ \ \z
+l.2147 ...n= 0,\ldots, p $  \ \ \ $u_n =0,  \ \ \z
                                                   _n = \varepsilon$, \ \ \ $...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2545,47 +2545,47 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (4.98628pt too wide) in paragraph at lines 2144--2149
+Overfull \hbox (4.98628pt too wide) in paragraph at lines 2145--2150
 \OT1/cmr/m/it/10 Se la con-dizione delle radici non ^^Re ver-i-fi-cata es-iste 
 al-meno un in-dice $\OML/cmm/m/it/10 j \OMS/cmsy/m/n/10 2 f\OT1/cmr/m/n/10 0\OM
 L/cmm/m/it/10 ; [] ; p\OMS/cmsy/m/n/10 g$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2154--2157
+Underfull \hbox (badness 10000) in paragraph at lines 2155--2158
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2173--2176
+Underfull \hbox (badness 10000) in paragraph at lines 2174--2177
 
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2178.
+(mdframed)              on input line 2179.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2181.
-Package mdframed Info: Not enough space on this page on input line 2183.
+(mdframed)              on input line 2182.
+Package mdframed Info: Not enough space on this page on input line 2184.
 [57]
-Package mdframed Info: Not enough space on this page on input line 2183.
+Package mdframed Info: Not enough space on this page on input line 2184.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2205--2207
-
- []
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 2208.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2212--2213
+Underfull \hbox (badness 10000) in paragraph at lines 2206--2208
 
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 2213.
+(mdframed)              on input line 2209.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2213--2214
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2214.
 [58]
 
 ! LaTeX Error: Can be used only in preamble.
@@ -2594,7 +2594,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2225 \documentclass
+l.2226 \documentclass
                      [tikz, border=5mm]{standalone}
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2607,7 +2607,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2226 \usepackage
+l.2227 \usepackage
                   {amsmath}
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2615,61 +2615,339 @@ or  <return>  to continue without it.
 
 [59]
 
-! LaTeX Error: \begin{dimo} on input line 1555 ended by \end{document}.
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 2275.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2284--2289
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2315--2319
+
+ []
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 2321--2323
+
+ []
+
+! Undefined control sequence.
+l.2328 ...: Oscillatore armonico $\leadsto \kambda
+                                                   = \pm 1$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.2331 	   $r^_
+               {\pm}^n$ rotazione
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.2331 	   $r^_{\pm}^n$
+                        rotazione
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2336--2349
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2351--2355
+
+ []
+
+[61]
+Overfull \hbox (19.31934pt too wide) detected at line 2361
+[]
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (43.1936pt too wide) detected at line 2409
+\OML/cmm/m/it/10 h^^\[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 h\OT1/cmr/m/n/10 ) = [
+] = [] \OML/cmm/m/it/10 :
+ []
+
+[62] [63]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 2423.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2424--2425
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2427--2432
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2432.
+! Undefined control sequence.
+<recently read> \dt 
+                    
+l.2455 ...vono essere scelti per approssimare $\dt
+                                                   y(t_{n+1})$ tramite una i...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2451--2459
+
+ []
+
+[64]
+Underfull \hbox (badness 10000) in paragraph at lines 2465--2469
+
+ []
+
+
+! LaTeX Error: Environment centered undefined.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2272 \end{document}
-                     
+l.2472 	\begin{centered}
+                        
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-(./main.aux)
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B4EB475A04A42A3752E2419562AD3223;10169.
- )
-(\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 1555 (\begingroup)
-### bottom level 
+! LaTeX Error: \begin{equation*} on input line 2471 ended by \end{centered}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2512 	\end{centered}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Overfull \hbox (43.93854pt too wide) detected at line 2513
+ []
+ []
+
+
+Overfull \hbox (42.48192pt too wide) detected at line 2523
+[]
+ []
+
+
+Overfull \hbox (2.77779pt too wide) in alignment at lines 2522--2523
+[] []
+ []
+
+
+Overfull \hbox (52.72435pt too wide) detected at line 2529
+\OT1/cmr/m/n/10 ^^E[](\OML/cmm/m/it/10 t[]\OT1/cmr/m/n/10 ) = [] + []([] + []) 
+[] \OML/cmm/m/it/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; u[]\OT1/cmr/m/n/10 
+)\OML/cmm/m/it/10 :
+ []
+
+[65]
+! Extra }, or forgotten \endgroup.
+\@endfloatbox ...pagefalse \outer@nobreak \egroup 
+                                                  \color@endbox 
+l.2564 \end{table}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Too many }'s.
+\color@endbox ->\color@endgroup \egroup 
+                                        
+l.2564 \end{table}
+                  
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+
+! LaTeX Error: \begin{document} ended by \end{table}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2564 \end{table}
+                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.2564 \end{table}
+                  
+Things are pretty mixed up, but I think the worst is over.
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2565.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2568.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2571--2573
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2573.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2578 Soluzione: \begin{cases}
+                               
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2579 	$y_
+           1 = e^{-\lambda_1 t}\\
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2581 \end{cases}
+                   $\rightarrow \begin{cases}
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2581 \end{cases}
+                   $\rightarrow \begin{cases}
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2577--2591
+
+ []
+
+[66]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 2591.
+ [67]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 2616.
+
+! Undefined control sequence.
+<recently read> \exist 
+                       
+l.2619 	$\exist
+                h_0$ t.c. $\forall h < h_0\ \ |r_j(z)| < 1$ per $j=0,\ldots,...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2627--2631
+
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2637 	codice bounadry_
+                        lotus.m
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2638 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+[68] (./main.aux)
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 8542E759852BAD564B73A33CC0A9347C;12005.
+ ) 
 Here is how much of TeX's memory you used:
- 28601 strings out of 476041
- 594217 string characters out of 5793174
- 1875388 words of memory out of 6000000
- 48388 multiletter control sequences out of 15000+600000
+ 28792 strings out of 476041
+ 597506 string characters out of 5793174
+ 1878388 words of memory out of 6000000
+ 48555 multiletter control sequences out of 15000+600000
  526503 words of font info for 90 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 121i,26n,121p,519b,718s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/bbold-type1/b
-bold10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (59 pages, 6185042 bytes).
+ 121i,27n,121p,519b,1028s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/latxfont/line10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-
+super/sfrm1000.pfb>
+Output written on main.pdf (68 pages, 6221566 bytes).
 PDF statistics:
- 737 PDF objects out of 1000 (max. 8388607)
- 616 compressed objects within 7 object streams
- 158 named destinations out of 1000 (max. 500000)
- 452 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 836 PDF objects out of 1000 (max. 8388607)
+ 705 compressed objects within 8 object streams
+ 182 named destinations out of 1000 (max. 500000)
+ 532 words of extra memory for PDF output out of 10000 (max. 10000000)
 

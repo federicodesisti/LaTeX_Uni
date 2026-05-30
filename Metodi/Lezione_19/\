@@ -1,0 +1,26 @@
+\documentclass[12px]{article}
+
+\title{Lezione 19 Metodi}
+\date{2026-05-19}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{boh}
+	\[
+	\begin{cases}
+		\dot y = 0\\
+		y(0) = 0
+	\end{cases} u_n =0 \ \  \begin{cases}
+	z_{n+1} = \sum^{p}_{j=0}a_jz_{n-j}\\
+	z_0,z_1,\ldots, z_p = \varepsilon
+	\end{cases}
+	.\] 
+	Volevamo costruire $z_n = \begin{cases}
+		\varepsilon r_j^n, \ \ n > p\\
+		\cancel{z_0} = \cancel{z_1} = \ldots = \cancel{z_p}= \cancel \varepsilon
+	\end{cases}$
+\end{document}

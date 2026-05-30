@@ -1,0 +1,158 @@
+\documentclass[12px]{article}
+
+\title{Lezione 19 Metodi}
+\date{2026-05-19}
+\author{Federico De Sisti}
+
+\input{../../setup.tex}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\subsection{boh}
+	\[
+	\begin{cases}
+		\dot y = 0\\
+		y(0) = 0
+	\end{cases} u_n =0 \ \  \begin{cases}
+	z_{n+1} = \sum^{p}_{j=0}a_jz_{n-j}\\
+	z_0,z_1,\ldots, z_p = \varepsilon
+	\end{cases}
+	.\] 
+	Volevamo costruire $z_n = \begin{cases}
+		\varepsilon r_j^n, \ \ n > p\\
+		\cancel{z_0} = \cancel{z_1} = \ldots = \cancel{z_p}= \cancel \varepsilon
+	\end{cases}$ ma $z_i = \varepsilon r_j^i$, quindi cambiamo i dati iniziali in \\
+	\[
+	z_0 = \varepsilon r^0_j, z_1 = \varepsilon r_j^1,\ldots, z_p = \varepsilon r_j^p
+	.\] 
+	 $ \Rightarrow  z_n = \varepsilon r^n_j \ \ \forall n$, scegliamo quei valori iniziali ad hoc perché sono probabilmente quelli più problematici siccome presentano $r_j$ che se ha modulo $ > 1$ porterebbe a errori grossi.\\
+	  \textbf{Esempio}
+
+
+	  Applichiamo il Criterio delle radici per la $\theta$ stabilità e il criterio assoluto delle radici per l'assoluta stabilità.\\
+	  \textbf{Mid point:} $u_{n+1} = u_{n-1} + 2hf_n$\\
+	  Per la formulazione di Volterra abbiamo
+	   \[ 
+		   y(t+\Delta t) = y(t) + \int_t^{t + \Delta t} f(s,y(s))ds \Leftrightarrow y(t_{n+1}) = y(t_{n-1}) + \int_{n-1}^{n+1} f(s,y(s))ds
+	  .\] 
+	  Sapendo che
+	  \[
+	  y(t) = y_0 + \int_0^t f(s,y(s))ds
+	  .\] 
+	  Ottengo
+	  \[
+		  y(t + \Delta t) = y_0 + \int_0^{t + \Delta t} f(s,y(s))ds = \underbrace{y_0 + \int_0^t f(s,y(s))ds}_{\displaystyle y(t)} + \int_t^{t+\Delta t}f(s,y(s))ds
+	  .\] 
+	  \[
+		  \Rightarrow  y(t+ \Delta t) = y(t) + \int_t^ {t+\Delta t} f(s,y(s))ds = y(t-\Delta t) + \int_{t-\Delta t}^{t+\Delta t}f(s,y(s))ds
+	  .\] 
+	  \[
+		  u_{n+1} = u_{n-1} + 2 h f_n \leadsto \rho(r) = r^ {p+1} - \sum^{p}_{j=0}a_jr^ {p-j} = r^ 2 - 1 = (r+1)(r-1)
+	  .\] 
+	  2 passi $\leadsto$  $ p + 1$ passi  $ \Rightarrow  p =1$\\
+	  Le radici sono $r = \pm 1$  e sono entrambe semplici  $ \Rightarrow  r = \pm $ soddisfa il criterio delle radici $ \Rightarrow  $ il midpoint è $\theta$-stabile.\\
+	  Verifichiamo ora il criterio assoluto delle radici:\\
+	  \[
+		  P(r) = \rho(r) - h\lambda \sigma(r), \ \ \sigma(r) = \sum^{p}_{j=-1}b_jr^{p-j}
+	  .\] 
+	  $ \Rightarrow P(r) = r^2 - 1 - z 2r = r^2 -  2zr -1 = 0$\\
+
+	  $r\pm = z \mp \sqrt{1 + z^2} = h\lambda \mp \sqrt{1 + h^2 \lambda^2} \ \ \substack{ h \rightarrow 0\\ \approx} \ \ \mp 1 \mp h\lambda \pm h^2 \lambda^2  \frac 12$\\
+	  \textbf{Esercizio}\\
+	  $\forall \lambda (Re \lambda <0)$ almeno una delle due radici è fuori dal centro unitario\\
+	   $ \Rightarrow $ midpoint non verifica la condizione assoluta delle radici $ \Rightarrow $ non è assolutamente stabile\\
+	   Caso particolare: Oscillatore armonico $\leadsto \kambda = \pm 1$ 
+	   $r_{\mp} = h \lambda \mp \sqrt{1 + h^2\lambda^2} = \pm i h \mp \sqrt{1 - h^2}$\\
+	   $|r_{\mp} = \sqrt{1 - \cancel{h^2} +\cancel{h^2}} = 1 \leadsto$ Sta calcolando la soluzione esatta\\
+	   $r^_{\pm}^n$ rotazione
+	   \subsection{Metodi di Adams}
+	   Sono metodi multistep della forma
+	   \[
+		   u_{n+1} = u_n  + h \sum^{p}_{j=-1}b_j f_{n-j}
+	   .\] 
+	   Se $b_{-1} = 0$ (cioè metodo esplicito) $ \leadsto$ metodi di \textbf{Adams-Bashfort}\\
+	   Se  $b_{-1} \neq 0$ (implicito)  $\leadsto$ \textbf{Adams-Moulton}\\
+	   \textbf{Idea}:\\
+	   Poiché stiamo approssimando la forma integrale di ODE vogliamo trovare i coefficienti $b_j$ in modo da approssimare $\displaystyle \int_{t_n}^{t_{n+1}}f(s,y(s))ds$ tramite un'interpolazione nei nodi  $t_{n-p},\ldots,t_n,t_{n+1}$\\
+	   $ \Rightarrow  $ Posso costruire il polinomio interpolatore di grado $p$ che è definito su tutto $\R$, in particolare anche su $[t_n, t_{n+1}]$ allora uso il polinomio per approssimare $\displaystyle \int_{t_n}^{t_{n+1}}f(t,y(t))dt$\\
+	   Nel caso implicito (AM):\\
+	   $t_{n-p},\ldots, t_n,t_{n+1}$ \\
+	   $u_{n-p}, \ldots, u_n, u_{n+1}$\\
+	   $f_{n-p},\ldots, f_n,f_{n+1}$ \\
+	   $ \Rightarrow $ Interpolo con un polinomio di grado $p+1$ \\
+	   \textbf{Esempi}\\
+	   $AB 1 \Rightarrow p =0 $ polinomio interpolatorio di grado $0: \Pi_0 f(t_n) = f(t_n,u_n)$\\
+	   \[
+		   \int_{t_n}^{t_{n+1}}f(t,y(t))dt\sim \int_{t_n}^{t_{n+1}}\Pi_0 [f(t_n)](t)dt = f_n h \leadsto b_0 =1
+	   .\] 
+	   $ \Rightarrow AB 1= $   Eulero Esplicito\\
+	   $AB 2 \Rightarrow  p =1 \rightarrow$  Polinomio interpolatorio di grado $1:$\\
+	   $\Pi_1f[t_{n-1},t_n](t) = f_n + (t-t_n)\frac{f_{n-1}-f_n}{t_{n-1}-t_n}$\\
+	   \[
+	   \begin{split}
+		   \int_{t_n}^{t_{n+1}}f(t,y(t))dt & \approx \int_{t_n}^{t_{n+1}}\Pi_1f[\ldots](t)dt = \frac h 2 (\Pi_1 f[\ldots](t_n) + \Pi_1 f[\ldots](t_{n+1})) =\\
+						   &= \frac{h}{2} \left(f_n + f_n + \overbrace{(t_{n+1} - t_n)}^{\cancel h} \underbrace{\frac{f_{n-1} - f_n}{t_{n-1}-t_n}}_{\cancel{-h}} \right) = \frac h 2 ( f_n\cdot 2 + f_n - f_{n-1} )\\
+						   & = \frac h 2(3\cdot f_n - f_{n-1} )= h \left( \frac 32 f_n - \frac 12 f_{n-1} \right)
+	   \end{split}
+   \]
+   \[
+	   u_{n+1} = u_n + h \sum^{p}_{j = - 1} b_j f_{n-j}
+   .\] 
+   \[
+	   y_{n+1} = y_n + \int_{t_n}^{t_n + h} f(t,y(t))dt \approx y_n + \int_{t_n}^{t_n + h} \Pi_1 f[\ldots] (t) dt 
+   .\] 
+$b_0 = \frac 3 2 b_1 = - \frac  12$\\
+AB2:
+\[
+	u_{n+1} = u_n + h \left(\frac 3 2 f_n - \frac 12 f_{n-1} \right)
+.\] 
+Ecco una tabella che mostra i coefficienti nei vari casi
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5} % Increases row height for fractions
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+    & $P$ & $b_0$           & $b_1$            & $b_2$           & $b_3$           \\ \hline
+AB1 & $0$ & $1$             & $-$              & $-$             & $-$             \\ \hline
+AB2 & $1$ & $\frac{3}{2}$   & $-\frac{1}{2}$   & $-$             & $-$             \\ \hline
+AB3 & $2$ & $\frac{23}{12}$ & $-\frac{16}{12}$ & $\frac{5}{12}$  & $-$             \\ \hline
+AB4 & $3$ & $\frac{55}{24}$ & $-\frac{59}{24}$ & $\frac{37}{24}$ & $-\frac{9}{24}$ \\ \hline
+AB5 & $-$ & $-$             & $-$              & $-$             & $-$             \\ \hline
+\end{tabular}
+\end{table}
+\newpage
+\subsubsection{Adams-Bashfort (AM)}
+AM0 $ \rightarrow p = -1$: $u_{n+1} = u_n + h b_{-1}f_{n+1} \Rightarrow  b_{-1} = 1$ \\
+$AM1 \rightarrow p= 0$  $ \rightarrow $ polinomio interpolatore di grado $1 \rightarrow AM 1 = $   Crank-Nicholson.\\
+\textbf{Esercizio:} Calcolare i coefficienti di AM2 $ \rightarrow p=1 \rightarrow$   polinomi interpolatore di grado $2$\\
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5} % Aumenta l'altezza delle righe per le frazioni
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+    & $p$  & $b_{-1}$          & $b_0$             & $b_1$              & $b_2$             & $b_3$             \\ \hline
+AM0 & $-1$ & $1$               & $-$               & $-$                & $-$               & $-$               \\ \hline
+AM1 & $0$  & $\frac{1}{2}$     & $\frac{1}{2}$     & $-$                & $-$               & $-$               \\ \hline
+AM2 & $1$  & $\frac{5}{12}$    & $\frac{8}{12}$    & $-\frac{1}{12}$    & $-$               & $-$               \\ \hline
+AM3 & $2$  & $\frac{9}{24}$    & $\frac{19}{24}$   & $-\frac{5}{24}$    & $\frac{1}{24}$    & $-$               \\ \hline
+AM4 & $3$  & $\frac{251}{720}$ & $\frac{646}{720}$ & $-\frac{264}{720}$ & $\frac{106}{720}$ & $-\frac{19}{720}$ \\ \hline
+\end{tabular}
+\end{table}
+\subsection{Consistenza dei metodi AB \& AM}
+Si ottiene con il teorema generale per i metodi metodi lineari multistep (LMM)\\
+Tuttavia si può usare la teoria dell'interpolazione.
+\[
+	h\tau_{n+1}(h) = \left|y_{n+1} - y_n - h \sum^{p}_{j=-1}b_jf_{n-j}\right| = \left| \cancel{y_n} + \int_{t_n}^{t_{n+1}}f(t,y(t))dt - \cancel{y_n} + h \sum^{p}_{j=-1}b_jf_{n-j}\right|
+.\] 
+Per i metodi AB il polinomio interpolatore è di grado $p$ e approssima $f$ con un errore $O(h^{p+1} )$ e $\int f$ con un errore di  $O(h^{p+2})$ Se divido per  $h \Rightarrow  \tau_{n+1}(h) = O(h^{p+1})$ \\
+Per gli AM: il polinomio interpolatore è di grado $p+2$ ed approssimo $f $ con un errore $O(h^{p+2})$ e $\int f$ con un errore $O(h^{p+3})$ dividendo per  $h$ 
+ \[
+	 \tau_{n+1}(h) = O(h^{p+2})
+.\] 
+
+
+
+
+\end{document}
+
